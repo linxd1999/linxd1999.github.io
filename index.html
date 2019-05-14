@@ -140,20 +140,20 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-test" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-Hexo博客框架+GitHub部署" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/13/test/">test</a>
+      <a class="article-title" href="/2019/05/14/Hexo博客框架+GitHub部署/">Hexo博客框架+GitHub部署</a>
     </h1>
   
 
         
-        <a href="/2019/05/13/test/" class="archive-article-date">
-  	<time datetime="2019-05-13T02:51:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-13</time>
+        <a href="/2019/05/14/Hexo博客框架+GitHub部署/" class="archive-article-date">
+  	<time datetime="2019-05-14T05:17:37.236Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-14</time>
 </a>
         
       </header>
@@ -161,8 +161,46 @@
     <div class="article-entry" itemprop="articleBody">
       
           <div id="busuanzi_container_page_pv" style="font-size:16px;color:rgb(153,153,153);line-height:1.8em;">总阅读量:<span id="busuanzi_value_page_pv"></span>次</div>
-        <p><img src="/2019/05/13/test/1.jpg" alt="1"></p>
-
+        <h2 id="特别感谢up主CodeSheep-原视频请点击"><a href="#特别感谢up主CodeSheep-原视频请点击" class="headerlink" title="特别感谢up主CodeSheep, 原视频请点击"></a>特别感谢up主CodeSheep, <a href="https://www.bilibili.com/video/av44544186" target="_blank" rel="noopener">原视频请点击</a></h2><h2 id="Step1-安装Node-js"><a href="#Step1-安装Node-js" class="headerlink" title="Step1: 安装Node.js"></a>Step1: 安装Node.js</h2><p>Node.js官网: <a href="https://nodejs.org/en/download/" target="_blank" rel="noopener">https://nodejs.org/en/download/</a></p>
+<h2 id="Step2-安装Git"><a href="#Step2-安装Git" class="headerlink" title="Step2: 安装Git"></a>Step2: 安装Git</h2><p>Git是一个开源的分布式版本控制系统，是为了帮助管理Linux内核开发而开发的版本控制软件。</p>
+<p>Git官网: <a href="https://www.git-scm.com/download/" target="_blank" rel="noopener">https://www.git-scm.com/download/</a></p>
+<p>安装完之后鼠标右击会出现Git Bash Here， 这就相当于Linux终端，我们等会对博客的操作也都是在这里完成。</p>
+<h2 id="Step3-安装Hexo"><a href="#Step3-安装Hexo" class="headerlink" title="Step3: 安装Hexo"></a>Step3: 安装Hexo</h2><p>随便在一个盘下新建文件夹，用来操作博客用，后面我都用Blog来表示这个文件夹。</p>
+<p>进入Blog文件夹，右键Git Bash Here，首先测试node和npm的版本。</p>
+<p>输入命令：</p>
+<p><img src="/2019/05/14/Hexo博客框架+GitHub部署/1.png" alt="1"></p>
+<p>然后安装一个cnpm提高下载速度：</p>
+<blockquote>
+<p>npm install -g cnpm –registry=<a href="https://registry.npm.taobao.org" target="_blank" rel="noopener">https://registry.npm.taobao.org</a></p>
+</blockquote>
+<p>测试cnpm：</p>
+<p>然后安装Hexo：</p>
+<blockquote>
+<p>cnpm install -g hexo-cli</p>
+</blockquote>
+<p>验证是否安装成功</p>
+<blockquote>
+<p>hexo -v</p>
+</blockquote>
+<p><img src="/2019/05/14/Hexo博客框架+GitHub部署/2.png" alt="2"></p>
+<p>安装成功！</p>
+<p>然后在根目录下执行：</p>
+<blockquote>
+<p>hexo init</p>
+</blockquote>
+<p>这是建立整个项目，若Blog文件夹下出现了很多文件则说明成功了。</p>
+<p><img src="/2019/05/14/Hexo博客框架+GitHub部署/3.png" alt="3"></p>
+<h2 id="Step4-运行测试"><a href="#Step4-运行测试" class="headerlink" title="Step4: 运行测试"></a>Step4: 运行测试</h2><blockquote>
+<p>hexo clean   清理缓存文件</p>
+<p>hexo g         生成文件</p>
+<p>hexo s         运行本地服务器</p>
+<p>hexo d         部署到远端服务器</p>
+</blockquote>
+<p>先在根目录下运行hexo s</p>
+<p>然后打开浏览器，输入localhost:4000，出现以下界面</p>
+<p><img src="/2019/05/14/Hexo博客框架+GitHub部署/4.png" alt="4"></p>
+<p>至此，本地环境已经搭建好了。</p>
+<h2 id="Step5-部署到Github上"><a href="#Step5-部署到Github上" class="headerlink" title="Step5: 部署到Github上"></a>Step5: 部署到Github上</h2>
       
           
    
@@ -181,7 +219,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">随便写的</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Hexo</a>
         		</li>
       		
 		</ul>
@@ -191,7 +229,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2019/05/13/test/">展开全文 >></a>
+          <a class="article-more-a" href="/2019/05/14/Hexo博客框架+GitHub部署/">展开全文 >></a>
         </p>
       
     
@@ -403,11 +441,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">自动生成</a>
+                <a href="javascript:void(0)" class="js-tag color5">Hexo</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">随便写的</a>
+                <a href="javascript:void(0)" class="js-tag color5">自动生成</a>
               </li>
             
             <div class="clearfix"></div>
