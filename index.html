@@ -161,11 +161,20 @@
     <div class="article-entry" itemprop="articleBody">
       
           <div id="busuanzi_container_page_pv" style="font-size:16px;color:rgb(153,153,153);line-height:1.8em;">总阅读量:<span id="busuanzi_value_page_pv"></span>次</div>
-        <h2 id="特别感谢up主CodeSheep-原视频请点击"><a href="#特别感谢up主CodeSheep-原视频请点击" class="headerlink" title="特别感谢up主CodeSheep, 原视频请点击"></a>特别感谢up主CodeSheep, <a href="https://www.bilibili.com/video/av44544186" target="_blank" rel="noopener">原视频请点击</a></h2><h2 id="Step1-安装Node-js"><a href="#Step1-安装Node-js" class="headerlink" title="Step1: 安装Node.js"></a>Step1: 安装Node.js</h2><p>Node.js官网: <a href="https://nodejs.org/en/download/" target="_blank" rel="noopener">https://nodejs.org/en/download/</a></p>
+        <h2 id="特别感谢up主CodeSheep-原视频请点击"><a href="#特别感谢up主CodeSheep-原视频请点击" class="headerlink" title="特别感谢up主CodeSheep, 原视频请点击"></a>特别感谢up主CodeSheep, <a href="https://www.bilibili.com/video/av44544186" target="_blank" rel="noopener">原视频请点击</a></h2><h2 id="Step1-安装Node-js"><a href="#Step1-安装Node-js" class="headerlink" title="Step1: 安装Node.js"></a>Step1: 安装Node.js</h2><p>Node.js官网下载: <a href="https://nodejs.org/en/download/" target="_blank" rel="noopener">https://nodejs.org/en/download/</a></p>
 <h2 id="Step2-安装Git"><a href="#Step2-安装Git" class="headerlink" title="Step2: 安装Git"></a>Step2: 安装Git</h2><p>Git是一个开源的分布式版本控制系统，是为了帮助管理Linux内核开发而开发的版本控制软件。</p>
-<p>Git官网: <a href="https://www.git-scm.com/download/" target="_blank" rel="noopener">https://www.git-scm.com/download/</a></p>
+<p>Git官网下载: <a href="https://www.git-scm.com/download/" target="_blank" rel="noopener">https://www.git-scm.com/download/</a></p>
 <p>安装完之后鼠标右击会出现Git Bash Here， 这就相当于Linux终端，我们等会对博客的操作也都是在这里完成。</p>
-<h2 id="Step3-安装Hexo"><a href="#Step3-安装Hexo" class="headerlink" title="Step3: 安装Hexo"></a>Step3: 安装Hexo</h2><p>随便在一个盘下新建文件夹，用来操作博客用，后面我都用Blog来表示这个文件夹。</p>
+<p>一些常用的Linux命令行操作：</p>
+<blockquote>
+<p>cd    进入目录</p>
+<p>cd    ..返回上一级目录</p>
+<p>cd    ../..返回上两级目录</p>
+<p>pwd    显示当前路径</p>
+<p>ls -l    显示当前路径下文件的详细信息</p>
+</blockquote>
+<h2 id="Step3-安装Hexo"><a href="#Step3-安装Hexo" class="headerlink" title="Step3: 安装Hexo"></a>Step3: 安装Hexo</h2><p>Hexo是一个快速，简洁，高效的博客框架。Hexo使用Markdown（或其他渲染引擎）解析文章，在几秒内，即可利用华丽的主题生成静态网页。</p>
+<p>随便在一个盘下新建文件夹，用来操作博客用，后面我都用Blog来表示这个文件夹。</p>
 <p>进入Blog文件夹，右键Git Bash Here，首先测试node和npm的版本。</p>
 <p>输入命令：</p>
 <p><img src="/2019/05/14/Hexo博客框架+GitHub部署/1.png" alt="1"></p>
@@ -200,7 +209,18 @@
 <p>然后打开浏览器，输入localhost:4000，出现以下界面</p>
 <p><img src="/2019/05/14/Hexo博客框架+GitHub部署/4.png" alt="4"></p>
 <p>至此，本地环境已经搭建好了。</p>
-<h2 id="Step5-部署到Github上"><a href="#Step5-部署到Github上" class="headerlink" title="Step5: 部署到Github上"></a>Step5: 部署到Github上</h2>
+<h2 id="Step5-部署到Github上"><a href="#Step5-部署到Github上" class="headerlink" title="Step5: 部署到Github上"></a>Step5: 部署到Github上</h2><p>登录Github，创建一个新的仓库new repository，仓库名称为你的Github ID.github.io（必须是这这样写）</p>
+<p>然后在根目录下安装一个Git部署插件</p>
+<blockquote>
+<p>cnpm install –save hexo-deployer-git</p>
+</blockquote>
+<p>在根目录下的_config.yml文件下修改一些配置</p>
+<p><img src="/2019/05/14/Hexo博客框架+GitHub部署/5.png" alt="5"></p>
+<p>repo把打开仓库看到的那个git结尾的复制进来就好。</p>
+<p>最后部署到远端：hexo d</p>
+<p>之后会出现一些验证，照着提示做就可以了。</p>
+<p>推送到远端成功后，在浏览器输入你的Github ID.github.io就可以访问博客了。</p>
+
       
           
    
