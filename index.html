@@ -242,6 +242,295 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://linxd1999.github.io/2019/07/16/jdbc/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="linxd">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/1.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="L">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/07/16/jdbc/" itemprop="url">JDBC编程</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-16T15:52:13+08:00">
+                2019-07-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="一、JDBC简介"><a href="#一、JDBC简介" class="headerlink" title="一、JDBC简介"></a>一、JDBC简介</h3><p>JDBC(Java Database Connectivity):JAVA数据库连接，是可以执行sql语句的一套API</p>
+<p>程序可通过JDBC连接到关系数据库，用sql对数据进行增删改查</p>
+<p>通过JDBC开发的数据库应用可跨平台</p>
+<p>数据库驱动程序：JDBC与数据库之间的转换层，负责将JDBC调用映射成特定的数据库调用</p>
+<h3 id="二、JDBC编程"><a href="#二、JDBC编程" class="headerlink" title="二、JDBC编程"></a>二、JDBC编程</h3><h4 id="1-常用类和接口"><a href="#1-常用类和接口" class="headerlink" title="1.常用类和接口"></a>1.常用类和接口</h4><p>DriverManager：用于管理JDBC驱动的服务类，用于获取Connection对象</p>
+<p>Connection：数据库连接对象，每个Connection代表一个连接会话。它是一个接口，可通过Statement，Preparedstatement来实例化，获取其对象</p>
+<p>Statement：用于执行sql的工具接口</p>
+<p>PreparedStatement：预编译的Statement对象，是Statement子接口，可以预编译sql语句，允许sql语句含参，方便后来修改也可避免每次都编译sql语句，性能好。</p>
+<p>Statement和PreparedStatement都有execute()，executeUpdate()，executeQuery()，返回查询的结果集，executeUpdate()可执行DML语句，返回受影响的行数，executeQuery()可以执行DDL语句，返回结果集对象，所以一般不用execute()方法，返回的是ResultSet结果集。</p>
+<p>ResultSet：结果集对象，包含很多查询结果的方法，可以根据列名或列索引来获取结果，也有很多种方法来移动记录指针，最常用的是next()方法。</p>
+<h4 id="2-步骤-以MySQL为例"><a href="#2-步骤-以MySQL为例" class="headerlink" title="2.步骤(以MySQL为例)"></a>2.步骤(以MySQL为例)</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Connection conn = <span class="keyword">null</span>;</span><br><span class="line">PreparedStatement pstmt = <span class="keyword">null</span>;</span><br><span class="line">ResultSet rs = <span class="keyword">null</span>;</span><br></pre></td></tr></table></figure>
+<h5 id="1-加载数据库驱动"><a href="#1-加载数据库驱动" class="headerlink" title="(1).加载数据库驱动"></a>(1).加载数据库驱动</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Class.forName(<span class="string">"com.mysql.cj.jdbc.Driver"</span>);</span><br></pre></td></tr></table></figure>
+<h5 id="2-获取数据库连接"><a href="#2-获取数据库连接" class="headerlink" title="(2).获取数据库连接"></a>(2).获取数据库连接</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conn = DriverManager.getConnection(<span class="string">"jdbc:mysql://localhost:3306/test?useSSL=false&amp;serverTimezone=UTC"</span>,<span class="string">"root"</span>, <span class="string">"password"</span>);</span><br></pre></td></tr></table></figure>
+<h5 id="3-通过Connection创建PreparedStatement对象"><a href="#3-通过Connection创建PreparedStatement对象" class="headerlink" title="(3).通过Connection创建PreparedStatement对象"></a>(3).通过Connection创建PreparedStatement对象</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pstmt = conn.prepareStatement(sql);</span><br></pre></td></tr></table></figure>
+<h5 id="4-执行sql语句"><a href="#4-执行sql语句" class="headerlink" title="(4).执行sql语句"></a>(4).执行sql语句</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rs = pstmt.executeQuery();</span><br><span class="line">result = pstmt.executeUpdate;</span><br></pre></td></tr></table></figure>
+<h3 id="三、模板"><a href="#三、模板" class="headerlink" title="三、模板"></a>三、模板</h3><p>这些语句都可以被封装成单独的函数进行使用，更加方便，不用每次再进行定义。</p>
+<p>下面是DAO模式分层后，最底层与数据库交互的BaseDao类，方便再使用时拷贝，</p>
+<p>连接数据库还需要一个.property文件，里面记录了驱动，数据库位置，用户和密码，每次使用只需要改这里就可以</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">driver=com.mysql.jdbc.Driver</span><br><span class="line">url=jdbc:mysql:<span class="comment">//localhost:3306/test?useSSL=false&amp;serverTimezone=UTC</span></span><br><span class="line">user=root</span><br><span class="line">password=<span class="number">123456</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 数据库连接与关闭工具类。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BaseDao</span> </span>&#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> String DRIVER; <span class="comment">// 数据库驱动</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> String URL ; <span class="comment">// url</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> String DBNAME; <span class="comment">// 数据库用户名</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> String DBPASS; <span class="comment">// 数据库密码</span></span><br><span class="line">	</span><br><span class="line">	Connection conn = <span class="keyword">null</span>;<span class="comment">// 数据连接对象</span></span><br><span class="line">	</span><br><span class="line">	<span class="keyword">static</span>&#123;<span class="comment">//静态代码块,在类加载的时候执行</span></span><br><span class="line">		init();</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 初始化连接参数,从配置文件里获得</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span></span>&#123;</span><br><span class="line">			Properties params=<span class="keyword">new</span> Properties();</span><br><span class="line">			String configFile = <span class="string">"database.properties"</span>;<span class="comment">//配置文件路径</span></span><br><span class="line">			<span class="comment">//加载配置文件到输入流中</span></span><br><span class="line">			InputStream is=BaseDao.class.getClassLoader().getResourceAsStream(configFile);</span><br><span class="line">			</span><br><span class="line">			<span class="keyword">try</span> &#123;</span><br><span class="line">				<span class="comment">//从输入流中读取属性列表</span></span><br><span class="line">				params.load(is);</span><br><span class="line">			&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">				e.printStackTrace();</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="comment">//根据指定的获取对应的值</span></span><br><span class="line">			DRIVER=params.getProperty(<span class="string">"driver"</span>);</span><br><span class="line">			URL=params.getProperty(<span class="string">"url"</span>);</span><br><span class="line">			DBNAME=params.getProperty(<span class="string">"user"</span>);</span><br><span class="line">			DBPASS=params.getProperty(<span class="string">"password"</span>);</span><br><span class="line">		&#125;   </span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 得到数据库连接</span></span><br><span class="line"><span class="comment">	 * </span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@throws</span> ClassNotFoundException</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@throws</span> SQLException</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span> 数据库连接</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Connection <span class="title">getConnection</span><span class="params">()</span> <span class="keyword">throws</span> ClassNotFoundException, SQLException </span>&#123;</span><br><span class="line">		Connection conn = <span class="keyword">null</span>;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			Class.forName(DRIVER); <span class="comment">// 注册驱动</span></span><br><span class="line">			conn = DriverManager.getConnection(URL, DBNAME, DBPASS); <span class="comment">// 获得数据库连接</span></span><br><span class="line">		&#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> conn; <span class="comment">// 返回连接</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 释放资源</span></span><br><span class="line"><span class="comment">	 * </span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> conn</span></span><br><span class="line"><span class="comment">	 *            数据库连接</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> pstmt</span></span><br><span class="line"><span class="comment">	 *            PreparedStatement对象</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> rs</span></span><br><span class="line"><span class="comment">	 *            结果集</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">closeAll</span><span class="params">(Connection conn, PreparedStatement pstmt, ResultSet rs)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">		<span class="comment">/* 如果rs不空，关闭rs */</span></span><br><span class="line">		<span class="keyword">if</span> (rs != <span class="keyword">null</span>) &#123;</span><br><span class="line">			<span class="keyword">try</span> &#123;</span><br><span class="line">				rs.close();</span><br><span class="line">			&#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">				e.printStackTrace();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">/* 如果pstmt不空，关闭pstmt */</span></span><br><span class="line">		<span class="keyword">if</span> (pstmt != <span class="keyword">null</span>) &#123;</span><br><span class="line">			<span class="keyword">try</span> &#123;</span><br><span class="line">				pstmt.close();</span><br><span class="line">			&#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">				e.printStackTrace();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">/* 如果conn不空，关闭conn */</span></span><br><span class="line">		<span class="keyword">if</span> (conn != <span class="keyword">null</span>) &#123;</span><br><span class="line">			<span class="keyword">try</span> &#123;</span><br><span class="line">				conn.close();</span><br><span class="line">			&#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">				e.printStackTrace();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 执行SQL语句，可以进行增、删、改的操作，不能执行查询</span></span><br><span class="line"><span class="comment">	 * </span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> sql</span></span><br><span class="line"><span class="comment">	 *            预编译的 SQL 语句</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> param</span></span><br><span class="line"><span class="comment">	 *            预编译的 SQL 语句中的‘？’参数的字符串数组</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span> 影响的条数</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">executeSQL</span><span class="params">(String preparedSql, Object[] param)</span> </span>&#123;</span><br><span class="line">		Connection conn = <span class="keyword">null</span>;</span><br><span class="line">		PreparedStatement pstmt = <span class="keyword">null</span>;</span><br><span class="line">		<span class="keyword">int</span> num = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">		<span class="comment">/* 处理SQL,执行SQL */</span></span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			conn = getConnection(); <span class="comment">// 得到数据库连接</span></span><br><span class="line">			pstmt = conn.prepareStatement(preparedSql); <span class="comment">// 得到PreparedStatement对象</span></span><br><span class="line">			<span class="keyword">if</span> (param != <span class="keyword">null</span>) &#123;</span><br><span class="line">				<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; param.length; i++) &#123;</span><br><span class="line">					pstmt.setObject(i + <span class="number">1</span>, param[i]); <span class="comment">// 为预编译sql设置参数</span></span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		</span><br><span class="line">			num = pstmt.executeUpdate(); <span class="comment">// 执行SQL语句</span></span><br><span class="line">		&#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">			<span class="comment">//e.printStackTrace(); // 处理ClassNotFoundException异常</span></span><br><span class="line">		&#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">			<span class="comment">//e.printStackTrace(); // 处理SQLException异常</span></span><br><span class="line">		&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">			<span class="keyword">this</span>.closeAll(conn, pstmt, <span class="keyword">null</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> num;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://linxd1999.github.io/2019/06/16/Process Management(1)-dispatch/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="linxd">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/1.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="L">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/06/16/Process Management(1)-dispatch/" itemprop="url">进程管理</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-16T23:51:31+08:00">
+                2019-06-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h3 id="一、进程和线程"><a href="#一、进程和线程" class="headerlink" title="一、进程和线程"></a>一、进程和线程</h3><h4 id="1、进程"><a href="#1、进程" class="headerlink" title="1、进程"></a>1、进程</h4><ul>
+<li><p>进程(Process)：一个具有独立功能的程序关于一个数据集合上的一次动态执行过程</p>
+</li>
+<li><p>进程的组成：代码段、程序处理的数据、程序计数器(指示下一条将运行的指令)、系统资源</p>
+</li>
+<li><p>进程的特点：</p>
+<blockquote>
+<p>1、动态性：进程是进程实体的一次执行过程</p>
+<p>2、并发性：多个进程同时存在于内存中并能在一段时间内同时运行</p>
+<p>3、独立性：在传统OS中，进程是一个能独立运行、分配资源、调度的基本调度</p>
+<p>4、异步性：进程按各自独立、不可预知的速度向前推进</p>
+</blockquote>
+</li>
+<li><p>进程控制块(PCB)：每个进程用来保存与该进程有关的各种状态信息，是进程存在的唯一标识</p>
+</li>
+<li><p>进程的状态：创建、运行、等待(阻塞)、就绪、结束</p>
+</li>
+</ul>
+<p><img src="/2019/06/16/Process Management(1)-dispatch/blog\source\_posts\新建文件夹\1.jpg" alt="1"></p>
+<blockquote>
+<p>1、进程只能自己阻塞自己，只有自己知道自己什么时候需要等待事件发生</p>
+<p>2、阻塞态不能直接转换成运行态</p>
+<p>3、挂起态：进程没有占有内存空间，处于挂起态的进程映像在磁盘上</p>
+</blockquote>
+<ul>
+<li>上下文切换：OS内核将旧进程的关联状态保存在其PCB中，然后装入经调度之后准备执行的新进程的已保存的关联状态</li>
+</ul>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/06/16/Process Management(1)-dispatch/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://linxd1999.github.io/2019/06/13/常用单词和词组整理/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -748,182 +1037,6 @@
             </a>
           </div>
           <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://linxd1999.github.io/2019/06/12/Process Management(1)-dispatch/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="linxd">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/1.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="L">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/06/12/Process Management(1)-dispatch/" itemprop="url">进程管理(一)：CPU调度</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-12T20:31:46+08:00">
-                2019-06-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="一、进程和线程"><a href="#一、进程和线程" class="headerlink" title="一、进程和线程"></a>一、进程和线程</h3><h4 id="1、进程"><a href="#1、进程" class="headerlink" title="1、进程"></a>1、进程</h4><ul>
-<li><p>进程(Process)：一个具有独立功能的程序关于一个数据集合上的一次动态执行过程</p>
-</li>
-<li><p>进程的组成：代码段、程序处理的数据、程序计数器(指示下一条将运行的指令)、系统资源</p>
-</li>
-<li><p>进程的特点：</p>
-<blockquote>
-<p>1、动态性：进程是进程实体的一次执行过程</p>
-<p>2、并发性：多个进程同时存在于内存中并能在一段时间内同时运行</p>
-<p>3、独立性：在传统OS中，进程是一个能独立运行、分配资源、调度的基本调度</p>
-<p>4、异步性：进程按各自独立、不可预知的速度向前推进</p>
-</blockquote>
-</li>
-<li><p>进程控制块(PCB)：每个进程用来保存与该进程有关的各种状态信息，是进程存在的唯一标识</p>
-</li>
-<li><p>进程的状态：创建、运行、等待(阻塞)、就绪、结束</p>
-</li>
-</ul>
-<p><img src="/2019/06/12/Process Management(1)-dispatch/blog\source\_posts\新建文件夹\1.jpg" alt="1"></p>
-<blockquote>
-<p>1、进程只能自己阻塞自己，只有自己知道自己什么时候需要等待事件发生</p>
-<p>2、阻塞态不能直接转换成运行态</p>
-<p>3、挂起态：进程没有占有内存空间，处于挂起态的进程映像在磁盘上</p>
-</blockquote>
-<ul>
-<li>上下文切换：OS内核将旧进程的关联状态保存在其PCB中，然后装入经调度之后准备执行的新进程的已保存的关联状态</li>
-</ul>
-<h4 id="2、线程"><a href="#2、线程" class="headerlink" title="2、线程"></a>2、线程</h4><ul>
-<li><p>线程(Thread)：OS中能进行调度的最小单位，包含在进程之中，是进程中的实际运作单位</p>
-</li>
-<li><p>线程的组成：线程id、程序计数器、各种寄存器、栈</p>
-</li>
-<li><p>线程的特点：和属于同一进程的其他线程共享代码段、数据段和其他OS资源</p>
-<p>例如：浏览器这个进程可分为很多页面线程，不同页面可以做不同的事情</p>
-</li>
-<li><p>线程的优点：</p>
-<blockquote>
-<p>1、响应度高：部分线程阻塞或操作时间冗长，该程序仍然能执行下去，增加对用户的响应程度</p>
-<p>2、资源共享：允许一个进程在同一个地址空间有多个活动的线程</p>
-<p>3、经济：进程创建所需的内存和资源分配昂贵，而线程则相对经济</p>
-<p>4、适合多处理器结构：单线程进程只能运行在一个CPU上，在多CPU上使用多线程加强了OS的并发能力</p>
-</blockquote>
-</li>
-<li><p>进程、线程的区别：</p>
-<blockquote>
-<p>1、调度性：在传统OS中，拥有资源和独立调度分配的基本单位都是进程；在引入线程的OS中，线程是调度分配的基本单位，而进程是资源分配的基本单位</p>
-<p>2、并发性：在引入线程的OS中，进程之间可以并发执行，同一进程的线程之间也可以并发执行，从而使OS有更好的并发性</p>
-<p>3、拥有资源：进程拥有自己的资源，线程一般不拥有资源，但可以访问其所在进程的资源</p>
-<p>4、系统开销：创建、撤销进程涉及系统资源的分配与回收，需要比线程的创建和撤销大得多的系统开销，进程切换的开销也远大于线程</p>
-</blockquote>
-</li>
-</ul>
-<h3 id="二、进程调度-dispatch"><a href="#二、进程调度-dispatch" class="headerlink" title="二、进程调度(dispatch)"></a>二、进程调度(dispatch)</h3><h4 id="1、调度层次："><a href="#1、调度层次：" class="headerlink" title="1、调度层次："></a>1、调度层次：</h4><ul>
-<li>长期调度/高级调度/作业调度：把进程从磁盘中首次调入内存，只有进程离开系统时，才需要长期调度程序的调度。必定发生，但频率比较低。</li>
-<li>中期调度/中级调度/内存调度：在分时操作系统中，将进程从内存调入磁盘，从而减少内存中的进程数据。之后需要时再重新调入内存，并从中断处继续执行。可能发生，频率中等。</li>
-<li>短期调度/低级调度/进程调度：从就绪态中选择进程分配CPU，必定发生，且频率很高。</li>
-</ul>
-<h4 id="2、调度算法"><a href="#2、调度算法" class="headerlink" title="2、调度算法"></a>2、调度算法</h4><h5 id="1、先来先服务算法-FCFS-："><a href="#1、先来先服务算法-FCFS-：" class="headerlink" title="1、先来先服务算法(FCFS)："></a>1、先来先服务算法(FCFS)：</h5>
-          
         
       
     </div>
@@ -1613,7 +1726,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1626,7 +1739,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
