@@ -242,6 +242,166 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://linxd1999.github.io/2019/08/09/正则表达式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="linxd">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/1.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="L">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/09/正则表达式/" itemprop="url">正则表达式</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-09T15:25:49+08:00">
+                2019-08-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="一、定义和规则"><a href="#一、定义和规则" class="headerlink" title="一、定义和规则"></a>一、定义和规则</h3><ul>
+<li><p>定义：正则表达式是一个非常强大的字符串处理工具，能对字符串进行查找，提取，分割，替换等操作</p>
+</li>
+<li><p>常用的正则表达式支持字符</p>
+<p>裸字符：除了特殊字符，都可以直接匹配</p>
+<p>\uhhhh：Unicode万国码</p>
+<p>()：标记子表达式的位置</p>
+<p>[]：枚举或范围</p>
+<p>{}：字符的出现频率</p>
+<p>*：前面子表达式可以出现0或多次，相当于{0,}</p>
+<p>+：前面子表达式可以出现1或多次，相当于{1,}</p>
+<p>?：前面子表达式可以出现0或1次，相当于{0,1}</p>
+<p>. ：匹配所有除了换行以外的字符</p>
+<p>|：或</p>
+<p>d是digit，s是space，w是word</p>
+<p>\d：匹配0-9的所有数字，\D是其补集</p>
+<p>\s：匹配空白字符，包括空格，回车，制表，换页等，\S是其补集</p>
+<p>\w：匹配所有单词字符，包含数字，英文字母，下划线，\W是其补集</p>
+<p>-：范围符</p>
+<p>[^]：求否</p>
+</li>
+</ul>
+<h3 id="二、使用"><a href="#二、使用" class="headerlink" title="二、使用"></a>二、使用</h3><p>需要使用Pattern类和Matcher类</p>
+<p>import java.util.regex.Matcher;<br>import java.util.regex.Pattern;</p>
+<ul>
+<li><p>Pattern对象是正则表达式编译后在内存中的表示形式，多个Matcher对象可以共享一个Pattern对象</p>
+</li>
+<li><p>Matcher是匹配器，需要调用Pattern的matcher()结果来执行匹配</p>
+<p>常用方法如下：</p>
+<p>find()：是否包含与正则表达式匹配的子串</p>
+<p>group()：返回上一次匹配的子串</p>
+<p>start()：返回上一次匹配的子串起始位置</p>
+<p>end()：返回上一次匹配的子串结束位置+1</p>
+<p>matches()：整个目标字符串与正则表达式是否匹配</p>
+<p>reset()：重置匹配器，并可以启用新的需要匹配的字符串</p>
+</li>
+</ul>
+<p>例1：分离字符串中的整数</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Matcher m = Pattern.compile(<span class="string">"\\d+"</span>).matcher(<span class="string">"&lt;10|100&gt;"</span>);</span><br><span class="line"><span class="keyword">while</span>(m.find()) &#123;</span><br><span class="line">	System.out.println(m.group());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>例2：判断邮箱正确性</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">String [] mails = &#123;</span><br><span class="line">		<span class="string">"lxd1999@qq.com"</span>,</span><br><span class="line">		<span class="string">"lxd1999@163.com"</span>,</span><br><span class="line">		<span class="string">"lxd1999@gmail.cn"</span>,</span><br><span class="line">		<span class="string">"as@qq.ws"</span></span><br><span class="line">&#125;;</span><br><span class="line">String RegEx = <span class="string">"\\w&#123;3,20&#125;@\\w+\\.(com|cn)"</span>;</span><br><span class="line">Pattern p = Pattern.compile(RegEx);</span><br><span class="line">Matcher m = <span class="keyword">null</span>;</span><br><span class="line"><span class="keyword">for</span>(String temp : mails) &#123;</span><br><span class="line">	<span class="keyword">if</span>(m==<span class="keyword">null</span>) &#123;</span><br><span class="line">		m = p.matcher(temp);</span><br><span class="line">	&#125;<span class="keyword">else</span> &#123;</span><br><span class="line">		m.reset(temp);	</span><br><span class="line">	&#125;</span><br><span class="line">	System.out.println(temp+(m.matches()?<span class="string">"是"</span>:<span class="string">"不是"</span>)+<span class="string">"一个有效的邮件地址"</span>);	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://linxd1999.github.io/2019/07/16/jdbc/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1726,7 +1886,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
