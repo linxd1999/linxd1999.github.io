@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo,">
+  <meta name="keywords" content="Java,">
 
 
 
@@ -79,24 +79,18 @@
 
 
 
-<meta name="description" content="特别感谢up主CodeSheep的视频教程, 原视频请点击Step1： 安装Node.jsNode.js官网下载: https://nodejs.org/en/download/ Step2： 安装GitGit是一个开源的分布式版本控制系统，是为了帮助管理Linux内核开发而开发的版本控制软件。 Git官网下载: https://www.git-scm.com/download/ 安装完之后鼠标右">
-<meta name="keywords" content="Hexo">
+<meta name="description" content="一. 类、对象、引用、指针1.引用变量及内存分析众所周知Java没有指针，但实际上Java的引用就相当于指针，只不过把这个指针封装起来，避免其繁琐的操作。 例如Person p = new Person()，这行代码创建了一个实例，实际上，p作为一个引用变量(只存放对象地址)存放在调用这行代码的方法栈中，而Person作为一个对象被存放在堆内存中，然后引用变量p指向堆里的Person。Java程序">
+<meta name="keywords" content="Java">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hexo博客框架+GitHub部署">
-<meta property="og:url" content="https://linxd1999.github.io/2019/05/28/Hexo博客框架+GitHub部署/index.html">
+<meta property="og:title" content="面向对象(类、继承、多态)">
+<meta property="og:url" content="https://linxd1999.github.io/2019/08/25/面向对象(类、继承、多态)/index.html">
 <meta property="og:site_name" content="L">
-<meta property="og:description" content="特别感谢up主CodeSheep的视频教程, 原视频请点击Step1： 安装Node.jsNode.js官网下载: https://nodejs.org/en/download/ Step2： 安装GitGit是一个开源的分布式版本控制系统，是为了帮助管理Linux内核开发而开发的版本控制软件。 Git官网下载: https://www.git-scm.com/download/ 安装完之后鼠标右">
+<meta property="og:description" content="一. 类、对象、引用、指针1.引用变量及内存分析众所周知Java没有指针，但实际上Java的引用就相当于指针，只不过把这个指针封装起来，避免其繁琐的操作。 例如Person p = new Person()，这行代码创建了一个实例，实际上，p作为一个引用变量(只存放对象地址)存放在调用这行代码的方法栈中，而Person作为一个对象被存放在堆内存中，然后引用变量p指向堆里的Person。Java程序">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://linxd1999.github.io/2019/05/28/Hexo博客框架+GitHub部署/1.png">
-<meta property="og:image" content="https://linxd1999.github.io/2019/05/28/Hexo博客框架+GitHub部署/2.png">
-<meta property="og:image" content="https://linxd1999.github.io/2019/05/28/Hexo博客框架+GitHub部署/3.png">
-<meta property="og:image" content="https://linxd1999.github.io/2019/05/28/Hexo博客框架+GitHub部署/4.png">
-<meta property="og:image" content="https://linxd1999.github.io/2019/05/28/Hexo博客框架+GitHub部署/5.png">
-<meta property="og:updated_time" content="2019-05-28T11:27:58.616Z">
+<meta property="og:updated_time" content="2019-08-24T16:46:55.613Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo博客框架+GitHub部署">
-<meta name="twitter:description" content="特别感谢up主CodeSheep的视频教程, 原视频请点击Step1： 安装Node.jsNode.js官网下载: https://nodejs.org/en/download/ Step2： 安装GitGit是一个开源的分布式版本控制系统，是为了帮助管理Linux内核开发而开发的版本控制软件。 Git官网下载: https://www.git-scm.com/download/ 安装完之后鼠标右">
-<meta name="twitter:image" content="https://linxd1999.github.io/2019/05/28/Hexo博客框架+GitHub部署/1.png">
+<meta name="twitter:title" content="面向对象(类、继承、多态)">
+<meta name="twitter:description" content="一. 类、对象、引用、指针1.引用变量及内存分析众所周知Java没有指针，但实际上Java的引用就相当于指针，只不过把这个指针封装起来，避免其繁琐的操作。 例如Person p = new Person()，这行代码创建了一个实例，实际上，p作为一个引用变量(只存放对象地址)存放在调用这行代码的方法栈中，而Person作为一个对象被存放在堆内存中，然后引用变量p指向堆里的Person。Java程序">
 
 
 
@@ -126,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="https://linxd1999.github.io/2019/05/28/Hexo博客框架+GitHub部署/">
+  <link rel="canonical" href="https://linxd1999.github.io/2019/08/25/面向对象(类、继承、多态)/">
 
 
 
 
 
-  <title>Hexo博客框架+GitHub部署 | L</title>
+  <title>面向对象(类、继承、多态) | L</title>
   
 
 
@@ -249,7 +243,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://linxd1999.github.io/2019/05/28/Hexo博客框架+GitHub部署/">
+    <link itemprop="mainEntityOfPage" href="https://linxd1999.github.io/2019/08/25/面向对象(类、继承、多态)/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="linxd">
@@ -266,7 +260,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Hexo博客框架+GitHub部署</h1>
+          <h1 class="post-title" itemprop="name headline">面向对象(类、继承、多态)</h1>
         
 
         <div class="post-meta">
@@ -278,8 +272,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-28T19:27:58+08:00">
-                2019-05-28
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-25T00:46:55+08:00">
+                2019-08-25
               </time>
             
 
@@ -316,66 +310,22 @@
       
 
       
-        <h3 id="特别感谢up主CodeSheep的视频教程-原视频请点击"><a href="#特别感谢up主CodeSheep的视频教程-原视频请点击" class="headerlink" title="特别感谢up主CodeSheep的视频教程, 原视频请点击"></a>特别感谢up主CodeSheep的视频教程, <a href="https://www.bilibili.com/video/av44544186" target="_blank" rel="noopener">原视频请点击</a></h3><h3 id="Step1：-安装Node-js"><a href="#Step1：-安装Node-js" class="headerlink" title="Step1： 安装Node.js"></a>Step1： 安装Node.js</h3><p>Node.js官网下载: <a href="https://nodejs.org/en/download/" target="_blank" rel="noopener">https://nodejs.org/en/download/</a></p>
-<h3 id="Step2：-安装Git"><a href="#Step2：-安装Git" class="headerlink" title="Step2： 安装Git"></a>Step2： 安装Git</h3><p>Git是一个开源的分布式版本控制系统，是为了帮助管理Linux内核开发而开发的版本控制软件。</p>
-<p>Git官网下载: <a href="https://www.git-scm.com/download/" target="_blank" rel="noopener">https://www.git-scm.com/download/</a></p>
-<p>安装完之后鼠标右击会出现Git Bash Here， 这就相当于Linux终端，我们等会对博客的操作也都是在这里完成。</p>
-<a id="more"></a>
-<p>一些常用的Linux命令行操作：</p>
-<blockquote>
-<p>cd   ：进入目录</p>
-<p>cd ..：返回上一级目录</p>
-<p>cd../..：返回上两级目录</p>
-<p>pwd：显示当前路径</p>
-<p>ls -l：显示当前路径下文件的详细信息</p>
-</blockquote>
-<h3 id="Step3：-安装Hexo"><a href="#Step3：-安装Hexo" class="headerlink" title="Step3： 安装Hexo"></a>Step3： 安装Hexo</h3><p>Hexo是一个快速，简洁，高效的博客框架。Hexo使用Markdown（或其他渲染引擎）解析文章，在几秒内，即可利用华丽的主题生成静态网页。</p>
-<p>随便在一个盘下新建文件夹，用来操作博客用，后面我都用Blog来表示这个文件夹。</p>
-<p>进入Blog文件夹，右键Git Bash Here，首先测试node和npm的版本。</p>
-<p>输入命令：</p>
-<p><img src="/2019/05/28/Hexo博客框架+GitHub部署/1.png" alt="1"></p>
-<p>然后安装一个cnpm提高下载速度：</p>
-<blockquote>
-<p>npm install -g cnpm –registry=<a href="https://registry.npm.taobao.org" target="_blank" rel="noopener">https://registry.npm.taobao.org</a></p>
-</blockquote>
-<p>测试cnpm：</p>
-<p>然后安装Hexo：</p>
-<blockquote>
-<p>cnpm install -g hexo-cli</p>
-</blockquote>
-<p>验证是否安装成功</p>
-<blockquote>
-<p>hexo -v</p>
-</blockquote>
-<p><img src="/2019/05/28/Hexo博客框架+GitHub部署/2.png" alt="2"></p>
-<p>安装成功！</p>
-<p>然后在根目录下执行：</p>
-<blockquote>
-<p>hexo init</p>
-</blockquote>
-<p>这是建立整个项目，若Blog文件夹下出现了很多文件则说明成功了。</p>
-<p><img src="/2019/05/28/Hexo博客框架+GitHub部署/3.png" alt="3"></p>
-<h3 id="Step4：运行测试"><a href="#Step4：运行测试" class="headerlink" title="Step4：运行测试"></a>Step4：运行测试</h3><blockquote>
-<p>hexo clean   清理缓存文件</p>
-<p>hexo g         生成文件</p>
-<p>hexo s         运行本地服务器</p>
-<p>hexo d         部署到远端服务器</p>
-</blockquote>
-<p>先在根目录下运行hexo s</p>
-<p>然后打开浏览器，输入localhost:4000，出现以下界面</p>
-<p><img src="/2019/05/28/Hexo博客框架+GitHub部署/4.png" alt="4"></p>
-<p>至此，本地环境已经搭建好了。</p>
-<h3 id="Step5：部署到Github上"><a href="#Step5：部署到Github上" class="headerlink" title="Step5：部署到Github上"></a>Step5：部署到Github上</h3><p>登录Github，创建一个新的仓库new repository，仓库名称为你的Github ID.github.io（必须是这这样写）</p>
-<p>然后在根目录下安装一个Git部署插件</p>
-<blockquote>
-<p>cnpm install –save hexo-deployer-git</p>
-</blockquote>
-<p>在根目录下的_config.yml文件下修改一些配置</p>
-<p><img src="/2019/05/28/Hexo博客框架+GitHub部署/5.png" alt="5"></p>
-<p>repo把打开仓库看到的那个git结尾的复制进来就好。</p>
-<p>最后部署到远端：hexo d</p>
-<p>之后会出现一些验证，照着提示做就可以了。</p>
-<p>推送到远端成功后，在浏览器输入你的Github ID.github.io就可以访问博客了。</p>
+        <h3 id="一-类、对象、引用、指针"><a href="#一-类、对象、引用、指针" class="headerlink" title="一. 类、对象、引用、指针"></a>一. 类、对象、引用、指针</h3><h4 id="1-引用变量及内存分析"><a href="#1-引用变量及内存分析" class="headerlink" title="1.引用变量及内存分析"></a>1.引用变量及内存分析</h4><p>众所周知Java没有指针，但实际上Java的引用就相当于指针，只不过把这个指针封装起来，避免其繁琐的操作。</p>
+<p>例如Person p = new Person()，这行代码创建了一个实例，实际上，p作为一个引用变量(只存放对象地址)存放在调用这行代码的方法栈中，而Person作为一个对象被存放在堆内存中，然后引用变量p指向堆里的Person。Java程序不允许直接访问堆内对象，只能通过引用变量来访问。若堆内的对象没有任何引用变量指向它，则这个对象会被GC回收，反之，若想让GC回收某对象，只需要切断所有引用变量跟这个对象的联系即可。</p>
+<h4 id="2-this关键字"><a href="#2-this关键字" class="headerlink" title="2.this关键字"></a>2.this关键字</h4><p>this关键字总是指向调用该方法的对象，其最大的作用就是让类里的一个方法调用类里的另外一个方法或者实例变量。</p>
+<p>Java允许对象的一个成员直接调用另一个成员可以忽略this前缀。</p>
+<h4 id="3-static关键字"><a href="#3-static关键字" class="headerlink" title="3.static关键字"></a>3.static关键字</h4><p>static关键字的真正作用：区分成员变量，方法，内部类是属于类本身还是属于类的实例</p>
+<p>有static修饰的成员属于类本身，没有static修饰的成员属于类的实例。</p>
+<p>因为static成员属于类本身，所以调用static成员是什么实例并不明确，所以不能在static方法内使用this关键字、super关键字。</p>
+<p>方法以this作为返回值：可以在一行代码中多次连续调用该方法。</p>
+<h4 id="4-参数传递机制"><a href="#4-参数传递机制" class="headerlink" title="4.参数传递机制"></a>4.参数传递机制</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">	<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Swap</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> a,b;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Swap</span><span class="params">(<span class="keyword">int</span> a,<span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.a = a;</span><br><span class="line">		<span class="keyword">this</span>.b = b;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">swap</span><span class="params">(Swap temp)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">int</span> tmp = temp.a;</span><br><span class="line">		temp.a = temp.b;</span><br><span class="line">		temp.b = tmp;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span> </span>&#123;</span><br><span class="line">		Swap s = <span class="keyword">new</span> Swap(<span class="number">3</span>,<span class="number">4</span>);</span><br><span class="line">		swap(s);</span><br><span class="line">		System.out.println(s.a+<span class="string">" "</span>+s.b);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>首先在main函数内，main函数的栈内存放了引用变量s，指向堆内存的对象Swap；swap函数传入一个形参temp也指向堆内存里的Swap对象。所以两个引用变量都指向堆内存中的对象，只要操作一个引用变量，堆内存中对象的数据就会改变，所以数据交换可以成功。</p>
+<h4 id="5-成员变量、局部变量"><a href="#5-成员变量、局部变量" class="headerlink" title="5.成员变量、局部变量"></a>5.成员变量、局部变量</h4><p>成员变量：不被static修饰的实例变量，被static修饰的类变量</p>
+<p>局部变量：形参，方法中的变量，代码块中的变量</p>
+<h4 id="6-访问控制符"><a href="#6-访问控制符" class="headerlink" title="6.访问控制符"></a>6.访问控制符</h4><p>private：当前类访问权限</p>
+<p>default：包访问权限，可被相同包下的其他类访问</p>
+<p>protected：子类访问权限，可被不同包中的子类访问</p>
+<p>public：公共访问权限，可被所有类访问</p>
 
       
     </div>
@@ -393,7 +343,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Hexo/" rel="tag"># Hexo</a>
+            <a href="/tags/Java/" rel="tag"># Java</a>
           
         </div>
       
@@ -406,8 +356,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/05/17/记录一些好用的网站/" rel="next" title="记录一些好用的网站">
-                <i class="fa fa-chevron-left"></i> 记录一些好用的网站
+              <a href="/2019/08/10/正则表达式/" rel="next" title="正则表达式">
+                <i class="fa fa-chevron-left"></i> 正则表达式
               </a>
             
           </div>
@@ -416,8 +366,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/05/28/Process Management(2)-mutex/" rel="prev" title="进程管理(二)：同步与互斥">
-                进程管理(二)：同步与互斥 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/08/30/String、StringBuffer、StringBuilder类/" rel="prev" title="String、StringBuffer、StringBuilder类">
+                String、StringBuffer、StringBuilder类 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -553,7 +503,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#特别感谢up主CodeSheep的视频教程-原视频请点击"><span class="nav-text">特别感谢up主CodeSheep的视频教程, 原视频请点击</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step1：-安装Node-js"><span class="nav-text">Step1： 安装Node.js</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step2：-安装Git"><span class="nav-text">Step2： 安装Git</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step3：-安装Hexo"><span class="nav-text">Step3： 安装Hexo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step4：运行测试"><span class="nav-text">Step4：运行测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step5：部署到Github上"><span class="nav-text">Step5：部署到Github上</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一-类、对象、引用、指针"><span class="nav-text">一. 类、对象、引用、指针</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-引用变量及内存分析"><span class="nav-text">1.引用变量及内存分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-this关键字"><span class="nav-text">2.this关键字</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-static关键字"><span class="nav-text">3.static关键字</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-参数传递机制"><span class="nav-text">4.参数传递机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-成员变量、局部变量"><span class="nav-text">5.成员变量、局部变量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-访问控制符"><span class="nav-text">6.访问控制符</span></a></li></ol></li></ol></div>
             
 
           </div>

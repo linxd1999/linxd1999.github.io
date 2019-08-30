@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo,">
+  <meta name="keywords" content="Java,">
 
 
 
@@ -79,24 +79,18 @@
 
 
 
-<meta name="description" content="特别感谢up主CodeSheep的视频教程, 原视频请点击Step1： 安装Node.jsNode.js官网下载: https://nodejs.org/en/download/ Step2： 安装GitGit是一个开源的分布式版本控制系统，是为了帮助管理Linux内核开发而开发的版本控制软件。 Git官网下载: https://www.git-scm.com/download/ 安装完之后鼠标右">
-<meta name="keywords" content="Hexo">
+<meta name="description" content="一.字符串常量池字符串常量池属于Java的静态常量池，即.class文件中的常量池，占用class文件的大部分空间，还保存一些类、方法、接口中的常量。 String.intern()方法：查找常量池中是否存在该字符串，若存在则返回字符串的引用，若不存在则把该字符串添加进常量池并返回引用。  “abc”和new String(“abc”)的区别 在编译时候就能计算出的字符串值，JVM用常量池管理这些">
+<meta name="keywords" content="Java">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hexo博客框架+GitHub部署">
-<meta property="og:url" content="https://linxd1999.github.io/2019/05/28/Hexo博客框架+GitHub部署/index.html">
+<meta property="og:title" content="String、StringBuffer、StringBuilder类">
+<meta property="og:url" content="https://linxd1999.github.io/2019/08/30/String、StringBuffer、StringBuilder类/index.html">
 <meta property="og:site_name" content="L">
-<meta property="og:description" content="特别感谢up主CodeSheep的视频教程, 原视频请点击Step1： 安装Node.jsNode.js官网下载: https://nodejs.org/en/download/ Step2： 安装GitGit是一个开源的分布式版本控制系统，是为了帮助管理Linux内核开发而开发的版本控制软件。 Git官网下载: https://www.git-scm.com/download/ 安装完之后鼠标右">
+<meta property="og:description" content="一.字符串常量池字符串常量池属于Java的静态常量池，即.class文件中的常量池，占用class文件的大部分空间，还保存一些类、方法、接口中的常量。 String.intern()方法：查找常量池中是否存在该字符串，若存在则返回字符串的引用，若不存在则把该字符串添加进常量池并返回引用。  “abc”和new String(“abc”)的区别 在编译时候就能计算出的字符串值，JVM用常量池管理这些">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://linxd1999.github.io/2019/05/28/Hexo博客框架+GitHub部署/1.png">
-<meta property="og:image" content="https://linxd1999.github.io/2019/05/28/Hexo博客框架+GitHub部署/2.png">
-<meta property="og:image" content="https://linxd1999.github.io/2019/05/28/Hexo博客框架+GitHub部署/3.png">
-<meta property="og:image" content="https://linxd1999.github.io/2019/05/28/Hexo博客框架+GitHub部署/4.png">
-<meta property="og:image" content="https://linxd1999.github.io/2019/05/28/Hexo博客框架+GitHub部署/5.png">
-<meta property="og:updated_time" content="2019-05-28T11:27:58.616Z">
+<meta property="og:updated_time" content="2019-08-30T15:12:26.564Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo博客框架+GitHub部署">
-<meta name="twitter:description" content="特别感谢up主CodeSheep的视频教程, 原视频请点击Step1： 安装Node.jsNode.js官网下载: https://nodejs.org/en/download/ Step2： 安装GitGit是一个开源的分布式版本控制系统，是为了帮助管理Linux内核开发而开发的版本控制软件。 Git官网下载: https://www.git-scm.com/download/ 安装完之后鼠标右">
-<meta name="twitter:image" content="https://linxd1999.github.io/2019/05/28/Hexo博客框架+GitHub部署/1.png">
+<meta name="twitter:title" content="String、StringBuffer、StringBuilder类">
+<meta name="twitter:description" content="一.字符串常量池字符串常量池属于Java的静态常量池，即.class文件中的常量池，占用class文件的大部分空间，还保存一些类、方法、接口中的常量。 String.intern()方法：查找常量池中是否存在该字符串，若存在则返回字符串的引用，若不存在则把该字符串添加进常量池并返回引用。  “abc”和new String(“abc”)的区别 在编译时候就能计算出的字符串值，JVM用常量池管理这些">
 
 
 
@@ -126,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="https://linxd1999.github.io/2019/05/28/Hexo博客框架+GitHub部署/">
+  <link rel="canonical" href="https://linxd1999.github.io/2019/08/30/String、StringBuffer、StringBuilder类/">
 
 
 
 
 
-  <title>Hexo博客框架+GitHub部署 | L</title>
+  <title>String、StringBuffer、StringBuilder类 | L</title>
   
 
 
@@ -249,7 +243,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://linxd1999.github.io/2019/05/28/Hexo博客框架+GitHub部署/">
+    <link itemprop="mainEntityOfPage" href="https://linxd1999.github.io/2019/08/30/String、StringBuffer、StringBuilder类/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="linxd">
@@ -266,7 +260,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Hexo博客框架+GitHub部署</h1>
+          <h1 class="post-title" itemprop="name headline">String、StringBuffer、StringBuilder类</h1>
         
 
         <div class="post-meta">
@@ -278,8 +272,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-28T19:27:58+08:00">
-                2019-05-28
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-30T23:12:26+08:00">
+                2019-08-30
               </time>
             
 
@@ -316,66 +310,34 @@
       
 
       
-        <h3 id="特别感谢up主CodeSheep的视频教程-原视频请点击"><a href="#特别感谢up主CodeSheep的视频教程-原视频请点击" class="headerlink" title="特别感谢up主CodeSheep的视频教程, 原视频请点击"></a>特别感谢up主CodeSheep的视频教程, <a href="https://www.bilibili.com/video/av44544186" target="_blank" rel="noopener">原视频请点击</a></h3><h3 id="Step1：-安装Node-js"><a href="#Step1：-安装Node-js" class="headerlink" title="Step1： 安装Node.js"></a>Step1： 安装Node.js</h3><p>Node.js官网下载: <a href="https://nodejs.org/en/download/" target="_blank" rel="noopener">https://nodejs.org/en/download/</a></p>
-<h3 id="Step2：-安装Git"><a href="#Step2：-安装Git" class="headerlink" title="Step2： 安装Git"></a>Step2： 安装Git</h3><p>Git是一个开源的分布式版本控制系统，是为了帮助管理Linux内核开发而开发的版本控制软件。</p>
-<p>Git官网下载: <a href="https://www.git-scm.com/download/" target="_blank" rel="noopener">https://www.git-scm.com/download/</a></p>
-<p>安装完之后鼠标右击会出现Git Bash Here， 这就相当于Linux终端，我们等会对博客的操作也都是在这里完成。</p>
-<a id="more"></a>
-<p>一些常用的Linux命令行操作：</p>
-<blockquote>
-<p>cd   ：进入目录</p>
-<p>cd ..：返回上一级目录</p>
-<p>cd../..：返回上两级目录</p>
-<p>pwd：显示当前路径</p>
-<p>ls -l：显示当前路径下文件的详细信息</p>
-</blockquote>
-<h3 id="Step3：-安装Hexo"><a href="#Step3：-安装Hexo" class="headerlink" title="Step3： 安装Hexo"></a>Step3： 安装Hexo</h3><p>Hexo是一个快速，简洁，高效的博客框架。Hexo使用Markdown（或其他渲染引擎）解析文章，在几秒内，即可利用华丽的主题生成静态网页。</p>
-<p>随便在一个盘下新建文件夹，用来操作博客用，后面我都用Blog来表示这个文件夹。</p>
-<p>进入Blog文件夹，右键Git Bash Here，首先测试node和npm的版本。</p>
-<p>输入命令：</p>
-<p><img src="/2019/05/28/Hexo博客框架+GitHub部署/1.png" alt="1"></p>
-<p>然后安装一个cnpm提高下载速度：</p>
-<blockquote>
-<p>npm install -g cnpm –registry=<a href="https://registry.npm.taobao.org" target="_blank" rel="noopener">https://registry.npm.taobao.org</a></p>
-</blockquote>
-<p>测试cnpm：</p>
-<p>然后安装Hexo：</p>
-<blockquote>
-<p>cnpm install -g hexo-cli</p>
-</blockquote>
-<p>验证是否安装成功</p>
-<blockquote>
-<p>hexo -v</p>
-</blockquote>
-<p><img src="/2019/05/28/Hexo博客框架+GitHub部署/2.png" alt="2"></p>
-<p>安装成功！</p>
-<p>然后在根目录下执行：</p>
-<blockquote>
-<p>hexo init</p>
-</blockquote>
-<p>这是建立整个项目，若Blog文件夹下出现了很多文件则说明成功了。</p>
-<p><img src="/2019/05/28/Hexo博客框架+GitHub部署/3.png" alt="3"></p>
-<h3 id="Step4：运行测试"><a href="#Step4：运行测试" class="headerlink" title="Step4：运行测试"></a>Step4：运行测试</h3><blockquote>
-<p>hexo clean   清理缓存文件</p>
-<p>hexo g         生成文件</p>
-<p>hexo s         运行本地服务器</p>
-<p>hexo d         部署到远端服务器</p>
-</blockquote>
-<p>先在根目录下运行hexo s</p>
-<p>然后打开浏览器，输入localhost:4000，出现以下界面</p>
-<p><img src="/2019/05/28/Hexo博客框架+GitHub部署/4.png" alt="4"></p>
-<p>至此，本地环境已经搭建好了。</p>
-<h3 id="Step5：部署到Github上"><a href="#Step5：部署到Github上" class="headerlink" title="Step5：部署到Github上"></a>Step5：部署到Github上</h3><p>登录Github，创建一个新的仓库new repository，仓库名称为你的Github ID.github.io（必须是这这样写）</p>
-<p>然后在根目录下安装一个Git部署插件</p>
-<blockquote>
-<p>cnpm install –save hexo-deployer-git</p>
-</blockquote>
-<p>在根目录下的_config.yml文件下修改一些配置</p>
-<p><img src="/2019/05/28/Hexo博客框架+GitHub部署/5.png" alt="5"></p>
-<p>repo把打开仓库看到的那个git结尾的复制进来就好。</p>
-<p>最后部署到远端：hexo d</p>
-<p>之后会出现一些验证，照着提示做就可以了。</p>
-<p>推送到远端成功后，在浏览器输入你的Github ID.github.io就可以访问博客了。</p>
+        <h3 id="一-字符串常量池"><a href="#一-字符串常量池" class="headerlink" title="一.字符串常量池"></a>一.字符串常量池</h3><p>字符串常量池属于Java的静态常量池，即.class文件中的常量池，占用class文件的大部分空间，还保存一些类、方法、接口中的常量。</p>
+<p>String.intern()方法：查找常量池中是否存在该字符串，若存在则返回字符串的引用，若不存在则把该字符串添加进常量池并返回引用。</p>
+<ul>
+<li><p>“abc”和new String(“abc”)的区别</p>
+<p>在编译时候就能计算出的字符串值，JVM用常量池管理这些字符串</p>
+<p>new一个字符串时，先用常量池管理该字符串，然后再用构造器创建一个新String对象，保存在堆内存中，共产生两个对象</p>
+</li>
+</ul>
+<p>常量池保证相同的字符串直接量只有一个，可以多个引用指向同一个常量。</p>
+<p>常量池避免频繁创建销毁对象，实现对象共享，节省内存和运行时间。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">String s1 = <span class="string">"abc"</span>;</span><br><span class="line">String s2 = <span class="string">"ab"</span> + <span class="string">"c"</span>;</span><br><span class="line">String s3 = <span class="string">"ab"</span>;</span><br><span class="line">String s4 = <span class="string">"c"</span>;</span><br><span class="line">String s5 = s3 + s4;</span><br><span class="line">String s6 = <span class="keyword">new</span> String(<span class="string">"abc"</span>);</span><br><span class="line">System.out.println(s1 == s2);<span class="comment">//true</span></span><br><span class="line">System.out.println(s1 == s5);<span class="comment">//false</span></span><br><span class="line">System.out.println(s1 == s5.intern());<span class="comment">//true</span></span><br><span class="line">System.out.println(s1 == s6);<span class="comment">//false</span></span><br></pre></td></tr></table></figure>
+<p>==表示比较两个引用变量指向的地址。</p>
+<p>s1 == s2：编译器会在编译期间自动把已知字符串拼接好，并放入常量池</p>
+<p>s1 != s5：s5不能在编译期间确定，地址不能确定</p>
+<p>s1 == s5.intern()：intern方法检测出s5内容存在于常量池中，返回字符串引用</p>
+<p>s1 != s6：构造器生成的字符串编译时地址不能确定</p>
+<h3 id="二-StringBuffer和StringBuilder"><a href="#二-StringBuffer和StringBuilder" class="headerlink" title="二.StringBuffer和StringBuilder"></a>二.StringBuffer和StringBuilder</h3><p>StringBuffer对象是一个字符序列可变的字符串</p>
+<p>StringBuilder是JDK1.5之后新增的类，操作和StringBuffer基本一样</p>
+<p>这两个类都解决了大量拼接字符串时产生很多中间对象而影响性能的问题</p>
+<p>区别：StringBuffer线程安全，效率低；StringBuilder线程不安全，效率高，所以StringBuilder使用的多，尤其是单线程应用。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">StringBuilder sb = <span class="keyword">new</span> StringBuilder();</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">26</span>; i++) &#123;</span><br><span class="line">	sb.append((<span class="keyword">char</span>)(<span class="string">'a'</span>+i));</span><br><span class="line">&#125;</span><br><span class="line">System.out.println(sb);<span class="comment">//abcdefghijklmnopqrstuvwxyz</span></span><br><span class="line">System.out.println(sb.hashCode());<span class="comment">//664740647</span></span><br><span class="line">sb.reverse();</span><br><span class="line">System.out.println(sb);<span class="comment">//zyxwvutsrqponmlkjihgfedcba</span></span><br><span class="line">System.out.println(sb.hashCode());<span class="comment">//664740647</span></span><br><span class="line">sb.setCharAt(<span class="number">0</span>, <span class="string">'A'</span>);</span><br><span class="line">System.out.println(sb);<span class="comment">//Ayxwvutsrqponmlkjihgfedcba</span></span><br><span class="line">sb.insert(<span class="number">1</span>, <span class="string">"bcd"</span>);</span><br><span class="line">System.out.println(sb);<span class="comment">//Abcdyxwvutsrqponmlkjihgfedcba</span></span><br><span class="line">sb.delete(<span class="number">0</span>, <span class="number">4</span>);</span><br><span class="line">System.out.println(sb);<span class="comment">//yxwvutsrqponmlkjihgfedcba</span></span><br></pre></td></tr></table></figure>
+<p>几个常用方法：</p>
+<p>append()：追加</p>
+<p>reverse()：倒序</p>
+<p>setCharAt()：修改某位置字符</p>
+<p>setLength()：设置字符串长度</p>
+<p>insert()：在某位置添加字符或字符串</p>
+<p>delete()：删除某位置的字符</p>
 
       
     </div>
@@ -393,7 +355,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Hexo/" rel="tag"># Hexo</a>
+            <a href="/tags/Java/" rel="tag"># Java</a>
           
         </div>
       
@@ -406,8 +368,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/05/17/记录一些好用的网站/" rel="next" title="记录一些好用的网站">
-                <i class="fa fa-chevron-left"></i> 记录一些好用的网站
+              <a href="/2019/08/25/面向对象(类、继承、多态)/" rel="next" title="面向对象(类、继承、多态)">
+                <i class="fa fa-chevron-left"></i> 面向对象(类、继承、多态)
               </a>
             
           </div>
@@ -415,10 +377,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/05/28/Process Management(2)-mutex/" rel="prev" title="进程管理(二)：同步与互斥">
-                进程管理(二)：同步与互斥 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -553,7 +511,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#特别感谢up主CodeSheep的视频教程-原视频请点击"><span class="nav-text">特别感谢up主CodeSheep的视频教程, 原视频请点击</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step1：-安装Node-js"><span class="nav-text">Step1： 安装Node.js</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step2：-安装Git"><span class="nav-text">Step2： 安装Git</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step3：-安装Hexo"><span class="nav-text">Step3： 安装Hexo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step4：运行测试"><span class="nav-text">Step4：运行测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step5：部署到Github上"><span class="nav-text">Step5：部署到Github上</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一-字符串常量池"><span class="nav-text">一.字符串常量池</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二-StringBuffer和StringBuilder"><span class="nav-text">二.StringBuffer和StringBuilder</span></a></li></ol></div>
             
 
           </div>
