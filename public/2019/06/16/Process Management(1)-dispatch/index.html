@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="OS,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="一、进程和线程1、进程 进程(Process)：一个具有独立功能的程序关于一个数据集合上的一次动态执行过程  进程的组成：代码段、程序处理的数据、程序计数器(指示下一条将运行的指令)、系统资源  进程的特点：  1、动态性：进程是进程实体的一次执行过程 2、并发性：多个进程同时存在于内存中并能在一段时间内同时运行 3、独立性：在传统OS中，进程是一个能独立运行、分配资源、调度的基本调度 4、异步性">
+<meta name="keywords" content="OS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="进程管理">
+<meta property="og:url" content="https://linxd1999.github.io/2019/06/16/Process Management(1)-dispatch/index.html">
+<meta property="og:site_name" content="L">
+<meta property="og:description" content="一、进程和线程1、进程 进程(Process)：一个具有独立功能的程序关于一个数据集合上的一次动态执行过程  进程的组成：代码段、程序处理的数据、程序计数器(指示下一条将运行的指令)、系统资源  进程的特点：  1、动态性：进程是进程实体的一次执行过程 2、并发性：多个进程同时存在于内存中并能在一段时间内同时运行 3、独立性：在传统OS中，进程是一个能独立运行、分配资源、调度的基本调度 4、异步性">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://linxd1999.github.io/2019/06/16/Process%20Management(1)-dispatch/blog/source/_posts/新建文件夹/1.jpg">
+<meta property="og:image" content="https://linxd1999.github.io/2019/06/16/Process%20Management(1)-dispatch/blog/source/_posts/新建文件夹/2.png">
+<meta property="og:image" content="https://linxd1999.github.io/2019/06/16/Process%20Management(1)-dispatch/blog/source/_posts/新建文件夹/3.png">
+<meta property="og:image" content="https://linxd1999.github.io/2019/06/16/Process%20Management(1)-dispatch/blog/source/_posts/新建文件夹/4.png">
+<meta property="og:image" content="https://linxd1999.github.io/2019/06/16/Process%20Management(1)-dispatch/blog/source/_posts/新建文件夹/5.png">
+<meta property="og:image" content="https://linxd1999.github.io/2019/06/16/Process%20Management(1)-dispatch/blog/source/_posts/新建文件夹/6.png">
+<meta property="og:image" content="https://linxd1999.github.io/2019/06/16/Process%20Management(1)-dispatch/blog/source/_posts/新建文件夹/7.png">
+<meta property="og:image" content="https://linxd1999.github.io/2019/06/16/Process%20Management(1)-dispatch/blog/source/_posts/新建文件夹/8.png">
+<meta property="og:image" content="https://linxd1999.github.io/2019/06/16/Process%20Management(1)-dispatch/blog/source/_posts/新建文件夹/9.png">
+<meta property="og:updated_time" content="2019-06-16T15:51:31.245Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="进程管理">
+<meta name="twitter:description" content="一、进程和线程1、进程 进程(Process)：一个具有独立功能的程序关于一个数据集合上的一次动态执行过程  进程的组成：代码段、程序处理的数据、程序计数器(指示下一条将运行的指令)、系统资源  进程的特点：  1、动态性：进程是进程实体的一次执行过程 2、并发性：多个进程同时存在于内存中并能在一段时间内同时运行 3、独立性：在传统OS中，进程是一个能独立运行、分配资源、调度的基本调度 4、异步性">
+<meta name="twitter:image" content="https://linxd1999.github.io/2019/06/16/Process%20Management(1)-dispatch/blog/source/_posts/新建文件夹/1.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://linxd1999.github.io/2019/06/16/Process Management(1)-dispatch/">
+
+
+
+
+
+  <title>进程管理 | L</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">L</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://linxd1999.github.io/2019/06/16/Process Management(1)-dispatch/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="linxd">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/1.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="L">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">进程管理</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-16T23:51:31+08:00">
+                2019-06-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="一、进程和线程"><a href="#一、进程和线程" class="headerlink" title="一、进程和线程"></a>一、进程和线程</h3><h4 id="1、进程"><a href="#1、进程" class="headerlink" title="1、进程"></a>1、进程</h4><ul>
+<li><p>进程(Process)：一个具有独立功能的程序关于一个数据集合上的一次动态执行过程</p>
+</li>
+<li><p>进程的组成：代码段、程序处理的数据、程序计数器(指示下一条将运行的指令)、系统资源</p>
+</li>
+<li><p>进程的特点：</p>
+<blockquote>
+<p>1、动态性：进程是进程实体的一次执行过程</p>
+<p>2、并发性：多个进程同时存在于内存中并能在一段时间内同时运行</p>
+<p>3、独立性：在传统OS中，进程是一个能独立运行、分配资源、调度的基本调度</p>
+<p>4、异步性：进程按各自独立、不可预知的速度向前推进</p>
+</blockquote>
+</li>
+<li><p>进程控制块(PCB)：每个进程用来保存与该进程有关的各种状态信息，是进程存在的唯一标识</p>
+</li>
+<li><p>进程的状态：创建、运行、等待(阻塞)、就绪、结束</p>
+</li>
+</ul>
+<p><img src="/2019/06/16/Process Management(1)-dispatch/blog\source\_posts\新建文件夹\1.jpg" alt="1"></p>
+<blockquote>
+<p>1、进程只能自己阻塞自己，只有自己知道自己什么时候需要等待事件发生</p>
+<p>2、阻塞态不能直接转换成运行态</p>
+<p>3、挂起态：进程没有占有内存空间，处于挂起态的进程映像在磁盘上</p>
+</blockquote>
+<ul>
+<li>上下文切换：OS内核将旧进程的关联状态保存在其PCB中，然后装入经调度之后准备执行的新进程的已保存的关联状态</li>
+</ul>
+<a id="more"></a>
+<h4 id="2、线程"><a href="#2、线程" class="headerlink" title="2、线程"></a>2、线程</h4><ul>
+<li><p>线程(Thread)：OS中能进行调度的最小单位，包含在进程之中，是进程中的实际运作单位</p>
+</li>
+<li><p>线程的组成：线程id、程序计数器、各种寄存器、栈</p>
+</li>
+<li><p>线程的特点：和属于同一进程的其他线程共享代码段、数据段和其他OS资源</p>
+<p>例如：浏览器这个进程可分为很多页面线程，不同页面可以做不同的事情</p>
+</li>
+<li><p>线程的优点：</p>
+<blockquote>
+<p>1、响应度高：部分线程阻塞或操作时间冗长，该程序仍然能执行下去，增加对用户的响应程度</p>
+<p>2、资源共享：允许一个进程在同一个地址空间有多个活动的线程</p>
+<p>3、经济：进程创建所需的内存和资源分配昂贵，而线程则相对经济</p>
+<p>4、适合多处理器结构：单线程进程只能运行在一个CPU上，在多CPU上使用多线程加强了OS的并发能力</p>
+</blockquote>
+</li>
+<li><p>进程、线程的区别：</p>
+<blockquote>
+<p>1、调度性：在传统OS中，拥有资源和独立调度分配的基本单位都是进程；在引入线程的OS中，线程是调度分配的基本单位，而进程是资源分配的基本单位</p>
+<p>2、并发性：在引入线程的OS中，进程之间可以并发执行，同一进程的线程之间也可以并发执行，从而使OS有更好的并发性</p>
+<p>3、拥有资源：进程拥有自己的资源，线程一般不拥有资源，但可以访问其所在进程的资源</p>
+<p>4、系统开销：创建、撤销进程涉及系统资源的分配与回收，需要比线程的创建和撤销大得多的系统开销，进程切换的开销也远大于线程</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="二、进程调度-dispatch"><a href="#二、进程调度-dispatch" class="headerlink" title="二、进程调度(dispatch)"></a>二、进程调度(dispatch)</h3><h4 id="1、调度层次"><a href="#1、调度层次" class="headerlink" title="1、调度层次"></a>1、调度层次</h4><ul>
+<li>长期调度/高级调度/作业调度：把进程从磁盘中首次调入内存，只有进程离开系统时，才需要长期调度程序的调度。必定发生，但频率比较低。</li>
+<li>中期调度/中级调度/内存调度：在分时操作系统中，将进程从内存调入磁盘，从而减少内存中的进程数据。之后需要时再重新调入内存，并从中断处继续执行。可能发生，频率中等。</li>
+<li>短期调度/低级调度/进程调度：从就绪态中选择进程分配CPU，必定发生，且频率很高。</li>
+</ul>
+<h4 id="2、调度准则"><a href="#2、调度准则" class="headerlink" title="2、调度准则"></a>2、调度准则</h4><ul>
+<li>CPU使用率：需要让CPU尽可能忙</li>
+<li>吞吐量：单位时间内完成的进程数量</li>
+<li>周转时间：从进程提交到进程完成所用的时间</li>
+<li>等待时间：进程在就绪队列中等待所花费的时间之和</li>
+<li>响应时间：从提交请求到产生第一响应的时间</li>
+</ul>
+<h4 id="3、调度算法"><a href="#3、调度算法" class="headerlink" title="3、调度算法"></a>3、调度算法</h4><h5 id="1、先来先服务算法-FCFS"><a href="#1、先来先服务算法-FCFS" class="headerlink" title="1、先来先服务算法(FCFS)"></a>1、先来先服务算法(FCFS)</h5><p>例：银行排队、打印机</p>
+<p>方式：非抢占</p>
+<p>调度时机：一个进程结束</p>
+<p>特点：利于长进程，不利于短进程；利于CPU繁忙的作业，不利于IO繁忙的作业；不适用于分时，实时系统</p>
+<h5 id="2、-短作业优先调度算法-SJF"><a href="#2、-短作业优先调度算法-SJF" class="headerlink" title="2、 短作业优先调度算法(SJF)"></a>2、 短作业优先调度算法(SJF)</h5><p>思想：优先对短作业或短进程进行处理的算法，如果两个进程长度相同，可用FCFS处理(插队+动态改变)</p>
+<p>方式：非抢占 / 抢占(最短剩余时间优先调度)</p>
+<p>调度时机：程序结束时 / 阻塞I/O时</p>
+<p>特点：利于短进程，不利于长进程(饥饿)；不能保证紧迫作业及试运行(程序员可能提供虚假时间)；平均等待时间，平均周转时间最少；吞吐量很大(单位时间内运行的进程数多)</p>
+<h5 id="3、高优先级调度算法"><a href="#3、高优先级调度算法" class="headerlink" title="3、高优先级调度算法"></a>3、高优先级调度算法</h5><p>思想：优先对高优先级的进程进行处理</p>
+<p>方式：抢占 / 非抢占</p>
+<p>调度时机：程序结束时 / I/O阻塞时 / 更高优先级进程进入队列时</p>
+<p>特点：满足紧迫作业需求；适用于实时系统；优先级分为动态优先级和静态优先级</p>
+<h5 id="4、轮转法调度算法-RR"><a href="#4、轮转法调度算法-RR" class="headerlink" title="4、轮转法调度算法(RR)"></a>4、轮转法调度算法(RR)</h5><p>思想：分时间片使各进程轮流获取CPU(10ms-100ms)</p>
+<p>方式：抢占</p>
+<p>调度时机：时间片用完 / 程序结束</p>
+<p>特点：时间片大小讲究，太大退化为FCFS，太小上下文切换次数很多，开销大；适用于分时系统</p>
+<h5 id="5、高响应比优先算法"><a href="#5、高响应比优先算法" class="headerlink" title="5、高响应比优先算法"></a>5、高响应比优先算法</h5><p>响应比Rp = (等待时间+服务时间) / 服务时间</p>
+<p>思想：优先选择响应比高的作业(从外存放到内存的过程中，包含的一个或多个进程)</p>
+<p>方式：无(主要用于作业调度)</p>
+<p>调度时机：无</p>
+<p>特点：FCFS与SJF的平衡；克服饥饿，既能兼顾长作业，又能让短作业先运行</p>
+<h5 id="6、多级反馈队列算法"><a href="#6、多级反馈队列算法" class="headerlink" title="6、多级反馈队列算法"></a>6、多级反馈队列算法</h5><p>思想：FCFS(每个窗口都排队)+优先级(每个窗口都有优先级)+时间片轮转(时间片成倍增加，最后一个窗口循环轮转)，多级反馈队列不必事先知道各种进程所需的执行时间，还可以满足各种类型的进程需要。</p>
+<p>方式：综合</p>
+<p>调度时机：综合</p>
+<p>特点：短作业优先带来的等待时间降低，周转时间降低；长作业能得到处理</p>
+<h3 id="三、同步与互斥"><a href="#三、同步与互斥" class="headerlink" title="三、同步与互斥"></a>三、同步与互斥</h3><h4 id="1、相关概念"><a href="#1、相关概念" class="headerlink" title="1、相关概念"></a>1、相关概念</h4><ul>
+<li>临界资源：一次仅允许一个进程使用的资源(打印机，网卡，键盘，共享变量)</li>
+<li>临界区：每个进程中访问临界资源的那段代码</li>
+<li>信号量(semaphore)：用来保证两个或多个临界区代码不被并发调用</li>
+<li>互斥：两个或以上进程，不同时进入关于同一组共享变量的临界区，否则可能发生时间相关的错误</li>
+<li>同步：在多道程序环境下，进程并发执行，进程因相互协作完成某个操作的次序关系</li>
+<li>PV操作：控制信号量的一组原子操作，P是等待(减法，检测，阻塞)，V是释放(加法，检测，唤醒)</li>
+</ul>
+<h4 id="2、实现互斥的方法"><a href="#2、实现互斥的方法" class="headerlink" title="2、实现互斥的方法"></a>2、实现互斥的方法</h4><h5 id="1、硬件实现法"><a href="#1、硬件实现法" class="headerlink" title="1、硬件实现法"></a>1、硬件实现法</h5><ul>
+<li><p>中断屏蔽法：进程切换大多源于中断，若没有切换，也就不需要互斥，所以屏蔽中断即可实现互斥</p>
+</li>
+<li><p>原子硬件指令法：TestAndSet、Swap</p>
+<p><img src="/2019/06/16/Process Management(1)-dispatch/blog\source\_posts\新建文件夹\2.png" alt></p>
+<p><img src="/2019/06/16/Process Management(1)-dispatch/blog\source\_posts\新建文件夹\3.png" alt="3"></p>
+</li>
+</ul>
+<h5 id="2、软件实现法"><a href="#2、软件实现法" class="headerlink" title="2、软件实现法"></a>2、软件实现法</h5><ul>
+<li><p>单标志法</p>
+<p>思想：一个进程的进入临界区权限只能被另外一个进程赋予，但两个进程必须交替进入临界区，如果某个进程不进入临界区，那么另外一个进程也无法进入临界区，造成资源浪费</p>
+<p><img src="/2019/06/16/Process Management(1)-dispatch/blog\source\_posts\新建文件夹\4.png" alt="4"></p>
+</li>
+<li><p>双标志先检查法</p>
+<p>思想：一个进程进入临界区之前先查看临界区资源是否被访问，若没有被访问，则把自身标志位设置为true，若被访问则等待</p>
+<p><img src="/2019/06/16/Process Management(1)-dispatch/blog\source\_posts\新建文件夹\5.png" alt="5"></p>
+</li>
+<li><p>双标志后检查法</p>
+<p>思想：防止先检查法的同时进入临界区问题，先上锁，后检查(会因为两个进程因为争夺临界区过于强势导致没有一个进程能获取临界区资源，导致饥饿)</p>
+<p><img src="/2019/06/16/Process Management(1)-dispatch/blog\source\_posts\新建文件夹\6.png" alt="6"></p>
+</li>
+<li><p>Peterson算法</p>
+<p>思想：”孔融让梨”的思想，虽然表示自己也想获取临界区资源，但主动询问对方是否想访问，若对方想访问临界区资源且自己谦让了，对方进入临界区</p>
+<p><img src="/2019/06/16/Process Management(1)-dispatch/blog\source\_posts\新建文件夹\7.png" alt="7"></p>
+</li>
+</ul>
+<h4 id="3、信号量的使用"><a href="#3、信号量的使用" class="headerlink" title="3、信号量的使用"></a>3、信号量的使用</h4><p>伪代码：</p>
+<p><img src="/2019/06/16/Process Management(1)-dispatch/blog\source\_posts\新建文件夹\8.png" alt="8"></p>
+<blockquote>
+<p>若s.value&gt;0，则临界区资源可以被获取</p>
+<p>若s.value&lt;=0，则临界区满，需要排队获取</p>
+<p>实现互斥：s.value=1</p>
+<p>实现同步：s.value=0</p>
+</blockquote>
+<h5 id="1、-生产者与消费者问题"><a href="#1、-生产者与消费者问题" class="headerlink" title="1、 生产者与消费者问题"></a>1、 生产者与消费者问题</h5><p>特征：容器内的物品数量&lt;=容量</p>
+<p>分析：生产者关注剩余空间(emtpy)；消费者关注已占有空间(full)；互斥信号量mutex(用于影响容器大小的语句两端)</p>
+<p>有几个容器就需要几个互斥信号量mutex</p>
+<h5 id="2、读者与写者问题"><a href="#2、读者与写者问题" class="headerlink" title="2、读者与写者问题"></a>2、读者与写者问题</h5><p>特征：资源是否被占用；写者可写文件，但读者只能访问</p>
+<p>例：有读写两组进程共享一个文件，多个读者可同时访问文件，多个写者不能同时访问文件，读者和写者不能同时访问文件</p>
+<p><img src="/2019/06/16/Process Management(1)-dispatch/blog\source\_posts\新建文件夹\9.png" alt="9"></p>
+<h3 id="四、死锁"><a href="#四、死锁" class="headerlink" title="四、死锁"></a>四、死锁</h3><h4 id="1、相关概念-1"><a href="#1、相关概念-1" class="headerlink" title="1、相关概念"></a>1、相关概念</h4><ul>
+<li>死锁：两个或两个以上的进程(或线程)在执行过程中，因争夺资源而造成的一种互相等待的现象，若无外力作用，它们都无法推进下去</li>
+<li>活锁：两个线程，都很谦让，最后导致两个线程都无法获取资源</li>
+<li>饥饿：某个进程因为其他进程轮流占用CPU导致它很久无法占用CPU的情况</li>
+<li><p>死锁产生原因：</p>
+<ul>
+<li>应用程序层面：信号量使用不当</li>
+<li>OS内核程序层面：不可抢占软硬件资源(多进程对有限不可抢占资源的竞争，进程申请资源的推进顺序不合理</li>
+</ul>
+</li>
+<li><p>死锁产生的必要条件</p>
+<ul>
+<li>互斥条件：必须有临界资源</li>
+<li>占有并等待：一个进程必须占有一个资源，并等待另一资源，而该资源为其他进程所占有</li>
+<li>非抢占：资源不能被抢占</li>
+<li>循环等待：一组等待进程，每个进程所请求的资源都被另一个进程所占有</li>
+</ul>
+</li>
+<li><p>处理死锁的策略：预防死锁，避免死锁，检测与解除死锁</p>
+</li>
+<li><p>预防死锁：通过扼杀其产生的必要条件</p>
+<ul>
+<li>互斥：几乎行不通</li>
+<li>不可抢占：强行抢占某资源</li>
+<li>占有并等待：一次性把资源申请完</li>
+<li>循环等待：顺序资源分配法</li>
+</ul>
+</li>
+<li><p>死锁避免：银行家算法(规划合理的资源申请顺序，安全序列)</p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/OS/" rel="tag"># OS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/06/13/常用单词和词组整理/" rel="next" title="Common Words and Phrases">
+                <i class="fa fa-chevron-left"></i> Common Words and Phrases
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/16/jdbc/" rel="prev" title="JDBC编程">
+                JDBC编程 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/1.jpg" alt="linxd">
+            
+              <p class="site-author-name" itemprop="name">linxd</p>
+              <p class="site-description motion-element" itemprop="description">站在巨人的肩上</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/linxd1999" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、进程和线程"><span class="nav-text">一、进程和线程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、进程"><span class="nav-text">1、进程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、线程"><span class="nav-text">2、线程</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、进程调度-dispatch"><span class="nav-text">二、进程调度(dispatch)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、调度层次"><span class="nav-text">1、调度层次</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、调度准则"><span class="nav-text">2、调度准则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、调度算法"><span class="nav-text">3、调度算法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、先来先服务算法-FCFS"><span class="nav-text">1、先来先服务算法(FCFS)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2、-短作业优先调度算法-SJF"><span class="nav-text">2、 短作业优先调度算法(SJF)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3、高优先级调度算法"><span class="nav-text">3、高优先级调度算法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4、轮转法调度算法-RR"><span class="nav-text">4、轮转法调度算法(RR)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5、高响应比优先算法"><span class="nav-text">5、高响应比优先算法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6、多级反馈队列算法"><span class="nav-text">6、多级反馈队列算法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、同步与互斥"><span class="nav-text">三、同步与互斥</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、相关概念"><span class="nav-text">1、相关概念</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、实现互斥的方法"><span class="nav-text">2、实现互斥的方法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、硬件实现法"><span class="nav-text">1、硬件实现法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2、软件实现法"><span class="nav-text">2、软件实现法</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、信号量的使用"><span class="nav-text">3、信号量的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、-生产者与消费者问题"><span class="nav-text">1、 生产者与消费者问题</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2、读者与写者问题"><span class="nav-text">2、读者与写者问题</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、死锁"><span class="nav-text">四、死锁</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、相关概念-1"><span class="nav-text">1、相关概念</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">true</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
