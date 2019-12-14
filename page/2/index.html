@@ -242,6 +242,1124 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://linxd1999.github.io/2019/09/28/树的遍历/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="linxd">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/1.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="L">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/28/树的遍历/" itemprop="url">模拟函数栈实现非递归遍历二叉树</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-28T15:57:53+08:00">
+                2019-09-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="一-思想"><a href="#一-思想" class="headerlink" title="一.思想"></a>一.思想</h3><ul>
+<li>递归实现的遍历是基于函数栈的不断返回完成的，所以我们也可以用栈这个数据结构来模拟这种函数栈的返回</li>
+<li><p>这种方法可以实现前序，中序，后序遍历写出基本一致的代码，只不过入栈顺序不同</p>
+<ul>
+<li>使用颜色标记节点状态，新节点为白色，访问过的节点为灰色。白色意味着继续递归，灰色意味着在函数栈返回时可将该节点存入结果集中</li>
+<li>栈顶节点为白色，则将其标记为灰色，然后将其自身，左子节点，右子结点按指定顺序依次入栈</li>
+<li>栈顶节点为灰色，则将节点的值输出</li>
+</ul>
+</li>
+<li><p>例如前序遍历：前序遍历的顺序是根左右，所以入栈顺序就应该是右左根(基于栈的先进后出原则)</p>
+</li>
+</ul>
+<p>参考：<a href="https://leetcode-cn.com/problems/binary-tree-inorder-traversal/solution/yan-se-biao-ji-fa-yi-chong-tong-yong-qie-jian-ming/" target="_blank" rel="noopener">力扣题解</a></p>
+<p>代码：<a href="https://github.com/linxd1999/CodeExercise/tree/master/LeetCode" target="_blank" rel="noopener">代码仓库</a></p>
+<h3 id="二-实现代码"><a href="#二-实现代码" class="headerlink" title="二.实现代码"></a>二.实现代码</h3><ul>
+<li><p>前序遍历</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">enum</span> color&#123;</span><br><span class="line">		White,Grey;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="class"><span class="keyword">class</span> <span class="title">isRecursion</span></span>&#123;</span><br><span class="line">		color c;</span><br><span class="line">		TreeNode n;</span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="title">isRecursion</span><span class="params">(color c,TreeNode n)</span> </span>&#123;</span><br><span class="line">			<span class="keyword">this</span>.c = c;</span><br><span class="line">			<span class="keyword">this</span>.n = n;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125; </span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;Integer&gt; <span class="title">preorderTraversal</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        List&lt;Integer&gt; res = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">        Stack&lt;isRecursion&gt; s = <span class="keyword">new</span> Stack&lt;&gt;();</span><br><span class="line">        s.push(<span class="keyword">new</span> isRecursion(color.White,root));</span><br><span class="line">        <span class="keyword">while</span>(!s.isEmpty()) &#123;</span><br><span class="line">        	isRecursion temp = s.pop();</span><br><span class="line">        	<span class="keyword">if</span>(temp.n == <span class="keyword">null</span>) <span class="keyword">continue</span>;</span><br><span class="line">        	<span class="keyword">if</span>(temp.c == color.White) &#123;</span><br><span class="line">        		<span class="keyword">if</span>(temp.n.right != <span class="keyword">null</span>) s.push(<span class="keyword">new</span> isRecursion(color.White,temp.n.right));</span><br><span class="line">        		<span class="keyword">if</span>(temp.n.left != <span class="keyword">null</span>) s.push(<span class="keyword">new</span> isRecursion(color.White,temp.n.left));</span><br><span class="line">        		s.push(<span class="keyword">new</span> isRecursion(color.Grey,temp.n));</span><br><span class="line">        	&#125;<span class="keyword">else</span> &#123;</span><br><span class="line">        		res.add(temp.n.val);</span><br><span class="line">        	&#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>中序遍历</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">enum</span> color&#123;</span><br><span class="line">	    White,Grey;</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">isRecursion</span></span>&#123;</span><br><span class="line">		color c;</span><br><span class="line">		TreeNode n;</span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="title">isRecursion</span><span class="params">(color c,TreeNode n)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.c = c;</span><br><span class="line">		<span class="keyword">this</span>.n = n;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125; </span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;Integer&gt; <span class="title">inorderTraversal</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        List&lt;Integer&gt; res = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">        Stack&lt;isRecursion&gt; s = <span class="keyword">new</span> Stack&lt;&gt;();</span><br><span class="line">        s.push(<span class="keyword">new</span> isRecursion(color.White,root));</span><br><span class="line">        <span class="keyword">while</span>(!s.isEmpty()) &#123;</span><br><span class="line">        	isRecursion temp = s.pop();</span><br><span class="line">        	<span class="keyword">if</span>(temp.n == <span class="keyword">null</span>) <span class="keyword">continue</span>;</span><br><span class="line">        	<span class="keyword">if</span>(temp.c == color.White) &#123;</span><br><span class="line">        		<span class="keyword">if</span>(temp.n.right != <span class="keyword">null</span>) s.push(<span class="keyword">new</span> isRecursion(color.White,temp.n.right));</span><br><span class="line">        		s.push(<span class="keyword">new</span> isRecursion(color.Grey,temp.n));</span><br><span class="line">        		<span class="keyword">if</span>(temp.n.left != <span class="keyword">null</span>) s.push(<span class="keyword">new</span> isRecursion(color.White,temp.n.left));</span><br><span class="line">        	&#125;<span class="keyword">else</span> &#123;</span><br><span class="line">        		res.add(temp.n.val);</span><br><span class="line">        	&#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>后序遍历</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">enum</span> color&#123;</span><br><span class="line">		White,Grey;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="class"><span class="keyword">class</span> <span class="title">isRecursion</span></span>&#123;</span><br><span class="line">		color c;</span><br><span class="line">		TreeNode n;</span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="title">isRecursion</span><span class="params">(color c,TreeNode n)</span> </span>&#123;</span><br><span class="line">			<span class="keyword">this</span>.c = c;</span><br><span class="line">			<span class="keyword">this</span>.n = n;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125; </span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;Integer&gt; <span class="title">postorderTraversal</span><span class="params">(TreeNode root)</span> </span>&#123;</span><br><span class="line">        List&lt;Integer&gt; res = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">        Stack&lt;isRecursion&gt; s = <span class="keyword">new</span> Stack&lt;&gt;();</span><br><span class="line">        s.push(<span class="keyword">new</span> isRecursion(color.White,root));</span><br><span class="line">        <span class="keyword">while</span>(!s.isEmpty()) &#123;</span><br><span class="line">        	isRecursion temp = s.pop();</span><br><span class="line">        	<span class="keyword">if</span>(temp.n == <span class="keyword">null</span>) <span class="keyword">continue</span>;</span><br><span class="line">        	<span class="keyword">if</span>(temp.c == color.White) &#123;</span><br><span class="line">        		s.push(<span class="keyword">new</span> isRecursion(color.Grey,temp.n));</span><br><span class="line">        		<span class="keyword">if</span>(temp.n.right != <span class="keyword">null</span>) s.push(<span class="keyword">new</span> isRecursion(color.White,temp.n.right));</span><br><span class="line">        		<span class="keyword">if</span>(temp.n.left != <span class="keyword">null</span>) s.push(<span class="keyword">new</span> isRecursion(color.White,temp.n.left));</span><br><span class="line">        	&#125;<span class="keyword">else</span> &#123;</span><br><span class="line">        		res.add(temp.n.val);</span><br><span class="line">        	&#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://linxd1999.github.io/2019/09/21/HTML/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="linxd">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/1.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="L">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/21/HTML/" itemprop="url">未命名</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-21T20:59:48+08:00">
+                2019-09-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="HTML链接"><a href="#HTML链接" class="headerlink" title="HTML链接"></a>HTML链接</h3><ul>
+<li><p>a标签：<a></a></p>
+</li>
+<li><p>文本链接、图片链接</p>
+</li>
+<li><p>属性：</p>
+<p>href：指向另一个文档的链接</p>
+<p>name：创建文档内的链接（锚点链接：指向同一个页面内另一处文本段落的链接）</p>
+</li>
+<li><p>img标签属性：</p>
+<p>alt：替换文本属性</p>
+<p>width：宽(px)</p>
+<p>height：高(px)</p>
+</li>
+</ul>
+<h3 id="HTML表格"><a href="#HTML表格" class="headerlink" title="HTML表格"></a>HTML表格</h3><ul>
+<li><p>table标签：<table></table></p>
+</li>
+<li><p>属性：</p>
+<p>边框：border</p>
+<p>内间距：cellpadding        侧边距：cellspacing</p>
+<p>背景颜色：bgcolor          背景图片：background</p>
+</li>
+<li><p><td></td>：单元格</p>
+</li>
+<li><p><tr></tr>：表格行</p>
+</li>
+</ul>
+<h3 id="HTML列表"><a href="#HTML列表" class="headerlink" title="HTML列表"></a>HTML列表</h3><ul>
+<li><p>无序列表：使用标签<ul>、<li></li></ul></p>
+<p>属性：(type)disc、circle、square</p>
+</li>
+<li><p>有序列表：使用标签<ol>、<li></li></ol></p>
+<p>属性：(type)A、a、I、i</p>
+</li>
+<li><p>嵌套列表：使用标签<ul>、<ol>、<li></li></ol></ul></p>
+</li>
+<li><p>自定义列表：<dl>、<dt>、<dd></dd></dt></dl></p>
+</li>
+</ul>
+<h3 id="HTML块"><a href="#HTML块" class="headerlink" title="HTML块"></a>HTML块</h3><ul>
+<li><p>块元素：显示时以新行开始</p>
+<p>如</p><h1>、<p>、<ul></ul></p>
+</h1></li>
+<li><p>内联元素：通常不从新行开始</p>
+<p>如<b>、<a>、<img></a></b></p>
+</li>
+<li><p>div元素：组合html元素的容器，为大块内容提供结构和背景，其中所含元素的特性由div标签的属性来控制</p>
+</li>
+<li><p>span元素：内联元素，可做文本容器，一般用于改部分文本的样式</p>
+</li>
+</ul>
+<h3 id="div-section-article元素"><a href="#div-section-article元素" class="headerlink" title="div,section,article元素"></a>div,section,article元素</h3><ul>
+<li>这三个都是针对一块区域做布局的标签</li>
+<li>语义逐渐增强，可嵌套</li>
+<li>div本身无语义，用作布局及css样式化</li>
+<li>section用作一段有专题性的内容， 里面基本上会带有标题</li>
+<li>article用作一段独立的，完整的内容块</li>
+</ul>
+<h3 id="nav元素"><a href="#nav元素" class="headerlink" title="nav元素"></a>nav元素</h3><ul>
+<li>页面导航的链接组</li>
+<li>传统导航条，侧边栏导航，页内导航，翻页操作</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://linxd1999.github.io/2019/09/19/排序/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="linxd">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/1.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="L">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/19/排序/" itemprop="url">排序算法</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-19T10:11:38+08:00">
+                2019-09-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="一-冒泡排序"><a href="#一-冒泡排序" class="headerlink" title="一.冒泡排序"></a>一.冒泡排序</h3><ul>
+<li><p>冒泡排序实质上就是让相邻两个数比较，较大数向右走，每轮可以确定一个最大的数</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BubbleSort</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">int</span> arr[] = &#123;<span class="number">3</span>,<span class="number">9</span>,-<span class="number">1</span>,<span class="number">10</span>,-<span class="number">2</span>&#125;;</span><br><span class="line">		bubbleSort(arr);</span><br><span class="line">		System.out.println(Arrays.toString(arr));</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">bubbleSort</span><span class="params">(<span class="keyword">int</span> []arr)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">int</span> temp = <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">boolean</span> f = <span class="keyword">false</span>;</span><br><span class="line">		<span class="comment">//冒泡排序的时间复杂度:O(n^2)</span></span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; arr.length-<span class="number">1</span>; i++) &#123;</span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; arr.length-<span class="number">1</span>-i; j++) &#123;</span><br><span class="line">				<span class="keyword">if</span>(arr[j]&gt;arr[j+<span class="number">1</span>]) &#123;</span><br><span class="line">					f = <span class="keyword">true</span>;</span><br><span class="line">					temp = arr[j];</span><br><span class="line">					arr[j] = arr[j+<span class="number">1</span>];</span><br><span class="line">					arr[j+<span class="number">1</span>] = temp;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span>(f == <span class="keyword">false</span>) &#123;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			&#125;<span class="keyword">else</span> &#123;</span><br><span class="line">				f = <span class="keyword">false</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="二-选择排序"><a href="#二-选择排序" class="headerlink" title="二.选择排序"></a>二.选择排序</h3><ul>
+<li><p>选择排序的实质就是每轮选出一个最小的数放到数组的最前面</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SelectSort</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">int</span> arr[] = &#123;<span class="number">3</span>,<span class="number">9</span>,-<span class="number">1</span>,<span class="number">10</span>,-<span class="number">2</span>&#125;;</span><br><span class="line">		selectSort(arr);</span><br><span class="line">		System.out.println(Arrays.toString(arr));</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">selectSort</span><span class="params">(<span class="keyword">int</span> []arr)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; arr.length-<span class="number">1</span>; i++) &#123;</span><br><span class="line">			<span class="keyword">int</span> min = arr[i];</span><br><span class="line">			<span class="keyword">int</span> minIndex = i;</span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> j = i+<span class="number">1</span>;j&lt;arr.length; j++) &#123;</span><br><span class="line">				<span class="keyword">if</span>(min &gt; arr[j]) &#123;</span><br><span class="line">					min = arr[j];</span><br><span class="line">					minIndex = j;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span>(minIndex != i) &#123;</span><br><span class="line">				arr[minIndex] = arr[i];</span><br><span class="line">				arr[i] = min;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="三-插入排序"><a href="#三-插入排序" class="headerlink" title="三.插入排序"></a>三.插入排序</h3><ul>
+<li><p>插入排序就是把数组分成一个无序表和一个有序表，第一个有序表是第一个元素，然后每轮把后一个元素插入合适的位置使整个数组都变为有序表</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">InsertSort</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">int</span> arr[] = &#123;<span class="number">3</span>,<span class="number">9</span>,-<span class="number">1</span>,<span class="number">10</span>,-<span class="number">2</span>&#125;;</span><br><span class="line">		insertSort(arr);</span><br><span class="line">		System.out.println(Arrays.toString(arr));</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">insertSort</span><span class="params">(<span class="keyword">int</span> [] arr)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">int</span> insertVal = <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">int</span> insertIndex = <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; arr.length; i++) &#123;</span><br><span class="line">			insertVal = arr[i];</span><br><span class="line">			insertIndex = i-<span class="number">1</span>;</span><br><span class="line"><span class="comment">//			给insertVal找插入的位置</span></span><br><span class="line">			<span class="keyword">while</span>(insertIndex &gt;= <span class="number">0</span> &amp;&amp; insertVal &lt; arr[insertIndex]) &#123;</span><br><span class="line">				arr[insertIndex+<span class="number">1</span>] = arr[insertIndex];</span><br><span class="line">				insertIndex--;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="comment">//当退出循环时，插入位置找到,insertIndex+1</span></span><br><span class="line">			<span class="keyword">if</span>(insertIndex+<span class="number">1</span> != i) &#123;</span><br><span class="line">				arr[insertIndex+<span class="number">1</span>] = insertVal;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="四-希尔排序"><a href="#四-希尔排序" class="headerlink" title="四.希尔排序"></a>四.希尔排序</h3><ul>
+<li><p>插入排序中，小的数如果在很后面的话，每次都要移动很长的距离</p>
+</li>
+<li><p>所以为了解决这个问题，希尔排序使用了一种增量，每次排序都在宏观上把小数往前移，可以使较小的数都出现在数组前部，然后每轮缩小增量直至增量为1。</p>
+</li>
+<li><p>分为交换式和移位式，移位式效率更高。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ShellSort</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">int</span> arr[] = &#123; <span class="number">8</span>, <span class="number">9</span>, <span class="number">1</span>, <span class="number">7</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">4</span>, <span class="number">6</span>, <span class="number">0</span> &#125;;</span><br><span class="line">		<span class="comment">//shellSort1(arr);</span></span><br><span class="line">		<span class="comment">//shellSort2(arr);</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 交换式</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">shellSort1</span><span class="params">(<span class="keyword">int</span>[] arr)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">int</span> temp = <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> gap = arr.length / <span class="number">2</span>; gap &gt; <span class="number">0</span>; gap /= <span class="number">2</span>) &#123;</span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> i = gap; i &lt; arr.length; i++) &#123;</span><br><span class="line">				<span class="keyword">for</span> (<span class="keyword">int</span> j = i - gap; j &gt;= <span class="number">0</span>; j -= gap) &#123;</span><br><span class="line">					<span class="keyword">if</span> (arr[j] &gt; arr[j + gap]) &#123;</span><br><span class="line">						temp = arr[j];</span><br><span class="line">						arr[j] = arr[gap + j];</span><br><span class="line">						arr[gap + j] = temp;</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			System.out.println(Arrays.toString(arr));</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 移位式</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">shellSort2</span><span class="params">(<span class="keyword">int</span>[] arr)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">int</span> temp = <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> gap = arr.length / <span class="number">2</span>; gap &gt; <span class="number">0</span>; gap /= <span class="number">2</span>) &#123;</span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> i = gap; i &lt; arr.length; i++) &#123;</span><br><span class="line">				<span class="keyword">int</span> j = i;</span><br><span class="line">				temp = arr[i];</span><br><span class="line">				<span class="keyword">if</span> (arr[j] &lt; arr[j - gap]) &#123;</span><br><span class="line">					<span class="keyword">while</span> (j - gap &gt;= <span class="number">0</span> &amp;&amp; temp &lt; arr[j - gap]) &#123;</span><br><span class="line">						arr[j] = arr[j - gap];</span><br><span class="line">						j -= gap;</span><br><span class="line">					&#125;</span><br><span class="line">					arr[j] = temp;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			System.out.println(Arrays.toString(arr));</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://linxd1999.github.io/2019/09/04/Collection集合/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="linxd">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/1.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="L">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/04/Collection集合/" itemprop="url">未命名</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-04T22:01:18+08:00">
+                2019-09-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="Collection集合"><a href="#Collection集合" class="headerlink" title="Collection集合"></a>Collection集合</h3><ul>
+<li><p>集合中只能保存对象的引用变量</p>
+<p>List子接口：有序，可重复集合(ArrayList、LinkedList、Vector)</p>
+<p>Set子接口：无序，不可重复集合(HashSet、LinkedHashSet、TreeSet)</p>
+<p>Queue子接口：先进先出队列</p>
+</li>
+<li><p>Lambda表达式遍历集合</p>
+<p>Connection接口继承了Iterable接口</p>
+<p>Java8新增了一个forEach(Consumer action)方法，参数是消费者(函数式接口)</p>
+<p>程序将元素依次传给Consumer的accept()，该方法是接口中唯一的抽象方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">list.add(<span class="string">"hello"</span>);</span><br><span class="line">list.add(<span class="string">"world"</span>);</span><br><span class="line">list.add(<span class="string">"java"</span>);</span><br><span class="line">list.forEach(obj-&gt;System.out.println(obj));</span><br></pre></td></tr></table></figure>
+<p>类似，Iterator的forEachRemaining(Consumer action)同样可以使用lambda表达式遍历迭代器</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">it.forEachRemaining(obj-&gt;System.out.println(obj));</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="List集合"><a href="#List集合" class="headerlink" title="List集合"></a>List集合</h3><ul>
+<li><p>特点：有序、可重复</p>
+</li>
+<li><p>新增方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">list.add(<span class="string">"hello"</span>);</span><br><span class="line">list.add(<span class="string">"world"</span>);</span><br><span class="line">list.add(<span class="string">"java"</span>);</span><br><span class="line"><span class="comment">//在指定位置添加指定元素</span></span><br><span class="line">list.add(<span class="number">1</span>, <span class="string">"a"</span>);</span><br><span class="line"><span class="comment">//删除指定位置元素，返回被删除的元素</span></span><br><span class="line">System.out.println(list.remove(<span class="number">2</span>));</span><br><span class="line"><span class="comment">//修改指定位置的元素，返回被修改的元素</span></span><br><span class="line">System.out.println(list.set(<span class="number">2</span>, <span class="string">"javase"</span>));</span><br><span class="line"><span class="comment">//返回指定索引处的元素</span></span><br><span class="line">System.out.println(list.get(<span class="number">2</span>));</span><br><span class="line">System.out.println(list);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>并发修改异常(ConcurrentModificationException)</p>
+<p>产生原因：迭代器遍历过程中，通过集合对象修改了集合中元素的长度导致的迭代器获取元素中预期修改值和实际修改值不一致</p>
+<p>解决：用for循环替代迭代遍历，用get()获取元素</p>
+</li>
+<li><p>ListIterator</p>
+<p>List特有的迭代器</p>
+<p>可从任一方向遍历集合</p>
+<p>新增add()方法，且底层经过优化，在迭代遍历中用迭代器增加集合内的元素不会抛出并发修改异常。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(it.hasPrevious()) &#123;</span><br><span class="line">	String s = (String)it.previous();</span><br><span class="line">	System.out.println(s);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>增强for循环实际上还是Iterator，迭代时也不能修改元素长度</p>
+</li>
+<li><p>LinkedList集合</p>
+<p>特有方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addFirst</span><span class="params">(E e)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addLast</span><span class="params">(E e)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> E <span class="title">getFirst</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> E <span class="title">getLast</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> E <span class="title">removeFirst</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> E <span class="title">removeLast</span><span class="params">()</span></span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="Set集合"><a href="#Set集合" class="headerlink" title="Set集合"></a>Set集合</h3><ul>
+<li><p>特点：无序，不可重复</p>
+</li>
+<li><p>没有带索引的方法，不能用普通for循环遍历</p>
+</li>
+<li><p>哈希值：JDK根据对象的地址或者字符串或者数字算出来的int值</p>
+<p>同一个对象多次调用hashCode()方法返回相同哈希值</p>
+<p>默认情况下，不同对象的哈希值不同，可通过重写hashCode()方法，可以实现让不同对象的哈希值相同</p>
+</li>
+<li><p>HashSet集合</p>
+<p>底层数据结构是HashMap，由数组和链表构成</p>
+<p>存取顺序不做保证</p>
+<p>保证元素唯一性：存入元素和以前元素比较哈希值</p>
+<ul>
+<li><p>如果哈希值不同，继续执行，把元素添加入集合</p>
+</li>
+<li><p>如果哈希值相同，调用equals()方法比较</p>
+<p>返回false，继续执行，把元素添加到集合</p>
+<p>返回true，说明元素重复，不存储</p>
+</li>
+</ul>
+<p>要保证元素唯一性，需要重写hashCode()和equals()</p>
+</li>
+<li><p>LinkedHashSet</p>
+<p>哈希表和链表构成，元素有次序</p>
+<p>元素不可重复</p>
+</li>
+<li><p>TreeSet</p>
+<p>元素会按照一定的规则排序，取决于构造方法</p>
+<p>TreeSet()：自然排序</p>
+<p>TreeSet(Comparator comparator)：根据指定的比较器进行排序</p>
+</li>
+</ul>
+<ul>
+<li><p>自然排序Comparable</p>
+<p>元素所属类实现Comparable接口，重写compareTo(T o)方法</p>
+<p>重写方法必须注意按照要求的主要和次要条件来写</p>
+<p>compareTo()方法有this，this在前面表示升序</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.TreeSet;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TreeSetDemo</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		TreeSet&lt;Student&gt; ts = <span class="keyword">new</span> TreeSet&lt;&gt;();</span><br><span class="line">		Student s1 = <span class="keyword">new</span> Student(<span class="string">"a"</span>,<span class="number">29</span>);</span><br><span class="line">		Student s2 = <span class="keyword">new</span> Student(<span class="string">"c"</span>,<span class="number">28</span>);</span><br><span class="line">		Student s3 = <span class="keyword">new</span> Student(<span class="string">"d"</span>,<span class="number">30</span>);</span><br><span class="line">		Student s4 = <span class="keyword">new</span> Student(<span class="string">"b"</span>,<span class="number">33</span>);</span><br><span class="line">		Student s5 = <span class="keyword">new</span> Student(<span class="string">"c"</span>,<span class="number">33</span>);</span><br><span class="line">		ts.add(s1);</span><br><span class="line">		ts.add(s2);</span><br><span class="line">		ts.add(s3);</span><br><span class="line">		ts.add(s4);</span><br><span class="line">		ts.add(s5);</span><br><span class="line">		ts.forEach(obj-&gt;System.out.println(obj.getName()+<span class="string">" "</span>+obj.getAge()));</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span> <span class="keyword">implements</span> <span class="title">Comparable</span>&lt;<span class="title">Student</span>&gt;</span>&#123;</span><br><span class="line">	<span class="keyword">private</span> String name;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Student</span><span class="params">(String name,<span class="keyword">int</span> age)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.name = name;</span><br><span class="line">		<span class="keyword">this</span>.age = age;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> name;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getAge</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> age;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compareTo</span><span class="params">(Student o)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">int</span> num = <span class="keyword">this</span>.age-o.age;</span><br><span class="line">		<span class="keyword">int</span> num2 = num==<span class="number">0</span> ? <span class="keyword">this</span>.name.compareTo(o.name) : num;</span><br><span class="line">		<span class="keyword">return</span> num2;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>比较器排序Comparator</p>
+<p>重写Comparator的compare(T o1,T o2)方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TreeSetDemo</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		TreeSet&lt;Student&gt; ts = <span class="keyword">new</span> TreeSet&lt;&gt;(<span class="keyword">new</span> Comparator&lt;Student&gt;() &#123;</span><br><span class="line"></span><br><span class="line">			<span class="meta">@Override</span></span><br><span class="line">			<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compare</span><span class="params">(Student o1, Student o2)</span> </span>&#123;</span><br><span class="line">				<span class="keyword">int</span> num = o1.getAge()-o2.getAge();</span><br><span class="line">				<span class="keyword">int</span> num2 = num==<span class="number">0</span> ? o1.getName().compareTo(o2.getName()) : num;</span><br><span class="line">				<span class="keyword">return</span> num2;</span><br><span class="line">			&#125;</span><br><span class="line">			</span><br><span class="line">		&#125;);</span><br><span class="line">		Student s1 = <span class="keyword">new</span> Student(<span class="string">"a"</span>,<span class="number">29</span>);</span><br><span class="line">		Student s2 = <span class="keyword">new</span> Student(<span class="string">"c"</span>,<span class="number">28</span>);</span><br><span class="line">		Student s3 = <span class="keyword">new</span> Student(<span class="string">"d"</span>,<span class="number">30</span>);</span><br><span class="line">		Student s4 = <span class="keyword">new</span> Student(<span class="string">"b"</span>,<span class="number">33</span>);</span><br><span class="line">		Student s5 = <span class="keyword">new</span> Student(<span class="string">"c"</span>,<span class="number">33</span>);</span><br><span class="line">		ts.add(s1);</span><br><span class="line">		ts.add(s2);</span><br><span class="line">		ts.add(s3);</span><br><span class="line">		ts.add(s4);</span><br><span class="line">		ts.add(s5);</span><br><span class="line">		ts.forEach(obj-&gt;System.out.println(obj.getName()+<span class="string">" "</span>+obj.getAge()));</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> String name;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Student</span><span class="params">(String name,<span class="keyword">int</span> age)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.name = name;</span><br><span class="line">		<span class="keyword">this</span>.age = age;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> name;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getAge</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> age;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="Map集合"><a href="#Map集合" class="headerlink" title="Map集合"></a>Map集合</h3><ul>
+<li>将键映射到值的对象，不能包含重复键，键可以映射最多一个值</li>
+<li>添加元素时，如果键一样，值会被覆盖</li>
+<li></li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://linxd1999.github.io/2019/08/30/String、StringBuffer、StringBuilder类/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="linxd">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/1.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="L">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/30/String、StringBuffer、StringBuilder类/" itemprop="url">String、StringBuffer、StringBuilder类</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-30T23:12:26+08:00">
+                2019-08-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="一-字符串常量池"><a href="#一-字符串常量池" class="headerlink" title="一.字符串常量池"></a>一.字符串常量池</h3><p>字符串常量池属于Java的静态常量池，即.class文件中的常量池，占用class文件的大部分空间，还保存一些类、方法、接口中的常量。</p>
+<p>String.intern()方法：查找常量池中是否存在该字符串，若存在则返回字符串的引用，若不存在则把该字符串添加进常量池并返回引用。</p>
+<ul>
+<li><p>“abc”和new String(“abc”)的区别</p>
+<p>在编译时候就能计算出的字符串值，JVM用常量池管理这些字符串</p>
+<p>new一个字符串时，先用常量池管理该字符串，然后再用构造器创建一个新String对象，保存在堆内存中，共产生两个对象</p>
+</li>
+</ul>
+<p>常量池保证相同的字符串直接量只有一个，可以多个引用指向同一个常量。</p>
+<p>常量池避免频繁创建销毁对象，实现对象共享，节省内存和运行时间。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">String s1 = <span class="string">"abc"</span>;</span><br><span class="line">String s2 = <span class="string">"ab"</span> + <span class="string">"c"</span>;</span><br><span class="line">String s3 = <span class="string">"ab"</span>;</span><br><span class="line">String s4 = <span class="string">"c"</span>;</span><br><span class="line">String s5 = s3 + s4;</span><br><span class="line">String s6 = <span class="keyword">new</span> String(<span class="string">"abc"</span>);</span><br><span class="line">System.out.println(s1 == s2);<span class="comment">//true</span></span><br><span class="line">System.out.println(s1 == s5);<span class="comment">//false</span></span><br><span class="line">System.out.println(s1 == s5.intern());<span class="comment">//true</span></span><br><span class="line">System.out.println(s1 == s6);<span class="comment">//false</span></span><br></pre></td></tr></table></figure>
+<p>==表示比较两个引用变量指向的地址。</p>
+<p>s1 == s2：编译器会在编译期间自动把已知字符串拼接好，并放入常量池</p>
+<p>s1 != s5：s5不能在编译期间确定，地址不能确定</p>
+<p>s1 == s5.intern()：intern方法检测出s5内容存在于常量池中，返回字符串引用</p>
+<p>s1 != s6：构造器生成的字符串编译时地址不能确定</p>
+<h3 id="二-StringBuffer和StringBuilder"><a href="#二-StringBuffer和StringBuilder" class="headerlink" title="二.StringBuffer和StringBuilder"></a>二.StringBuffer和StringBuilder</h3><p>StringBuffer对象是一个字符序列可变的字符串</p>
+<p>StringBuilder是JDK1.5之后新增的类，操作和StringBuffer基本一样</p>
+<p>这两个类都解决了大量拼接字符串时产生很多中间对象而影响性能的问题</p>
+<p>区别：StringBuffer线程安全，效率低；StringBuilder线程不安全，效率高，所以StringBuilder使用的多，尤其是单线程应用。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">StringBuilder sb = <span class="keyword">new</span> StringBuilder();</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">26</span>; i++) &#123;</span><br><span class="line">	sb.append((<span class="keyword">char</span>)(<span class="string">'a'</span>+i));</span><br><span class="line">&#125;</span><br><span class="line">System.out.println(sb);<span class="comment">//abcdefghijklmnopqrstuvwxyz</span></span><br><span class="line">System.out.println(sb.hashCode());<span class="comment">//664740647</span></span><br><span class="line">sb.reverse();</span><br><span class="line">System.out.println(sb);<span class="comment">//zyxwvutsrqponmlkjihgfedcba</span></span><br><span class="line">System.out.println(sb.hashCode());<span class="comment">//664740647</span></span><br><span class="line">sb.setCharAt(<span class="number">0</span>, <span class="string">'A'</span>);</span><br><span class="line">System.out.println(sb);<span class="comment">//Ayxwvutsrqponmlkjihgfedcba</span></span><br><span class="line">sb.insert(<span class="number">1</span>, <span class="string">"bcd"</span>);</span><br><span class="line">System.out.println(sb);<span class="comment">//Abcdyxwvutsrqponmlkjihgfedcba</span></span><br><span class="line">sb.delete(<span class="number">0</span>, <span class="number">4</span>);</span><br><span class="line">System.out.println(sb);<span class="comment">//yxwvutsrqponmlkjihgfedcba</span></span><br></pre></td></tr></table></figure>
+<p>几个常用方法：</p>
+<p>append()：追加</p>
+<p>reverse()：倒序</p>
+<p>setCharAt()：修改某位置字符</p>
+<p>setLength()：设置字符串长度</p>
+<p>insert()：在某位置添加字符或字符串</p>
+<p>delete()：删除某位置的字符</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://linxd1999.github.io/2019/08/25/面向对象(类、继承、多态)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="linxd">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/1.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="L">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/25/面向对象(类、继承、多态)/" itemprop="url">面向对象(类、继承、多态)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-25T00:46:55+08:00">
+                2019-08-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="一-类、对象、引用、指针"><a href="#一-类、对象、引用、指针" class="headerlink" title="一. 类、对象、引用、指针"></a>一. 类、对象、引用、指针</h3><h4 id="1-引用变量及内存分析"><a href="#1-引用变量及内存分析" class="headerlink" title="1.引用变量及内存分析"></a>1.引用变量及内存分析</h4><p>众所周知Java没有指针，但实际上Java的引用就相当于指针，只不过把这个指针封装起来，避免其繁琐的操作。</p>
+<p>例如Person p = new Person()，这行代码创建了一个实例，实际上，p作为一个引用变量(只存放对象地址)存放在调用这行代码的方法栈中，而Person作为一个对象被存放在堆内存中，然后引用变量p指向堆里的Person。Java程序不允许直接访问堆内对象，只能通过引用变量来访问。若堆内的对象没有任何引用变量指向它，则这个对象会被GC回收，反之，若想让GC回收某对象，只需要切断所有引用变量跟这个对象的联系即可。</p>
+<h4 id="2-this关键字"><a href="#2-this关键字" class="headerlink" title="2.this关键字"></a>2.this关键字</h4><p>this关键字总是指向调用该方法的对象，其最大的作用就是让类里的一个方法调用类里的另外一个方法或者实例变量。</p>
+<p>Java允许对象的一个成员直接调用另一个成员可以忽略this前缀。</p>
+<h4 id="3-static关键字"><a href="#3-static关键字" class="headerlink" title="3.static关键字"></a>3.static关键字</h4><p>static关键字的真正作用：区分成员变量，方法，内部类是属于类本身还是属于类的实例</p>
+<p>有static修饰的成员属于类本身，没有static修饰的成员属于类的实例。</p>
+<p>因为static成员属于类本身，所以调用static成员是什么实例并不明确，所以不能在static方法内使用this关键字、super关键字。</p>
+<p>方法以this作为返回值：可以在一行代码中多次连续调用该方法。</p>
+<h4 id="4-参数传递机制"><a href="#4-参数传递机制" class="headerlink" title="4.参数传递机制"></a>4.参数传递机制</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">	<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Swap</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> a,b;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Swap</span><span class="params">(<span class="keyword">int</span> a,<span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.a = a;</span><br><span class="line">		<span class="keyword">this</span>.b = b;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">swap</span><span class="params">(Swap temp)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">int</span> tmp = temp.a;</span><br><span class="line">		temp.a = temp.b;</span><br><span class="line">		temp.b = tmp;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span> </span>&#123;</span><br><span class="line">		Swap s = <span class="keyword">new</span> Swap(<span class="number">3</span>,<span class="number">4</span>);</span><br><span class="line">		swap(s);</span><br><span class="line">		System.out.println(s.a+<span class="string">" "</span>+s.b);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>首先在main函数内，main函数的栈内存放了引用变量s，指向堆内存的对象Swap；swap函数传入一个形参temp也指向堆内存里的Swap对象。所以两个引用变量都指向堆内存中的对象，只要操作一个引用变量，堆内存中对象的数据就会改变，所以数据交换可以成功。</p>
+<h4 id="5-成员变量、局部变量"><a href="#5-成员变量、局部变量" class="headerlink" title="5.成员变量、局部变量"></a>5.成员变量、局部变量</h4><p>成员变量：不被static修饰的实例变量，被static修饰的类变量</p>
+<p>局部变量：形参，方法中的变量，代码块中的变量</p>
+<h4 id="6-访问控制符"><a href="#6-访问控制符" class="headerlink" title="6.访问控制符"></a>6.访问控制符</h4><p>private：当前类访问权限</p>
+<p>default：包访问权限，可被相同包下的其他类访问</p>
+<p>protected：子类访问权限，可被不同包中的子类访问</p>
+<p>public：公共访问权限，可被所有类访问</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://linxd1999.github.io/2019/08/10/正则表达式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="linxd">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/1.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="L">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/10/正则表达式/" itemprop="url">正则表达式</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-10T01:17:13+08:00">
+                2019-08-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="一、定义和规则"><a href="#一、定义和规则" class="headerlink" title="一、定义和规则"></a>一、定义和规则</h3><ul>
+<li><p>定义：正则表达式是一个非常强大的字符串处理工具，能对字符串进行查找，提取，分割，替换等操作</p>
+</li>
+<li><p>常用的正则表达式支持字符</p>
+<p>裸字符：除了特殊字符，都可以直接匹配</p>
+<p>\uhhhh：Unicode万国码</p>
+<p>()：标记子表达式的位置</p>
+<p>[]：枚举或范围</p>
+<p>{}：字符的出现频率</p>
+<p>*：前面子表达式可以出现0或多次，相当于{0,}</p>
+<p>+：前面子表达式可以出现1或多次，相当于{1,}</p>
+<p>?：前面子表达式可以出现0或1次，相当于{0,1}</p>
+<p>. ：匹配所有除了换行以外的字符</p>
+<p>|：或</p>
+<p>d是digit，s是space，w是word</p>
+<p>\d：匹配0-9的所有数字，\D是其补集</p>
+<p>\s：匹配空白字符，包括空格，回车，制表，换页等，\S是其补集</p>
+<p>\w：匹配所有单词字符，包含数字，英文字母，下划线，\W是其补集</p>
+<p>-：范围符</p>
+<p>[^]：求否</p>
+</li>
+</ul>
+<h3 id="二、使用"><a href="#二、使用" class="headerlink" title="二、使用"></a>二、使用</h3><p>需要使用Pattern类和Matcher类</p>
+<p>import java.util.regex.Matcher;<br>import java.util.regex.Pattern;</p>
+<ul>
+<li><p>Pattern对象是正则表达式编译后在内存中的表示形式，多个Matcher对象可以共享一个Pattern对象</p>
+</li>
+<li><p>Matcher是匹配器，需要调用Pattern的matcher()结果来执行匹配</p>
+<p>常用方法如下：</p>
+<p>find()：是否包含与正则表达式匹配的子串</p>
+<p>group()：返回上一次匹配的子串</p>
+<p>start()：返回上一次匹配的子串起始位置</p>
+<p>end()：返回上一次匹配的子串结束位置+1</p>
+<p>matches()：整个目标字符串与正则表达式是否匹配</p>
+<p>reset()：重置匹配器，并可以启用新的需要匹配的字符串</p>
+</li>
+</ul>
+<p>例1：分离字符串中的整数</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Matcher m = Pattern.compile(<span class="string">"\\d+"</span>).matcher(<span class="string">"&lt;10|100&gt;"</span>);</span><br><span class="line"><span class="keyword">while</span>(m.find()) &#123;</span><br><span class="line">	System.out.println(m.group());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>例2：判断邮箱正确性</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">String [] mails = &#123;</span><br><span class="line">		<span class="string">"lxd1999@qq.com"</span>,</span><br><span class="line">		<span class="string">"lxd1999@163.com"</span>,</span><br><span class="line">		<span class="string">"lxd1999@gmail.cn"</span>,</span><br><span class="line">		<span class="string">"as@qq.ws"</span></span><br><span class="line">&#125;;</span><br><span class="line">String RegEx = <span class="string">"\\w&#123;3,20&#125;@\\w+\\.(com|cn)"</span>;</span><br><span class="line">Pattern p = Pattern.compile(RegEx);</span><br><span class="line">Matcher m = <span class="keyword">null</span>;</span><br><span class="line"><span class="keyword">for</span>(String temp : mails) &#123;</span><br><span class="line">	<span class="keyword">if</span>(m==<span class="keyword">null</span>) &#123;</span><br><span class="line">		m = p.matcher(temp);</span><br><span class="line">	&#125;<span class="keyword">else</span> &#123;</span><br><span class="line">		m.reset(temp);	</span><br><span class="line">	&#125;</span><br><span class="line">	System.out.println(temp+(m.matches()?<span class="string">"是"</span>:<span class="string">"不是"</span>)+<span class="string">"一个有效的邮件地址"</span>);	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://linxd1999.github.io/2019/07/16/jdbc/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1039,262 +2157,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://linxd1999.github.io/2019/05/28/Hexo博客框架+GitHub部署/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="linxd">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/1.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="L">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/05/28/Hexo博客框架+GitHub部署/" itemprop="url">Hexo博客框架+GitHub部署</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-28T19:27:58+08:00">
-                2019-05-28
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h3 id="特别感谢up主CodeSheep的视频教程-原视频请点击"><a href="#特别感谢up主CodeSheep的视频教程-原视频请点击" class="headerlink" title="特别感谢up主CodeSheep的视频教程, 原视频请点击"></a>特别感谢up主CodeSheep的视频教程, <a href="https://www.bilibili.com/video/av44544186" target="_blank" rel="noopener">原视频请点击</a></h3><h3 id="Step1：-安装Node-js"><a href="#Step1：-安装Node-js" class="headerlink" title="Step1： 安装Node.js"></a>Step1： 安装Node.js</h3><p>Node.js官网下载: <a href="https://nodejs.org/en/download/" target="_blank" rel="noopener">https://nodejs.org/en/download/</a></p>
-<h3 id="Step2：-安装Git"><a href="#Step2：-安装Git" class="headerlink" title="Step2： 安装Git"></a>Step2： 安装Git</h3><p>Git是一个开源的分布式版本控制系统，是为了帮助管理Linux内核开发而开发的版本控制软件。</p>
-<p>Git官网下载: <a href="https://www.git-scm.com/download/" target="_blank" rel="noopener">https://www.git-scm.com/download/</a></p>
-<p>安装完之后鼠标右击会出现Git Bash Here， 这就相当于Linux终端，我们等会对博客的操作也都是在这里完成。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/05/28/Hexo博客框架+GitHub部署/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://linxd1999.github.io/2019/05/17/记录一些好用的网站/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="linxd">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/1.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="L">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/05/17/记录一些好用的网站/" itemprop="url">记录一些好用的网站</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-17T22:25:08+08:00">
-                2019-05-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>1、高清电脑壁纸(wallhaven)：<a href="https://alpha.wallhaven.cc/" target="_blank" rel="noopener">https://alpha.wallhaven.cc/</a></p>
-<p>2、在线作图(ProcessOn)：<a href="https://www.processon.com/" target="_blank" rel="noopener">https://www.processon.com/</a></p>
-<p>3、GitHub(面向开源及私有软件项目的托管平台)：<a href="https://github.com/" target="_blank" rel="noopener">https://github.com/</a></p>
-<p>4、Java学习：<a href="http://how2j.cn/" target="_blank" rel="noopener">http://how2j.cn/</a></p>
-<p>5、Linux命令行学习：<a href="http://linuxcommand.org/" target="_blank" rel="noopener">http://linuxcommand.org/</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1342,7 +2209,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">21</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1355,7 +2222,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
