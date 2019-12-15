@@ -93,7 +93,7 @@
 <meta property="og:image" content="https://linxd1999.github.io/2019/12/14/B树/blog/source/_posts/B树/overflow.png">
 <meta property="og:image" content="https://linxd1999.github.io/2019/12/14/B树/blog/source/_posts/B树/underflow1.png">
 <meta property="og:image" content="https://linxd1999.github.io/2019/12/14/B树/blog/source/_posts/B树/underflow2.png">
-<meta property="og:updated_time" content="2019-12-14T01:42:26.733Z">
+<meta property="og:updated_time" content="2019-12-14T13:22:59.298Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="B树">
 <meta name="twitter:description" content="一.B树1.概念 B树：平衡的多路搜索树，多用于文件系统、数据库的实现(也叫B-树) 特点： 一个节点可以存储超过两个元素，可以拥有超过两个子节点 拥有二叉平衡搜索树的一些性质 所有节点高度一致 比较矮   B树和二叉搜索树，在逻辑上等价 多代节点合并，获得一个超级节点 2代合并的超级节点，最多拥有4个子节点(至少是4阶B树) 3代合并的超级节点，最多拥有8个子节点(至少是8阶B树)    2.m">
@@ -279,7 +279,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-14T09:42:26+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-14T21:22:59+08:00">
                 2019-12-14
               </time>
             
@@ -369,13 +369,14 @@
 </ul>
 <p><img src="/2019/12/14/B树/blog\source\_posts\B树\overflow.png" alt="overflow"></p>
 <h4 id="4-删除"><a href="#4-删除" class="headerlink" title="4.删除"></a>4.删除</h4><ul>
-<li>删除叶子节点：直接删除即可</li>
+<li>删除叶子节点：在满足节点元素的个数的前提下直接删除即可</li>
 <li>删除非叶子节点<ul>
 <li>找到前驱或后继元素，覆盖所需删除元素的值</li>
 <li>删除前驱或后继元素</li>
 <li>非叶子节点的前驱或后继，必定在叶子节点中(实际还是删除叶子节点)</li>
 </ul>
 </li>
+<li>删除节点后，可能发生下溢</li>
 </ul>
 <h4 id="5-下溢"><a href="#5-下溢" class="headerlink" title="5.下溢"></a>5.下溢</h4><ul>
 <li>下溢：节点元素数量等于ceiling(m/2)-2</li>
@@ -428,8 +429,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/12/14/AVL树/" rel="next" title="AVL树">
-                <i class="fa fa-chevron-left"></i> AVL树
+              <a href="/2019/12/14/面向对象(类、继承、多态)/" rel="next" title="面向对象(类、继承、多态)">
+                <i class="fa fa-chevron-left"></i> 面向对象(类、继承、多态)
               </a>
             
           </div>
@@ -438,8 +439,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/12/14/二叉树/" rel="prev" title="二叉树">
-                二叉树 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/12/15/红黑树/" rel="prev" title="红黑树">
+                红黑树 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -519,7 +520,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-count">22</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -532,7 +533,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
