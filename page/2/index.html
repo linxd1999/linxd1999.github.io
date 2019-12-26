@@ -242,7 +242,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://linxd1999.github.io/2019/12/14/二叉树/">
+    <link itemprop="mainEntityOfPage" href="https://linxd1999.github.io/2019/12/15/Java常用类/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="linxd">
@@ -261,7 +261,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/12/14/二叉树/" itemprop="url">二叉树</a></h1>
+                <a class="post-title-link" href="/2019/12/15/Java常用类/" itemprop="url">Java常用类</a></h1>
         
 
         <div class="post-meta">
@@ -273,448 +273,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-14T20:25:35+08:00">
-                2019-12-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="重构二叉树"><a href="#重构二叉树" class="headerlink" title="重构二叉树"></a>重构二叉树</h3><ul>
-<li>前序遍历+中序遍历</li>
-<li>后序遍历+中序遍历</li>
-<li>真二叉树(没有度为1的节点)，结果唯一</li>
-</ul>
-<h3 id="前驱节点，后继节点"><a href="#前驱节点，后继节点" class="headerlink" title="前驱节点，后继节点"></a>前驱节点，后继节点</h3><h4 id="1-前驱节点"><a href="#1-前驱节点" class="headerlink" title="1.前驱节点"></a>1.前驱节点</h4><ul>
-<li><p>前驱节点(predecessor)：中序遍历的前一个节点</p>
-<ul>
-<li>二叉搜索树，前驱节点就是前一个比他小的节点</li>
-</ul>
-</li>
-<li><p>寻找前驱节点</p>
-<ul>
-<li>node.left != null，predecessor=node.left.right.right…(终止条件：right为null)</li>
-<li>node.left == null &amp;&amp; node.parent !=null，predecessor=node.parent.parent…(终止条件：node在parent的右子树中)</li>
-<li>node.left == null &amp;&amp; node.parent ==null，没有前驱节点</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Node&lt;E&gt; <span class="title">predecessor</span><span class="params">(Node&lt;E&gt; node)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(node == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    <span class="comment">//前驱节点在左子树中(left.right.right.right...)</span></span><br><span class="line">    <span class="keyword">if</span> (node.left!=<span class="keyword">null</span>)&#123;</span><br><span class="line">        Node&lt;E&gt; p = node.left;</span><br><span class="line">        <span class="keyword">while</span> (p.right!=<span class="keyword">null</span>)&#123;</span><br><span class="line">            p = p.right;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> p;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//从父节点，祖父节点中寻找前驱节点</span></span><br><span class="line">    <span class="keyword">while</span> (node.parent!=<span class="keyword">null</span> &amp;&amp; node == node.parent.left)&#123;</span><br><span class="line">        node = node.parent;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//node.parent == null</span></span><br><span class="line">    <span class="comment">//node == node.parent.right</span></span><br><span class="line">    <span class="keyword">return</span> node.parent;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h4 id="2-后继节点"><a href="#2-后继节点" class="headerlink" title="2.后继节点"></a>2.后继节点</h4><ul>
-<li><p>后继节点(successor)：中序遍历的后一个节点</p>
-<ul>
-<li>二叉搜索树，后继节点就是后一个比它大的节点</li>
-</ul>
-</li>
-<li><p>寻找后继节点</p>
-<ul>
-<li>node.right != null，predecessor=node.right.left.left…(终止条件：left为null)</li>
-<li>node.right == null &amp;&amp; node.parent !=null，successor=node.parent.parent…(终止条件：node在parent的左子树中)</li>
-<li>node.right == null &amp;&amp; node.parent ==null，没有后继节点</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Node&lt;E&gt; <span class="title">successor</span><span class="params">(Node&lt;E&gt; node)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(node == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    <span class="comment">//后继节点在左子树中(left.right.right.right...)</span></span><br><span class="line">    <span class="keyword">if</span> (node.right!=<span class="keyword">null</span>)&#123;</span><br><span class="line">        Node&lt;E&gt; p = node.right;</span><br><span class="line">        <span class="keyword">while</span> (p.left!=<span class="keyword">null</span>)&#123;</span><br><span class="line">            p = p.left;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> p;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//从父节点，祖父节点中寻找后继节点</span></span><br><span class="line">    <span class="keyword">while</span> (node.parent!=<span class="keyword">null</span> &amp;&amp; node == node.parent.right)&#123;</span><br><span class="line">        node = node.parent;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//node.parent == null</span></span><br><span class="line">    <span class="comment">//node == node.parent.left</span></span><br><span class="line">    <span class="keyword">return</span> node.parent;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://linxd1999.github.io/2019/12/14/jdbc/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="linxd">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/1.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="L">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/12/14/jdbc/" itemprop="url">JDBC编程</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-14T20:25:35+08:00">
-                2019-12-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="一、JDBC简介"><a href="#一、JDBC简介" class="headerlink" title="一、JDBC简介"></a>一、JDBC简介</h3><p>JDBC(Java Database Connectivity):JAVA数据库连接，是可以执行sql语句的一套API</p>
-<p>程序可通过JDBC连接到关系数据库，用sql对数据进行增删改查</p>
-<p>通过JDBC开发的数据库应用可跨平台</p>
-<p>数据库驱动程序：JDBC与数据库之间的转换层，负责将JDBC调用映射成特定的数据库调用</p>
-<h3 id="二、JDBC编程"><a href="#二、JDBC编程" class="headerlink" title="二、JDBC编程"></a>二、JDBC编程</h3><h4 id="1-常用类和接口"><a href="#1-常用类和接口" class="headerlink" title="1.常用类和接口"></a>1.常用类和接口</h4><p>DriverManager：用于管理JDBC驱动的服务类，用于获取Connection对象</p>
-<p>Connection：数据库连接对象，每个Connection代表一个连接会话。它是一个接口，可通过Statement，Preparedstatement来实例化，获取其对象</p>
-<p>Statement：用于执行sql的工具接口</p>
-<p>PreparedStatement：预编译的Statement对象，是Statement子接口，可以预编译sql语句，允许sql语句含参，方便后来修改也可避免每次都编译sql语句，性能好。</p>
-<p>Statement和PreparedStatement都有execute()，executeUpdate()，executeQuery()，返回查询的结果集，executeUpdate()可执行DML语句，返回受影响的行数，executeQuery()可以执行DDL语句，返回结果集对象，所以一般不用execute()方法，返回的是ResultSet结果集。</p>
-<p>ResultSet：结果集对象，包含很多查询结果的方法，可以根据列名或列索引来获取结果，也有很多种方法来移动记录指针，最常用的是next()方法。</p>
-<h4 id="2-步骤-以MySQL为例"><a href="#2-步骤-以MySQL为例" class="headerlink" title="2.步骤(以MySQL为例)"></a>2.步骤(以MySQL为例)</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Connection conn = <span class="keyword">null</span>;</span><br><span class="line">PreparedStatement pstmt = <span class="keyword">null</span>;</span><br><span class="line">ResultSet rs = <span class="keyword">null</span>;</span><br></pre></td></tr></table></figure>
-<h5 id="1-加载数据库驱动"><a href="#1-加载数据库驱动" class="headerlink" title="(1).加载数据库驱动"></a>(1).加载数据库驱动</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Class.forName(<span class="string">"com.mysql.cj.jdbc.Driver"</span>);</span><br></pre></td></tr></table></figure>
-<h5 id="2-获取数据库连接"><a href="#2-获取数据库连接" class="headerlink" title="(2).获取数据库连接"></a>(2).获取数据库连接</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conn = DriverManager.getConnection(<span class="string">"jdbc:mysql://localhost:3306/test?useSSL=false&amp;serverTimezone=UTC"</span>,<span class="string">"root"</span>, <span class="string">"password"</span>);</span><br></pre></td></tr></table></figure>
-<h5 id="3-通过Connection创建PreparedStatement对象"><a href="#3-通过Connection创建PreparedStatement对象" class="headerlink" title="(3).通过Connection创建PreparedStatement对象"></a>(3).通过Connection创建PreparedStatement对象</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pstmt = conn.prepareStatement(sql);</span><br></pre></td></tr></table></figure>
-<h5 id="4-执行sql语句"><a href="#4-执行sql语句" class="headerlink" title="(4).执行sql语句"></a>(4).执行sql语句</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rs = pstmt.executeQuery();</span><br><span class="line">result = pstmt.executeUpdate;</span><br></pre></td></tr></table></figure>
-<h3 id="三、模板"><a href="#三、模板" class="headerlink" title="三、模板"></a>三、模板</h3><p>这些语句都可以被封装成单独的函数进行使用，更加方便，不用每次再进行定义。</p>
-<p>下面是DAO模式分层后，最底层与数据库交互的BaseDao类，方便再使用时拷贝，</p>
-<p>连接数据库还需要一个.property文件，里面记录了驱动，数据库位置，用户和密码，每次使用只需要改这里就可以</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">driver=com.mysql.jdbc.Driver</span><br><span class="line">url=jdbc:mysql:<span class="comment">//localhost:3306/test?useSSL=false&amp;serverTimezone=UTC</span></span><br><span class="line">user=root</span><br><span class="line">password=<span class="number">123456</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 数据库连接与关闭工具类。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BaseDao</span> </span>&#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> String DRIVER; <span class="comment">// 数据库驱动</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> String URL ; <span class="comment">// url</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> String DBNAME; <span class="comment">// 数据库用户名</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> String DBPASS; <span class="comment">// 数据库密码</span></span><br><span class="line">	</span><br><span class="line">	Connection conn = <span class="keyword">null</span>;<span class="comment">// 数据连接对象</span></span><br><span class="line">	</span><br><span class="line">	<span class="keyword">static</span>&#123;<span class="comment">//静态代码块,在类加载的时候执行</span></span><br><span class="line">		init();</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 初始化连接参数,从配置文件里获得</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span></span>&#123;</span><br><span class="line">			Properties params=<span class="keyword">new</span> Properties();</span><br><span class="line">			String configFile = <span class="string">"database.properties"</span>;<span class="comment">//配置文件路径</span></span><br><span class="line">			<span class="comment">//加载配置文件到输入流中</span></span><br><span class="line">			InputStream is=BaseDao.class.getClassLoader().getResourceAsStream(configFile);</span><br><span class="line">			</span><br><span class="line">			<span class="keyword">try</span> &#123;</span><br><span class="line">				<span class="comment">//从输入流中读取属性列表</span></span><br><span class="line">				params.load(is);</span><br><span class="line">			&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">				e.printStackTrace();</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="comment">//根据指定的获取对应的值</span></span><br><span class="line">			DRIVER=params.getProperty(<span class="string">"driver"</span>);</span><br><span class="line">			URL=params.getProperty(<span class="string">"url"</span>);</span><br><span class="line">			DBNAME=params.getProperty(<span class="string">"user"</span>);</span><br><span class="line">			DBPASS=params.getProperty(<span class="string">"password"</span>);</span><br><span class="line">		&#125;   </span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 得到数据库连接</span></span><br><span class="line"><span class="comment">	 * </span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@throws</span> ClassNotFoundException</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@throws</span> SQLException</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span> 数据库连接</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Connection <span class="title">getConnection</span><span class="params">()</span> <span class="keyword">throws</span> ClassNotFoundException, SQLException </span>&#123;</span><br><span class="line">		Connection conn = <span class="keyword">null</span>;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			Class.forName(DRIVER); <span class="comment">// 注册驱动</span></span><br><span class="line">			conn = DriverManager.getConnection(URL, DBNAME, DBPASS); <span class="comment">// 获得数据库连接</span></span><br><span class="line">		&#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> conn; <span class="comment">// 返回连接</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 释放资源</span></span><br><span class="line"><span class="comment">	 * </span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> conn</span></span><br><span class="line"><span class="comment">	 *            数据库连接</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> pstmt</span></span><br><span class="line"><span class="comment">	 *            PreparedStatement对象</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> rs</span></span><br><span class="line"><span class="comment">	 *            结果集</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">closeAll</span><span class="params">(Connection conn, PreparedStatement pstmt, ResultSet rs)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">		<span class="comment">/* 如果rs不空，关闭rs */</span></span><br><span class="line">		<span class="keyword">if</span> (rs != <span class="keyword">null</span>) &#123;</span><br><span class="line">			<span class="keyword">try</span> &#123;</span><br><span class="line">				rs.close();</span><br><span class="line">			&#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">				e.printStackTrace();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">/* 如果pstmt不空，关闭pstmt */</span></span><br><span class="line">		<span class="keyword">if</span> (pstmt != <span class="keyword">null</span>) &#123;</span><br><span class="line">			<span class="keyword">try</span> &#123;</span><br><span class="line">				pstmt.close();</span><br><span class="line">			&#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">				e.printStackTrace();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">/* 如果conn不空，关闭conn */</span></span><br><span class="line">		<span class="keyword">if</span> (conn != <span class="keyword">null</span>) &#123;</span><br><span class="line">			<span class="keyword">try</span> &#123;</span><br><span class="line">				conn.close();</span><br><span class="line">			&#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">				e.printStackTrace();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 执行SQL语句，可以进行增、删、改的操作，不能执行查询</span></span><br><span class="line"><span class="comment">	 * </span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> sql</span></span><br><span class="line"><span class="comment">	 *            预编译的 SQL 语句</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> param</span></span><br><span class="line"><span class="comment">	 *            预编译的 SQL 语句中的‘？’参数的字符串数组</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span> 影响的条数</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">executeSQL</span><span class="params">(String preparedSql, Object[] param)</span> </span>&#123;</span><br><span class="line">		Connection conn = <span class="keyword">null</span>;</span><br><span class="line">		PreparedStatement pstmt = <span class="keyword">null</span>;</span><br><span class="line">		<span class="keyword">int</span> num = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">		<span class="comment">/* 处理SQL,执行SQL */</span></span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			conn = getConnection(); <span class="comment">// 得到数据库连接</span></span><br><span class="line">			pstmt = conn.prepareStatement(preparedSql); <span class="comment">// 得到PreparedStatement对象</span></span><br><span class="line">			<span class="keyword">if</span> (param != <span class="keyword">null</span>) &#123;</span><br><span class="line">				<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; param.length; i++) &#123;</span><br><span class="line">					pstmt.setObject(i + <span class="number">1</span>, param[i]); <span class="comment">// 为预编译sql设置参数</span></span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		</span><br><span class="line">			num = pstmt.executeUpdate(); <span class="comment">// 执行SQL语句</span></span><br><span class="line">		&#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">			<span class="comment">//e.printStackTrace(); // 处理ClassNotFoundException异常</span></span><br><span class="line">		&#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">			<span class="comment">//e.printStackTrace(); // 处理SQLException异常</span></span><br><span class="line">		&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">			<span class="keyword">this</span>.closeAll(conn, pstmt, <span class="keyword">null</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> num;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://linxd1999.github.io/2019/12/14/String、StringBuffer、StringBuilder类/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="linxd">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/1.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="L">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/12/14/String、StringBuffer、StringBuilder类/" itemprop="url">String、StringBuffer、StringBuilder类</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-14T20:25:35+08:00">
-                2019-12-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="一-字符串常量池"><a href="#一-字符串常量池" class="headerlink" title="一.字符串常量池"></a>一.字符串常量池</h3><p>字符串常量池属于Java的静态常量池，即.class文件中的常量池，占用class文件的大部分空间，还保存一些类、方法、接口中的常量。</p>
-<p>String.intern()方法：查找常量池中是否存在该字符串，若存在则返回字符串的引用，若不存在则把该字符串添加进常量池并返回引用。</p>
-<ul>
-<li><p>“abc”和new String(“abc”)的区别</p>
-<p>在编译时候就能计算出的字符串值，JVM用常量池管理这些字符串</p>
-<p>new一个字符串时，先用常量池管理该字符串，然后再用构造器创建一个新String对象，保存在堆内存中，共产生两个对象</p>
-</li>
-</ul>
-<p>常量池保证相同的字符串直接量只有一个，可以多个引用指向同一个常量。</p>
-<p>常量池避免频繁创建销毁对象，实现对象共享，节省内存和运行时间。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">String s1 = <span class="string">"abc"</span>;</span><br><span class="line">String s2 = <span class="string">"ab"</span> + <span class="string">"c"</span>;</span><br><span class="line">String s3 = <span class="string">"ab"</span>;</span><br><span class="line">String s4 = <span class="string">"c"</span>;</span><br><span class="line">String s5 = s3 + s4;</span><br><span class="line">String s6 = <span class="keyword">new</span> String(<span class="string">"abc"</span>);</span><br><span class="line">System.out.println(s1 == s2);<span class="comment">//true</span></span><br><span class="line">System.out.println(s1 == s5);<span class="comment">//false</span></span><br><span class="line">System.out.println(s1 == s5.intern());<span class="comment">//true</span></span><br><span class="line">System.out.println(s1 == s6);<span class="comment">//false</span></span><br></pre></td></tr></table></figure>
-<p>==表示比较两个引用变量指向的地址。</p>
-<p>s1 == s2：编译器会在编译期间自动把已知字符串拼接好，并放入常量池</p>
-<p>s1 != s5：s5不能在编译期间确定，地址不能确定</p>
-<p>s1 == s5.intern()：intern方法检测出s5内容存在于常量池中，返回字符串引用</p>
-<p>s1 != s6：构造器生成的字符串编译时地址不能确定</p>
-<h3 id="二-StringBuffer和StringBuilder"><a href="#二-StringBuffer和StringBuilder" class="headerlink" title="二.StringBuffer和StringBuilder"></a>二.StringBuffer和StringBuilder</h3><p>StringBuffer对象是一个字符序列可变的字符串</p>
-<p>StringBuilder是JDK1.5之后新增的类，操作和StringBuffer基本一样</p>
-<p>这两个类都解决了大量拼接字符串时产生很多中间对象而影响性能的问题</p>
-<p>区别：StringBuffer线程安全，效率低；StringBuilder线程不安全，效率高，所以StringBuilder使用的多，尤其是单线程应用。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">StringBuilder sb = <span class="keyword">new</span> StringBuilder();</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">26</span>; i++) &#123;</span><br><span class="line">	sb.append((<span class="keyword">char</span>)(<span class="string">'a'</span>+i));</span><br><span class="line">&#125;</span><br><span class="line">System.out.println(sb);<span class="comment">//abcdefghijklmnopqrstuvwxyz</span></span><br><span class="line">System.out.println(sb.hashCode());<span class="comment">//664740647</span></span><br><span class="line">sb.reverse();</span><br><span class="line">System.out.println(sb);<span class="comment">//zyxwvutsrqponmlkjihgfedcba</span></span><br><span class="line">System.out.println(sb.hashCode());<span class="comment">//664740647</span></span><br><span class="line">sb.setCharAt(<span class="number">0</span>, <span class="string">'A'</span>);</span><br><span class="line">System.out.println(sb);<span class="comment">//Ayxwvutsrqponmlkjihgfedcba</span></span><br><span class="line">sb.insert(<span class="number">1</span>, <span class="string">"bcd"</span>);</span><br><span class="line">System.out.println(sb);<span class="comment">//Abcdyxwvutsrqponmlkjihgfedcba</span></span><br><span class="line">sb.delete(<span class="number">0</span>, <span class="number">4</span>);</span><br><span class="line">System.out.println(sb);<span class="comment">//yxwvutsrqponmlkjihgfedcba</span></span><br></pre></td></tr></table></figure>
-<p>几个常用方法：</p>
-<p>append()：追加</p>
-<p>reverse()：倒序</p>
-<p>setCharAt()：修改某位置字符</p>
-<p>setLength()：设置字符串长度</p>
-<p>insert()：在某位置添加字符或字符串</p>
-<p>delete()：删除某位置的字符</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://linxd1999.github.io/2019/12/14/Java常用类/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="linxd">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/1.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="L">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/12/14/Java常用类/" itemprop="url">Java常用类</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-14T20:25:35+08:00">
-                2019-12-14
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-15T20:28:11+08:00">
+                2019-12-15
               </time>
             
 
@@ -945,7 +505,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://linxd1999.github.io/2019/12/14/Java多线程/">
+    <link itemprop="mainEntityOfPage" href="https://linxd1999.github.io/2019/12/15/Git/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="linxd">
@@ -964,7 +524,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/12/14/Java多线程/" itemprop="url">Java多线程</a></h1>
+                <a class="post-title-link" href="/2019/12/15/Git/" itemprop="url">Git & Github</a></h1>
         
 
         <div class="post-meta">
@@ -976,875 +536,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-14T20:25:35+08:00">
-                2019-12-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="一-基本概念"><a href="#一-基本概念" class="headerlink" title="一.基本概念"></a>一.基本概念</h3><h4 id="1-程序，进程，线程"><a href="#1-程序，进程，线程" class="headerlink" title="1.程序，进程，线程"></a>1.程序，进程，线程</h4><ul>
-<li>程序：用某种语言编写的一组指令集合，一段静态的代码</li>
-<li>进程：程序的一次执行过程，动态过程，存在生命周期。进程是资源分配的单位，系统为每个进程分配不同的内存区域</li>
-<li>线程：进程可细分为线程，线程是程序内部一条执行路径。线程是资源分配的最小单位。一个进程中的多个线程共享内存单元和堆，可以访问相同变量和对象，每个线程拥有独立的运行栈和程序计数器pc，切换开销小</li>
-<li>多线程：一个进程在同一时间并行执行多个线程。多个线程操作共享资源有安全隐患</li>
-</ul>
-<h4 id="2-单核CPU，多核CPU"><a href="#2-单核CPU，多核CPU" class="headerlink" title="2.单核CPU，多核CPU"></a>2.单核CPU，多核CPU</h4><ul>
-<li>单核CPU：一个时间单元内，只能执行一个线程的任务</li>
-<li>多核CPU：可以真正实现多线程</li>
-</ul>
-<h4 id="3-并行，并发"><a href="#3-并行，并发" class="headerlink" title="3.并行，并发"></a>3.并行，并发</h4><ul>
-<li>并行：多个CPU同时执行多个任务</li>
-<li>并发：一个CPU同时执行多个任务(资源调度)</li>
-</ul>
-<h4 id="4-多线程优势"><a href="#4-多线程优势" class="headerlink" title="4.多线程优势"></a>4.多线程优势</h4><ul>
-<li>提高程序响应能力，对图形化界面更直观，用户体验好</li>
-<li>提高CPU利用率</li>
-<li>改善程序结构，有利于后期维护修改</li>
-</ul>
-<h3 id="二-线程创建"><a href="#二-线程创建" class="headerlink" title="二.线程创建"></a>二.线程创建</h3><h4 id="1-Thread类方法"><a href="#1-Thread类方法" class="headerlink" title="1.Thread类方法"></a>1.Thread类方法</h4><ul>
-<li>start()：启动当前线程；调用当前线程的run()</li>
-<li>run()：通常需要重写此方法，将创建线程要执行的操作声明在此方法中</li>
-<li>currentThread()：静态方法，返回当前代码的线程</li>
-<li>getName()：获取当前线程的名字</li>
-<li>setName()：设置当前线程的名字</li>
-<li>yield()：释放当前CPU的执行权</li>
-<li>join()：调用此函数的线程被阻塞</li>
-<li>stop()：已过时，强制结束当前线程</li>
-<li>sleep(long millitime)：让当前线程睡眠指定时间，在睡眠期间，线程是阻塞状态</li>
-<li>isAlive()：判断线程是否死亡</li>
-</ul>
-<h4 id="2-线程优先级"><a href="#2-线程优先级" class="headerlink" title="2.线程优先级"></a>2.线程优先级</h4><ul>
-<li>优先级<ul>
-<li>MAX_PRIORITY：10</li>
-<li>MIN_PRIORITY：1</li>
-<li>NORM_PRIORITY：5</li>
-</ul>
-</li>
-<li>设置和获取优先级<ul>
-<li>getPriority()：获取线程优先级</li>
-<li>setPriority()：设置线程的优先级</li>
-</ul>
-</li>
-<li>高优先级的线程要抢占低优先级cpu的执行权。但这只是基于概率来说的，高优先级的线程高概率的情况下被执行，并不意味着只有高优先级的线程执行完以后，低优先级的线程才执行</li>
-</ul>
-<h4 id="3-继承Thread类"><a href="#3-继承Thread类" class="headerlink" title="3.继承Thread类"></a>3.继承Thread类</h4><ol>
-<li>创建一个继承自Thread类的子类</li>
-<li>重写Thread类的run()，将此线程执行的操作声明在run()中</li>
-<li>创建Thread类子类的对象</li>
-<li>通过此对象调用start()：启动当前线程，调用当前线程的run</li>
-</ol>
-<ul>
-<li>不能直接通过调用run()启动线程</li>
-<li>同一个线程不能启动两次，会报illegalThreadStateException异常。需要重新创建一个新的线程对象</li>
-</ul>
-<h4 id="4-实现Runnable接口"><a href="#4-实现Runnable接口" class="headerlink" title="4.实现Runnable接口"></a>4.实现Runnable接口</h4><ol>
-<li><p>创建一个实现了Runnable接口的类</p>
-</li>
-<li><p>实现Runnable接口中的抽象方法run()</p>
-</li>
-<li><p>创建实现类的对象</p>
-</li>
-<li><p>将此对象作为参数传递到Thread类的构造器中，创建Thread类的对象</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">![ThreadState](D:\blog\source\_posts\Java多线程\ThreadState.png)<span class="function"><span class="keyword">public</span> <span class="title">Thread</span><span class="params">(Runnable target)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>(<span class="keyword">null</span>, target, <span class="string">"Thread-"</span> + nextThreadNum(), <span class="number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<ol start="5">
-<li>通过Thread类的对象调用start()，调用当前线程的run(调用Runnable类型的target的run())</li>
-</ol>
-<ul>
-<li>开发中优先选择Runnable接口创建多线程，因为实现方式没有类的单继承性的局限性，实现的方式更适合处理多个线程有共享数据的情况。</li>
-<li>联系：public class Thread implements Runnable</li>
-<li>相同点：两种方式都需要重写run()，将线程要执行的逻辑声明在run()中</li>
-</ul>
-<h4 id="5-实现Callable接口"><a href="#5-实现Callable接口" class="headerlink" title="5.实现Callable接口"></a>5.实现Callable接口</h4><ol>
-<li>创建一个实现了Callable的实现类</li>
-<li>实现call方法，将此线程需要的操作声明在call()中</li>
-<li>创建Callable实现类对象</li>
-<li>将Callable实现类对象传递到FutureTask构造器中，创建FutureTask对象</li>
-<li>将FutureTask对象传递到Thread构造器中，创建Thread对象并start</li>
-<li>获取Callable接口中call()返回值：FutureTask对象的get()就是call()的返回值</li>
-</ol>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">	<span class="comment">//线程操作代码</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">NumThread numThread = <span class="keyword">new</span> NumThread();</span><br><span class="line">      FutureTask futureTask = <span class="keyword">new</span> FutureTask(numThread);</span><br><span class="line">      Thread thread = <span class="keyword">new</span> Thread(futureTask);</span><br></pre></td></tr></table></figure>
-<ul>
-<li>Callable比Runnable强大<ul>
-<li>call()可以有返回值</li>
-<li>call()可以抛出异常，被外面的操作捕获，获取异常信息</li>
-<li>Callable支持泛型</li>
-</ul>
-</li>
-</ul>
-<h4 id="6-线程池"><a href="#6-线程池" class="headerlink" title="6.线程池"></a>6.线程池</h4><ul>
-<li>提高响应速度(减少创建新线程的时间)</li>
-<li>降低资源消耗(重复利用线程池中的线程，不需要每次都创建)</li>
-<li>便于管理线程</li>
-</ul>
-<h3 id="三-线程的生命周期"><a href="#三-线程的生命周期" class="headerlink" title="三.线程的生命周期"></a>三.线程的生命周期</h3><h4 id="1-线程状态"><a href="#1-线程状态" class="headerlink" title="1.线程状态"></a>1.线程状态</h4><ul>
-<li>定义于Thread.State</li>
-<li>新建：线程对象声明并创建</li>
-<li>就绪：新建的线程start()后，进入队列等待CPU时间片，但是还没分配到资源</li>
-<li>运行：就绪的进程被调度，获得CPU资源，run()定义了线程的操作</li>
-<li>阻塞：被人为挂起或执行输入输出操作，让出CPU并临时终止自己的执行</li>
-<li>死亡：完成工作或强制终止或异常而导致线程结束</li>
-</ul>
-<h4 id="2-状态转换图"><a href="#2-状态转换图" class="headerlink" title="2.状态转换图"></a>2.状态转换图</h4><p><img src="/2019/12/14/Java多线程/blog\source\_posts\Java多线程\ThreadState.png" alt></p>
-<h3 id="四-线程同步"><a href="#四-线程同步" class="headerlink" title="四.线程同步"></a>四.线程同步</h3><h4 id="1-卖票问题"><a href="#1-卖票问题" class="headerlink" title="1.卖票问题"></a>1.卖票问题</h4><ul>
-<li><p>三个窗口同时卖票，直到票被卖完</p>
-</li>
-<li><p>问题：卖票过程中，出现了重票、错票(出现了线程安全问题)</p>
-</li>
-<li><p>问题出现的原因：当某个线程操作车票的过程中，尚未操作完成，其他线程参与进来，也操作车票的售卖</p>
-</li>
-<li><p>解决：当一个线程在操作共享变量时，即使线程被阻塞，其他线程也必须等待该线程操作完成之后才能进行操作</p>
-</li>
-<li><p>同步机制解决线程安全问题</p>
-<ol>
-<li><p>同步代码块</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">synchronized</span>(锁)&#123;</span><br><span class="line">	<span class="comment">//需要被同步的代码</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>任何一个类的对象都可以充当锁，但多个线程必须共用一把锁</p>
-<p>在实现Runnable接口创建多线程的方式中，可以考虑用this充当同步监视器</p>
-</li>
-<li><p>同步方法</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">show</span><span class="params">()</span></span></span><br></pre></td></tr></table></figure>
-<p>同步方法仍然涉及同步监视器，但不需要显示声明</p>
-<p>非静态的同步方法：同步监视器为this</p>
-<p>静态的同步方法：同步监视器为当前类本身</p>
-</li>
-<li><p>Lock锁</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">ReentrantLock lock = <span class="keyword">new</span> ReentrantLock();<span class="comment">//声明</span></span><br><span class="line"><span class="comment">//某个函数体内</span></span><br><span class="line">lock.lock();</span><br><span class="line"><span class="keyword">try</span>&#123;</span><br><span class="line">    <span class="comment">//线程安全代码</span></span><br><span class="line">&#125;<span class="keyword">finally</span>&#123;</span><br><span class="line">    lock.unlock();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>JDK5.0新增，可以显式使用和释放锁，而synchronized是在代码块执行完后自动释放锁</p>
-</li>
-</ol>
-</li>
-<li><p>同步可以解决线程安全问题，但同步的代码块只能有一个线程参与，其他线程等待，相当于一个单线程的过程，效率低(局限性)</p>
-</li>
-</ul>
-<h4 id="2-死锁"><a href="#2-死锁" class="headerlink" title="2.死锁"></a>2.死锁</h4><ul>
-<li><p>死锁：不同线程分别占用对方需要的同步资源不放弃，都在等待对方放弃自己需要的同步资源，就形成了线程的死锁</p>
-</li>
-<li><p>出现死锁后，不会抛出异常，不会出现提示，只是所有线程都处于阻塞状态，无法继续进行下去</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">StringBuffer s1 = <span class="keyword">new</span> StringBuffer();</span><br><span class="line">StringBuffer s2 = <span class="keyword">new</span> StringBuffer();</span><br><span class="line">       <span class="keyword">new</span> Thread()&#123;</span><br><span class="line">           <span class="meta">@Override</span></span><br><span class="line">           <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">               <span class="keyword">synchronized</span> (s1)&#123;</span><br><span class="line">                   s1.append(<span class="string">"a"</span>);</span><br><span class="line">                   s2.append(<span class="string">"1"</span>);</span><br><span class="line">                   <span class="keyword">try</span> &#123;</span><br><span class="line">                       Thread.sleep(<span class="number">100</span>);</span><br><span class="line">                   &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                       e.printStackTrace();</span><br><span class="line">                   &#125;</span><br><span class="line">                   <span class="keyword">synchronized</span> (s2)&#123;</span><br><span class="line">                       s1.append(<span class="string">"b"</span>);</span><br><span class="line">                       s2.append(<span class="string">"2"</span>);</span><br><span class="line">                       System.out.println(s1);</span><br><span class="line">                       System.out.println(s2);</span><br><span class="line">                   &#125;</span><br><span class="line">               &#125;</span><br><span class="line">  </span><br><span class="line">           &#125;</span><br><span class="line">       &#125;.start();</span><br><span class="line">       <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">           <span class="meta">@Override</span></span><br><span class="line">           <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">               <span class="keyword">synchronized</span> (s2)&#123;</span><br><span class="line">                   s1.append(<span class="string">"c"</span>);</span><br><span class="line">                   s2.append(<span class="string">"3"</span>);</span><br><span class="line">                   <span class="keyword">try</span> &#123;</span><br><span class="line">                       Thread.sleep(<span class="number">100</span>);</span><br><span class="line">                   &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                       e.printStackTrace();</span><br><span class="line">                   &#125;</span><br><span class="line">                   <span class="keyword">synchronized</span> (s1)&#123;</span><br><span class="line">                       s1.append(<span class="string">"d"</span>);</span><br><span class="line">                       s2.append(<span class="string">"4"</span>);</span><br><span class="line">                       System.out.println(s1);</span><br><span class="line">                       System.out.println(s2);</span><br><span class="line">                   &#125;</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;).start();</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h3 id="五-线程通信"><a href="#五-线程通信" class="headerlink" title="五.线程通信"></a>五.线程通信</h3><ul>
-<li><p>涉及方法</p>
-<ul>
-<li>wait()：当前线程进入阻塞状态，释放同步监视器</li>
-<li>notify()：唤醒wait的一个线程，如果有多个线程在等待，唤醒优先级高的线程</li>
-<li>notifyAll()：唤醒所有wait()的线程</li>
-</ul>
-</li>
-<li><p>wait()，notify()，notifyAll()这三个方法必须使用在同步代码块和同步方法中</p>
-</li>
-<li><p>wait()，notify()，notifyAll()这三个方法的调用者必须是同步代码块或者同步方法中的同步监视器，否则会抛出illegalMonitorStateException异常</p>
-</li>
-<li><p>wait()，notify()，notifyAll()这三个方法都定义在java.lang.Object类中</p>
-</li>
-<li><p>sleep()和wait()的异同</p>
-<p><strong>相同点</strong></p>
-<ul>
-<li>两者都会使当前线程阻塞</li>
-</ul>
-<p><strong>不同点</strong></p>
-<ul>
-<li>声明位置不同：Thread类声明sleep()，Object类声明wait()</li>
-<li>调用要求不同：sleep任意场景可调用，wait()必须在同步代码块或者同步方法中</li>
-<li>关于是否释放锁：如果两个方法都使用在同步代码块和同步方法中，sleep()不会释放锁，wait()会释放锁</li>
-</ul>
-</li>
-</ul>
-<h4 id="1-生产者与消费者"><a href="#1-生产者与消费者" class="headerlink" title="1.生产者与消费者"></a>1.生产者与消费者</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Clerk</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> productCount = <span class="number">0</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">produceProduct</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (productCount&lt;<span class="number">20</span>)&#123;</span><br><span class="line">            productCount++;</span><br><span class="line">            System.out.println(Thread.currentThread().getName() + <span class="string">"开始生产第"</span> + productCount + <span class="string">"个产品"</span>);</span><br><span class="line">            notify();</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                wait();</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">customerProduct</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(productCount&gt;<span class="number">0</span>)&#123;</span><br><span class="line">            System.out.println(Thread.currentThread().getName() + <span class="string">"开始消费第"</span> + productCount + <span class="string">"个产品"</span>);</span><br><span class="line">            productCount--;</span><br><span class="line">            notify();</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                wait();</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Producer</span> <span class="keyword">extends</span> <span class="title">Thread</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Clerk clerk;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Producer</span><span class="params">(Clerk clerk)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.clerk = clerk;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(Thread.currentThread().getName() + <span class="string">"开始生产产品......"</span>);</span><br><span class="line">        <span class="keyword">while</span>(<span class="keyword">true</span>)&#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                sleep(<span class="number">500</span>);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">            clerk.produceProduct();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Customer</span> <span class="keyword">extends</span> <span class="title">Thread</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Clerk clerk;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Customer</span><span class="params">(Clerk clerk)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.clerk = clerk;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(Thread.currentThread().getName() + <span class="string">"开始消费产品......"</span>);</span><br><span class="line">        <span class="keyword">while</span>(<span class="keyword">true</span>)&#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                sleep(<span class="number">500</span>);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">            clerk.customerProduct();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProductTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Clerk clerk = <span class="keyword">new</span> Clerk();</span><br><span class="line">        Producer p1 = <span class="keyword">new</span> Producer(clerk);</span><br><span class="line">        p1.setName(<span class="string">"生产者1:"</span>);</span><br><span class="line">        Customer c1 = <span class="keyword">new</span> Customer(clerk);</span><br><span class="line">        c1.setName(<span class="string">"消费者1:"</span>);</span><br><span class="line">        Customer c2 = <span class="keyword">new</span> Customer(clerk);</span><br><span class="line">        c2.setName(<span class="string">"消费者2:"</span>);</span><br><span class="line">        p1.start();</span><br><span class="line">        c1.start();</span><br><span class="line">        c2.start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://linxd1999.github.io/2019/12/14/JavaScript基础/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="linxd">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/1.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="L">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/12/14/JavaScript基础/" itemprop="url">JavaScript基础</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-14T20:25:35+08:00">
-                2019-12-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="一-JS基本概念"><a href="#一-JS基本概念" class="headerlink" title="一.JS基本概念"></a>一.JS基本概念</h3><h4 id="1-JS是什么"><a href="#1-JS是什么" class="headerlink" title="1.JS是什么"></a>1.JS是什么</h4><ul>
-<li>JS是一门运行在浏览器端的脚本语言，负责页面中的行为</li>
-</ul>
-<h4 id="2-JS编写的位置"><a href="#2-JS编写的位置" class="headerlink" title="2.JS编写的位置"></a>2.JS编写的位置</h4><ul>
-<li><p>标签的指定属性中</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;button onclick=<span class="string">"alert('hello');"</span>&gt;我是按钮&lt;<span class="regexp">/button&gt;</span></span><br><span class="line"><span class="regexp">&lt;a href="javascript:alert('aaa');"&gt;超链接&lt;/</span>a&gt;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>script标签中</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=<span class="string">"text/javascript"</span>&gt;</span><br><span class="line">	<span class="comment">//编写js代码</span></span><br><span class="line">&lt;<span class="regexp">/script&gt;</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>外部js文件中，通过script标签将其引入，script标签一旦引入外部文件了，就不能编写代码了。如果需要就新创建一个script标签</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script type=<span class="string">"text/javascript"</span> src=<span class="string">"文件路径"</span>&gt;&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h3 id="二-基本语法"><a href="#二-基本语法" class="headerlink" title="二.基本语法"></a>二.基本语法</h3><h4 id="1-输出语句"><a href="#1-输出语句" class="headerlink" title="1.输出语句"></a>1.输出语句</h4><ul>
-<li>alert(“要输出的内容”)：浏览器窗口弹出警告框</li>
-<li>document.write(“要输出的内容”)：写入body标签中，并在页面中显示</li>
-<li>console.log(“要输出的内容”)：写到开发者工具的控制台中</li>
-</ul>
-<h4 id="2-注释，变量，标识符"><a href="#2-注释，变量，标识符" class="headerlink" title="2.注释，变量，标识符"></a>2.注释，变量，标识符</h4><ul>
-<li>注释：单行注释//，多行注释/**/</li>
-<li>严格区分大小写</li>
-<li>每条语句以分号结尾，不加会耗费系统资源自动加上</li>
-<li>自动忽略空格和换行</li>
-<li>字面量：一些已经固定的值，数字，字符串，true等等，字面量不可改变，不方便，一般不使用</li>
-<li>变量：用var声明，可用来保存字面量，并且可保存任意的字面量</li>
-<li>标识符：可以含有字母，数字，下划线，$，不能以数字开头</li>
-</ul>
-<h4 id="3-数据类型"><a href="#3-数据类型" class="headerlink" title="3.数据类型"></a>3.数据类型</h4><ul>
-<li>基本数据类型（String，Number，Boolean，Null，Undefined），引用数据类型（Object）</li>
-<li>String：单引号或双引号表示，注意引号匹配，\为转义字符</li>
-<li>Number：所有整数和浮点数，Number.MAX_VALUE为最大值，值超过最大值类型为Infinity，负数相反。NaN为非法数字</li>
-<li>Boolean：逻辑判断</li>
-<li>Null：空对象，typeof返回object</li>
-<li>Undefined：声明但没有赋值的变量</li>
-<li>Object：对象类型</li>
-<li><strong>基本数据类型和引用数据类型关系</strong><ul>
-<li>JS变量都保存到栈内存中，基本数据类型的值直接在栈内存中存储，值与值之间相互独立存在，修改一个变量不会影响其他的变量</li>
-<li>对象保存到堆内存中，每创建一个新的对象，就会在堆内存中开辟一个新的空间，而变量中保存的是对象的内存地址(引用)。如果两个变量保存的是同一个对象的引用时，当通过一个变量修改属性时，另一个也会受影响</li>
-<li>当比较两个基本数据类型时，比较数据值；当比较两个引用数据类型的值时，比较内存地址</li>
-</ul>
-</li>
-</ul>
-<h4 id="4-类型转换"><a href="#4-类型转换" class="headerlink" title="4.类型转换"></a>4.类型转换</h4><ul>
-<li>转换为String<ul>
-<li>(强制类型转换)调用被转换数据类型的toString()方法，Null和Undefined没有这个方法</li>
-<li>(强制类型转换)调用String()函数</li>
-<li>(隐式)任意数据类型+” “</li>
-</ul>
-</li>
-<li>转换为Number<ul>
-<li>(强制类型转换)调用Number()函数，字符串转数字(非法数字-&gt;NaN，空串或空格串-&gt;0)，boolean转数字(true1，false0)，空值转数字(Null-&gt;0)，Undefined转数字(Undefined-&gt;NaN)</li>
-<li>(强制类型转换)调用parseInt()或者parseFloat()，专门用来处理字符串，可将有效的整数位或小数位提取出来</li>
-<li>(隐式)使用一元运算符+来隐式转换</li>
-</ul>
-</li>
-<li>转换为Boolean<ul>
-<li>(强制类型转换)调用Boolean函数，字符串转Boolean(除了空串其他全是true)，数值转Boolean(除了0和NaN其他全是true)，Null、undefined转Boolean(都是false)，object转Boolean(都是true)</li>
-<li>(隐式)两次非运算!!</li>
-</ul>
-</li>
-</ul>
-<h4 id="5-运算符"><a href="#5-运算符" class="headerlink" title="5.运算符"></a>5.运算符</h4><ul>
-<li>typeof运算符：typeof 变量(返回一个用于描述的类型的字符串)</li>
-<li>算术运算符：除了加法以外对非Number值进行运算，先转换为Number，加法遇到字符串会拼串，任何值和字符串做加法，都会先转换为字符串</li>
-<li>逻辑运算符<ul>
-<li>&amp;&amp;：短路运算，第一个值为false，返回第一个值；第一个值为true，返回第二个值</li>
-<li>||：短路运算，第一个值为true，返回第一个值；第一个值为false，返回第二个值</li>
-</ul>
-</li>
-<li>关系运算符<ul>
-<li>对非数值的情况比较，会将其转换为数字然后比较，Null转换为0，字母字符串转换为NaN</li>
-<li>符号两侧都是字符串，比较第一位字符的Unicode</li>
-<li>NaN跟任何值比较都是false，也不与任何值相等</li>
-<li>undefined衍生自null，所以两者相等</li>
-<li>===：全等运算符，和相等类似，但类型不同直接返回false</li>
-<li>!==：不全等运算符，和不等类似，但类型不同直接返回true</li>
-</ul>
-</li>
-</ul>
-<h4 id="6-Unicode编码"><a href="#6-Unicode编码" class="headerlink" title="6.Unicode编码"></a>6.Unicode编码</h4><ul>
-<li>在字符串中用转义字符输入Unicode编码(\u四位编码)</li>
-<li>在网页中使用Unicode编码(&amp;#十进制编码)</li>
-</ul>
-<h4 id="7-对象"><a href="#7-对象" class="headerlink" title="7.对象"></a>7.对象</h4><ul>
-<li><p>对象是引用数据类型</p>
-</li>
-<li><p>分类</p>
-<ul>
-<li>内建对象：ES标准定义的对象，在任何ES实现中都可以使用，如Math，Number，String，Boolean等等</li>
-<li>宿主对象：由JS运行时环境提供的对象，主要是浏览器提供的对象，如BOM，DOM</li>
-<li>自建对象：开发人员自己创建的对象</li>
-</ul>
-</li>
-<li>创建对象：var obj = new Object(); or var obj = {属性名:属性值 , 属性名:属性值 ……}(对象字面量的属性名可加引号也可以不加，建议不加，使用特殊名字才要加引号)</li>
-<li>添加属性：对象.属性名 = 属性值 or 对象[“属性名”] = 属性值</li>
-<li>读取属性：对象.属性名 or 对象[“属性名”]，[ ]中可以使用变量</li>
-<li>删除属性：delete 对象.属性名</li>
-<li>in运算符：检查一个对象中是否含有指定属性，”属性名” in 对象，返回Boolean</li>
-</ul>
-<h4 id="8-函数"><a href="#8-函数" class="headerlink" title="8.函数"></a>8.函数</h4><ul>
-<li><p>函数也是一个对象，具有对象的功能</p>
-</li>
-<li><p>创建函数</p>
-<ul>
-<li>function 函数名([形参1,形参2…形参N]){语句…}</li>
-<li>var 函数名 = function([形参1,形参2…形参N]){语句…}</li>
-</ul>
-</li>
-<li><p>调用函数：函数名();</p>
-</li>
-<li><p>调用函数时JS解析器不会检查实参的类型和个数，可以传递任意类型的值</p>
-<ul>
-<li>实参数量大于形参，多余实参不会赋值</li>
-<li>实参数量小于形参，剩余的形参会被赋值为undefined</li>
-</ul>
-</li>
-<li><p>return可以返回任意类型的值，基本函数类型，对象，函数等。不显式声明返回值会返回undefined</p>
-</li>
-<li><p>立即执行函数：一般只调用一次</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span> <span class="title">fun</span>(<span class="params">形参</span>)</span>&#123;</span><br><span class="line">	<span class="comment">//函数语句...</span></span><br><span class="line">&#125;)(实参);</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h4 id="9-方法"><a href="#9-方法" class="headerlink" title="9.方法"></a>9.方法</h4><ul>
-<li><p>函数也可以作为对象的属性</p>
-</li>
-<li><p>方法：函数作为对象的属性保存，调用这个函数就被称为调用对象的方法</p>
-</li>
-<li><p>只是名称上的区分，没有本质的区别</p>
-<ul>
-<li>对象.方法名();</li>
-<li>函数名();</li>
-</ul>
-</li>
-<li><p>for-in循环：查看一个对象内部的属性</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">var</span> n <span class="keyword">in</span> 对象名)&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(对象名[n]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h4 id="10-作用域"><a href="#10-作用域" class="headerlink" title="10.作用域"></a>10.作用域</h4><ul>
-<li>全局作用域：直接编写在script标签中的JS代码，都在全局作用域中。全局作用域在页面打开时被创建，在页面关闭时被销毁<ul>
-<li>全局作用域中有个全局对象window，它代表一个浏览器的窗口，由浏览器自动创建</li>
-<li>在全局作用域中的创建的变量作为window对象的属性保存，创建的函数作为window对象的方法保存</li>
-<li>全局作用域中的变量都是全局变量，在页面的任何部分都可以访问的到</li>
-</ul>
-</li>
-<li>函数作用域：</li>
-<li>变量声明提前：使用var关键字声明的变量，会在所有代码执行之前被声明(不会赋值)</li>
-<li>函数声明提前：使用函数声明形式创建的函数function 函数(){ }会在所有代码执行之前被创建</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://linxd1999.github.io/2019/12/14/Hexo博客框架+GitHub部署/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="linxd">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/1.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="L">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/12/14/Hexo博客框架+GitHub部署/" itemprop="url">Hexo博客框架+GitHub部署</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-14T20:25:35+08:00">
-                2019-12-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h3 id="特别感谢up主CodeSheep的视频教程-原视频请点击"><a href="#特别感谢up主CodeSheep的视频教程-原视频请点击" class="headerlink" title="特别感谢up主CodeSheep的视频教程, 原视频请点击"></a>特别感谢up主CodeSheep的视频教程, <a href="https://www.bilibili.com/video/av44544186" target="_blank" rel="noopener">原视频请点击</a></h3><h3 id="Step1：-安装Node-js"><a href="#Step1：-安装Node-js" class="headerlink" title="Step1： 安装Node.js"></a>Step1： 安装Node.js</h3><p>Node.js官网下载: <a href="https://nodejs.org/en/download/" target="_blank" rel="noopener">https://nodejs.org/en/download/</a></p>
-<h3 id="Step2：-安装Git"><a href="#Step2：-安装Git" class="headerlink" title="Step2： 安装Git"></a>Step2： 安装Git</h3><p>Git是一个开源的分布式版本控制系统，是为了帮助管理Linux内核开发而开发的版本控制软件。</p>
-<p>Git官网下载: <a href="https://www.git-scm.com/download/" target="_blank" rel="noopener">https://www.git-scm.com/download/</a></p>
-<p>安装完之后鼠标右击会出现Git Bash Here， 这就相当于Linux终端，我们等会对博客的操作也都是在这里完成。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/12/14/Hexo博客框架+GitHub部署/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://linxd1999.github.io/2019/12/14/HTML/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="linxd">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/1.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="L">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/12/14/HTML/" itemprop="url">未命名</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-14T20:25:35+08:00">
-                2019-12-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="HTML链接"><a href="#HTML链接" class="headerlink" title="HTML链接"></a>HTML链接</h3><ul>
-<li><p>a标签：<a></a></p>
-</li>
-<li><p>文本链接、图片链接</p>
-</li>
-<li><p>属性：</p>
-<p>href：指向另一个文档的链接</p>
-<p>name：创建文档内的链接（锚点链接：指向同一个页面内另一处文本段落的链接）</p>
-</li>
-<li><p>img标签属性：</p>
-<p>alt：替换文本属性</p>
-<p>width：宽(px)</p>
-<p>height：高(px)</p>
-</li>
-</ul>
-<h3 id="HTML表格"><a href="#HTML表格" class="headerlink" title="HTML表格"></a>HTML表格</h3><ul>
-<li><p>table标签：<table></table></p>
-</li>
-<li><p>属性：</p>
-<p>边框：border</p>
-<p>内间距：cellpadding        侧边距：cellspacing</p>
-<p>背景颜色：bgcolor          背景图片：background</p>
-</li>
-<li><p><td></td>：单元格</p>
-</li>
-<li><p><tr></tr>：表格行</p>
-</li>
-</ul>
-<h3 id="HTML列表"><a href="#HTML列表" class="headerlink" title="HTML列表"></a>HTML列表</h3><ul>
-<li><p>无序列表：使用标签<ul>、<li></li></ul></p>
-<p>属性：(type)disc、circle、square</p>
-</li>
-<li><p>有序列表：使用标签<ol>、<li></li></ol></p>
-<p>属性：(type)A、a、I、i</p>
-</li>
-<li><p>嵌套列表：使用标签<ul>、<ol>、<li></li></ol></ul></p>
-</li>
-<li><p>自定义列表：<dl>、<dt>、<dd></dd></dt></dl></p>
-</li>
-</ul>
-<h3 id="HTML块"><a href="#HTML块" class="headerlink" title="HTML块"></a>HTML块</h3><ul>
-<li><p>块元素：显示时以新行开始</p>
-<p>如</p><h1>、<p>、<ul></ul></p>
-</h1></li>
-<li><p>内联元素：通常不从新行开始</p>
-<p>如<b>、<a>、<img></a></b></p>
-</li>
-<li><p>div元素：组合html元素的容器，为大块内容提供结构和背景，其中所含元素的特性由div标签的属性来控制</p>
-</li>
-<li><p>span元素：内联元素，可做文本容器，一般用于改部分文本的样式</p>
-</li>
-</ul>
-<h3 id="div-section-article元素"><a href="#div-section-article元素" class="headerlink" title="div,section,article元素"></a>div,section,article元素</h3><ul>
-<li>这三个都是针对一块区域做布局的标签</li>
-<li>语义逐渐增强，可嵌套</li>
-<li>div本身无语义，用作布局及css样式化</li>
-<li>section用作一段有专题性的内容， 里面基本上会带有标题</li>
-<li>article用作一段独立的，完整的内容块</li>
-</ul>
-<h3 id="nav元素"><a href="#nav元素" class="headerlink" title="nav元素"></a>nav元素</h3><ul>
-<li>页面导航的链接组</li>
-<li>传统导航条，侧边栏导航，页内导航，翻页操作</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://linxd1999.github.io/2019/12/14/Git/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="linxd">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/1.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="L">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/12/14/Git/" itemprop="url">Git & Github</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-14T20:25:35+08:00">
-                2019-12-14
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-15T20:28:11+08:00">
+                2019-12-15
               </time>
             
 
@@ -2103,7 +796,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://linxd1999.github.io/2019/12/14/Collection集合/">
+    <link itemprop="mainEntityOfPage" href="https://linxd1999.github.io/2019/12/15/Hexo博客框架+GitHub部署/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="linxd">
@@ -2122,7 +815,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/12/14/Collection集合/" itemprop="url">未命名</a></h1>
+                <a class="post-title-link" href="/2019/12/15/Hexo博客框架+GitHub部署/" itemprop="url">Hexo博客框架+GitHub部署</a></h1>
         
 
         <div class="post-meta">
@@ -2134,8 +827,135 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-14T20:25:35+08:00">
-                2019-12-14
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-15T20:28:11+08:00">
+                2019-12-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h3 id="特别感谢up主CodeSheep的视频教程-原视频请点击"><a href="#特别感谢up主CodeSheep的视频教程-原视频请点击" class="headerlink" title="特别感谢up主CodeSheep的视频教程, 原视频请点击"></a>特别感谢up主CodeSheep的视频教程, <a href="https://www.bilibili.com/video/av44544186" target="_blank" rel="noopener">原视频请点击</a></h3><h3 id="Step1：-安装Node-js"><a href="#Step1：-安装Node-js" class="headerlink" title="Step1： 安装Node.js"></a>Step1： 安装Node.js</h3><p>Node.js官网下载: <a href="https://nodejs.org/en/download/" target="_blank" rel="noopener">https://nodejs.org/en/download/</a></p>
+<h3 id="Step2：-安装Git"><a href="#Step2：-安装Git" class="headerlink" title="Step2： 安装Git"></a>Step2： 安装Git</h3><p>Git是一个开源的分布式版本控制系统，是为了帮助管理Linux内核开发而开发的版本控制软件。</p>
+<p>Git官网下载: <a href="https://www.git-scm.com/download/" target="_blank" rel="noopener">https://www.git-scm.com/download/</a></p>
+<p>安装完之后鼠标右击会出现Git Bash Here， 这就相当于Linux终端，我们等会对博客的操作也都是在这里完成。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/12/15/Hexo博客框架+GitHub部署/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://linxd1999.github.io/2019/12/15/jdbc/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="linxd">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/1.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="L">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/12/15/jdbc/" itemprop="url">JDBC编程</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-15T20:28:11+08:00">
+                2019-12-15
               </time>
             
 
@@ -2174,93 +994,1488 @@
       
         
           
-            <h3 id="Collection集合"><a href="#Collection集合" class="headerlink" title="Collection集合"></a>Collection集合</h3><ul>
-<li><p>集合中只能保存对象的引用变量</p>
-<p>List子接口：有序，可重复集合(ArrayList、LinkedList、Vector)</p>
-<p>Set子接口：无序，不可重复集合(HashSet、LinkedHashSet、TreeSet)</p>
-<p>Queue子接口：先进先出队列</p>
-</li>
-<li><p>Lambda表达式遍历集合</p>
-<p>Connection接口继承了Iterable接口</p>
-<p>Java8新增了一个forEach(Consumer action)方法，参数是消费者(函数式接口)</p>
-<p>程序将元素依次传给Consumer的accept()，该方法是接口中唯一的抽象方法</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">list.add(<span class="string">"hello"</span>);</span><br><span class="line">list.add(<span class="string">"world"</span>);</span><br><span class="line">list.add(<span class="string">"java"</span>);</span><br><span class="line">list.forEach(obj-&gt;System.out.println(obj));</span><br></pre></td></tr></table></figure>
-<p>类似，Iterator的forEachRemaining(Consumer action)同样可以使用lambda表达式遍历迭代器</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">it.forEachRemaining(obj-&gt;System.out.println(obj));</span><br></pre></td></tr></table></figure>
-</li>
+            <h3 id="一、JDBC简介"><a href="#一、JDBC简介" class="headerlink" title="一、JDBC简介"></a>一、JDBC简介</h3><p>JDBC(Java Database Connectivity):JAVA数据库连接，是可以执行sql语句的一套API</p>
+<p>程序可通过JDBC连接到关系数据库，用sql对数据进行增删改查</p>
+<p>通过JDBC开发的数据库应用可跨平台</p>
+<p>数据库驱动程序：JDBC与数据库之间的转换层，负责将JDBC调用映射成特定的数据库调用</p>
+<h3 id="二、JDBC编程"><a href="#二、JDBC编程" class="headerlink" title="二、JDBC编程"></a>二、JDBC编程</h3><h4 id="1-常用类和接口"><a href="#1-常用类和接口" class="headerlink" title="1.常用类和接口"></a>1.常用类和接口</h4><p>DriverManager：用于管理JDBC驱动的服务类，用于获取Connection对象</p>
+<p>Connection：数据库连接对象，每个Connection代表一个连接会话。它是一个接口，可通过Statement，Preparedstatement来实例化，获取其对象</p>
+<p>Statement：用于执行sql的工具接口</p>
+<p>PreparedStatement：预编译的Statement对象，是Statement子接口，可以预编译sql语句，允许sql语句含参，方便后来修改也可避免每次都编译sql语句，性能好。</p>
+<p>Statement和PreparedStatement都有execute()，executeUpdate()，executeQuery()，返回查询的结果集，executeUpdate()可执行DML语句，返回受影响的行数，executeQuery()可以执行DDL语句，返回结果集对象，所以一般不用execute()方法，返回的是ResultSet结果集。</p>
+<p>ResultSet：结果集对象，包含很多查询结果的方法，可以根据列名或列索引来获取结果，也有很多种方法来移动记录指针，最常用的是next()方法。</p>
+<h4 id="2-步骤-以MySQL为例"><a href="#2-步骤-以MySQL为例" class="headerlink" title="2.步骤(以MySQL为例)"></a>2.步骤(以MySQL为例)</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Connection conn = <span class="keyword">null</span>;</span><br><span class="line">PreparedStatement pstmt = <span class="keyword">null</span>;</span><br><span class="line">ResultSet rs = <span class="keyword">null</span>;</span><br></pre></td></tr></table></figure>
+<h5 id="1-加载数据库驱动"><a href="#1-加载数据库驱动" class="headerlink" title="(1).加载数据库驱动"></a>(1).加载数据库驱动</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Class.forName(<span class="string">"com.mysql.cj.jdbc.Driver"</span>);</span><br></pre></td></tr></table></figure>
+<h5 id="2-获取数据库连接"><a href="#2-获取数据库连接" class="headerlink" title="(2).获取数据库连接"></a>(2).获取数据库连接</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conn = DriverManager.getConnection(<span class="string">"jdbc:mysql://localhost:3306/test?useSSL=false&amp;serverTimezone=UTC"</span>,<span class="string">"root"</span>, <span class="string">"password"</span>);</span><br></pre></td></tr></table></figure>
+<h5 id="3-通过Connection创建PreparedStatement对象"><a href="#3-通过Connection创建PreparedStatement对象" class="headerlink" title="(3).通过Connection创建PreparedStatement对象"></a>(3).通过Connection创建PreparedStatement对象</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pstmt = conn.prepareStatement(sql);</span><br></pre></td></tr></table></figure>
+<h5 id="4-执行sql语句"><a href="#4-执行sql语句" class="headerlink" title="(4).执行sql语句"></a>(4).执行sql语句</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rs = pstmt.executeQuery();</span><br><span class="line">result = pstmt.executeUpdate;</span><br></pre></td></tr></table></figure>
+<h3 id="三、模板"><a href="#三、模板" class="headerlink" title="三、模板"></a>三、模板</h3><p>这些语句都可以被封装成单独的函数进行使用，更加方便，不用每次再进行定义。</p>
+<p>下面是DAO模式分层后，最底层与数据库交互的BaseDao类，方便再使用时拷贝，</p>
+<p>连接数据库还需要一个.property文件，里面记录了驱动，数据库位置，用户和密码，每次使用只需要改这里就可以</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">driver=com.mysql.jdbc.Driver</span><br><span class="line">url=jdbc:mysql:<span class="comment">//localhost:3306/test?useSSL=false&amp;serverTimezone=UTC</span></span><br><span class="line">user=root</span><br><span class="line">password=<span class="number">123456</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 数据库连接与关闭工具类。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BaseDao</span> </span>&#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> String DRIVER; <span class="comment">// 数据库驱动</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> String URL ; <span class="comment">// url</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> String DBNAME; <span class="comment">// 数据库用户名</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> String DBPASS; <span class="comment">// 数据库密码</span></span><br><span class="line">	</span><br><span class="line">	Connection conn = <span class="keyword">null</span>;<span class="comment">// 数据连接对象</span></span><br><span class="line">	</span><br><span class="line">	<span class="keyword">static</span>&#123;<span class="comment">//静态代码块,在类加载的时候执行</span></span><br><span class="line">		init();</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 初始化连接参数,从配置文件里获得</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span></span>&#123;</span><br><span class="line">			Properties params=<span class="keyword">new</span> Properties();</span><br><span class="line">			String configFile = <span class="string">"database.properties"</span>;<span class="comment">//配置文件路径</span></span><br><span class="line">			<span class="comment">//加载配置文件到输入流中</span></span><br><span class="line">			InputStream is=BaseDao.class.getClassLoader().getResourceAsStream(configFile);</span><br><span class="line">			</span><br><span class="line">			<span class="keyword">try</span> &#123;</span><br><span class="line">				<span class="comment">//从输入流中读取属性列表</span></span><br><span class="line">				params.load(is);</span><br><span class="line">			&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">				e.printStackTrace();</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="comment">//根据指定的获取对应的值</span></span><br><span class="line">			DRIVER=params.getProperty(<span class="string">"driver"</span>);</span><br><span class="line">			URL=params.getProperty(<span class="string">"url"</span>);</span><br><span class="line">			DBNAME=params.getProperty(<span class="string">"user"</span>);</span><br><span class="line">			DBPASS=params.getProperty(<span class="string">"password"</span>);</span><br><span class="line">		&#125;   </span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 得到数据库连接</span></span><br><span class="line"><span class="comment">	 * </span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@throws</span> ClassNotFoundException</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@throws</span> SQLException</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span> 数据库连接</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Connection <span class="title">getConnection</span><span class="params">()</span> <span class="keyword">throws</span> ClassNotFoundException, SQLException </span>&#123;</span><br><span class="line">		Connection conn = <span class="keyword">null</span>;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			Class.forName(DRIVER); <span class="comment">// 注册驱动</span></span><br><span class="line">			conn = DriverManager.getConnection(URL, DBNAME, DBPASS); <span class="comment">// 获得数据库连接</span></span><br><span class="line">		&#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> conn; <span class="comment">// 返回连接</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 释放资源</span></span><br><span class="line"><span class="comment">	 * </span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> conn</span></span><br><span class="line"><span class="comment">	 *            数据库连接</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> pstmt</span></span><br><span class="line"><span class="comment">	 *            PreparedStatement对象</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> rs</span></span><br><span class="line"><span class="comment">	 *            结果集</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">closeAll</span><span class="params">(Connection conn, PreparedStatement pstmt, ResultSet rs)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">		<span class="comment">/* 如果rs不空，关闭rs */</span></span><br><span class="line">		<span class="keyword">if</span> (rs != <span class="keyword">null</span>) &#123;</span><br><span class="line">			<span class="keyword">try</span> &#123;</span><br><span class="line">				rs.close();</span><br><span class="line">			&#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">				e.printStackTrace();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">/* 如果pstmt不空，关闭pstmt */</span></span><br><span class="line">		<span class="keyword">if</span> (pstmt != <span class="keyword">null</span>) &#123;</span><br><span class="line">			<span class="keyword">try</span> &#123;</span><br><span class="line">				pstmt.close();</span><br><span class="line">			&#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">				e.printStackTrace();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">/* 如果conn不空，关闭conn */</span></span><br><span class="line">		<span class="keyword">if</span> (conn != <span class="keyword">null</span>) &#123;</span><br><span class="line">			<span class="keyword">try</span> &#123;</span><br><span class="line">				conn.close();</span><br><span class="line">			&#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">				e.printStackTrace();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 执行SQL语句，可以进行增、删、改的操作，不能执行查询</span></span><br><span class="line"><span class="comment">	 * </span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> sql</span></span><br><span class="line"><span class="comment">	 *            预编译的 SQL 语句</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> param</span></span><br><span class="line"><span class="comment">	 *            预编译的 SQL 语句中的‘？’参数的字符串数组</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span> 影响的条数</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">executeSQL</span><span class="params">(String preparedSql, Object[] param)</span> </span>&#123;</span><br><span class="line">		Connection conn = <span class="keyword">null</span>;</span><br><span class="line">		PreparedStatement pstmt = <span class="keyword">null</span>;</span><br><span class="line">		<span class="keyword">int</span> num = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">		<span class="comment">/* 处理SQL,执行SQL */</span></span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			conn = getConnection(); <span class="comment">// 得到数据库连接</span></span><br><span class="line">			pstmt = conn.prepareStatement(preparedSql); <span class="comment">// 得到PreparedStatement对象</span></span><br><span class="line">			<span class="keyword">if</span> (param != <span class="keyword">null</span>) &#123;</span><br><span class="line">				<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; param.length; i++) &#123;</span><br><span class="line">					pstmt.setObject(i + <span class="number">1</span>, param[i]); <span class="comment">// 为预编译sql设置参数</span></span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		</span><br><span class="line">			num = pstmt.executeUpdate(); <span class="comment">// 执行SQL语句</span></span><br><span class="line">		&#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">			<span class="comment">//e.printStackTrace(); // 处理ClassNotFoundException异常</span></span><br><span class="line">		&#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">			<span class="comment">//e.printStackTrace(); // 处理SQLException异常</span></span><br><span class="line">		&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">			<span class="keyword">this</span>.closeAll(conn, pstmt, <span class="keyword">null</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> num;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://linxd1999.github.io/2019/12/15/面向对象(类、继承、多态)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="linxd">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/1.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="L">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/12/15/面向对象(类、继承、多态)/" itemprop="url">面向对象(类、继承、多态)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-15T20:28:11+08:00">
+                2019-12-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="一-类、对象、引用、指针"><a href="#一-类、对象、引用、指针" class="headerlink" title="一. 类、对象、引用、指针"></a>一. 类、对象、引用、指针</h3><h4 id="1-引用变量及内存分析"><a href="#1-引用变量及内存分析" class="headerlink" title="1.引用变量及内存分析"></a>1.引用变量及内存分析</h4><p>众所周知Java没有指针，但实际上Java的引用就相当于指针，只不过把这个指针封装起来，避免其繁琐的操作。</p>
+<p>例如Person p = new Person()，这行代码创建了一个实例，实际上，p作为一个引用变量(只存放对象地址)存放在调用这行代码的方法栈中，而Person作为一个对象被存放在堆内存中，然后引用变量p指向堆里的Person。Java程序不允许直接访问堆内对象，只能通过引用变量来访问。若堆内的对象没有任何引用变量指向它，则这个对象会被GC回收，反之，若想让GC回收某对象，只需要切断所有引用变量跟这个对象的联系即可。</p>
+<h4 id="2-this关键字"><a href="#2-this关键字" class="headerlink" title="2.this关键字"></a>2.this关键字</h4><p>this关键字总是指向调用该方法的对象，其最大的作用就是让类里的一个方法调用类里的另外一个方法或者实例变量。</p>
+<p>Java允许对象的一个成员直接调用另一个成员可以忽略this前缀。</p>
+<h4 id="3-static关键字"><a href="#3-static关键字" class="headerlink" title="3.static关键字"></a>3.static关键字</h4><p>static关键字的真正作用：区分成员变量，方法，内部类是属于类本身还是属于类的实例</p>
+<p>有static修饰的成员属于类本身，没有static修饰的成员属于类的实例。</p>
+<p>因为static成员属于类本身，所以调用static成员是什么实例并不明确，所以不能在static方法内使用this关键字、super关键字。</p>
+<p>方法以this作为返回值：可以在一行代码中多次连续调用该方法。</p>
+<h4 id="4-参数传递机制"><a href="#4-参数传递机制" class="headerlink" title="4.参数传递机制"></a>4.参数传递机制</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">	<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Swap</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> a,b;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Swap</span><span class="params">(<span class="keyword">int</span> a,<span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.a = a;</span><br><span class="line">		<span class="keyword">this</span>.b = b;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">swap</span><span class="params">(Swap temp)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">int</span> tmp = temp.a;</span><br><span class="line">		temp.a = temp.b;</span><br><span class="line">		temp.b = tmp;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span> </span>&#123;</span><br><span class="line">		Swap s = <span class="keyword">new</span> Swap(<span class="number">3</span>,<span class="number">4</span>);</span><br><span class="line">		swap(s);</span><br><span class="line">		System.out.println(s.a+<span class="string">" "</span>+s.b);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>首先在main函数内，main函数的栈内存放了引用变量s，指向堆内存的对象Swap；swap函数传入一个形参temp也指向堆内存里的Swap对象。所以两个引用变量都指向堆内存中的对象，只要操作一个引用变量，堆内存中对象的数据就会改变，所以数据交换可以成功。</p>
+<h4 id="5-成员变量、局部变量"><a href="#5-成员变量、局部变量" class="headerlink" title="5.成员变量、局部变量"></a>5.成员变量、局部变量</h4><p>成员变量：不被static修饰的实例变量，被static修饰的类变量</p>
+<p>局部变量：形参，方法中的变量，代码块中的变量</p>
+<h4 id="6-访问控制符"><a href="#6-访问控制符" class="headerlink" title="6.访问控制符"></a>6.访问控制符</h4><p>private：当前类访问权限</p>
+<p>default：包访问权限，可被相同包下的其他类访问</p>
+<p>protected：子类访问权限，可被不同包中的子类访问</p>
+<p>public：公共访问权限，可被所有类访问</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://linxd1999.github.io/2019/12/15/二叉树/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="linxd">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/1.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="L">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/12/15/二叉树/" itemprop="url">二叉树</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-15T20:28:11+08:00">
+                2019-12-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="重构二叉树"><a href="#重构二叉树" class="headerlink" title="重构二叉树"></a>重构二叉树</h3><ul>
+<li>前序遍历+中序遍历</li>
+<li>后序遍历+中序遍历</li>
+<li>真二叉树(没有度为1的节点)，结果唯一</li>
 </ul>
-<h3 id="List集合"><a href="#List集合" class="headerlink" title="List集合"></a>List集合</h3><ul>
-<li><p>特点：有序、可重复</p>
-</li>
-<li><p>新增方法：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">list.add(<span class="string">"hello"</span>);</span><br><span class="line">list.add(<span class="string">"world"</span>);</span><br><span class="line">list.add(<span class="string">"java"</span>);</span><br><span class="line"><span class="comment">//在指定位置添加指定元素</span></span><br><span class="line">list.add(<span class="number">1</span>, <span class="string">"a"</span>);</span><br><span class="line"><span class="comment">//删除指定位置元素，返回被删除的元素</span></span><br><span class="line">System.out.println(list.remove(<span class="number">2</span>));</span><br><span class="line"><span class="comment">//修改指定位置的元素，返回被修改的元素</span></span><br><span class="line">System.out.println(list.set(<span class="number">2</span>, <span class="string">"javase"</span>));</span><br><span class="line"><span class="comment">//返回指定索引处的元素</span></span><br><span class="line">System.out.println(list.get(<span class="number">2</span>));</span><br><span class="line">System.out.println(list);</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>并发修改异常(ConcurrentModificationException)</p>
-<p>产生原因：迭代器遍历过程中，通过集合对象修改了集合中元素的长度导致的迭代器获取元素中预期修改值和实际修改值不一致</p>
-<p>解决：用for循环替代迭代遍历，用get()获取元素</p>
-</li>
-<li><p>ListIterator</p>
-<p>List特有的迭代器</p>
-<p>可从任一方向遍历集合</p>
-<p>新增add()方法，且底层经过优化，在迭代遍历中用迭代器增加集合内的元素不会抛出并发修改异常。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(it.hasPrevious()) &#123;</span><br><span class="line">	String s = (String)it.previous();</span><br><span class="line">	System.out.println(s);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>增强for循环实际上还是Iterator，迭代时也不能修改元素长度</p>
-</li>
-<li><p>LinkedList集合</p>
-<p>特有方法：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addFirst</span><span class="params">(E e)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addLast</span><span class="params">(E e)</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> E <span class="title">getFirst</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> E <span class="title">getLast</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> E <span class="title">removeFirst</span><span class="params">()</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> E <span class="title">removeLast</span><span class="params">()</span></span></span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h3 id="Set集合"><a href="#Set集合" class="headerlink" title="Set集合"></a>Set集合</h3><ul>
-<li><p>特点：无序，不可重复</p>
-</li>
-<li><p>没有带索引的方法，不能用普通for循环遍历</p>
-</li>
-<li><p>哈希值：JDK根据对象的地址或者字符串或者数字算出来的int值</p>
-<p>同一个对象多次调用hashCode()方法返回相同哈希值</p>
-<p>默认情况下，不同对象的哈希值不同，可通过重写hashCode()方法，可以实现让不同对象的哈希值相同</p>
-</li>
-<li><p>HashSet集合</p>
-<p>底层数据结构是HashMap，由数组和链表构成</p>
-<p>存取顺序不做保证</p>
-<p>保证元素唯一性：存入元素和以前元素比较哈希值</p>
+<h3 id="前驱节点，后继节点"><a href="#前驱节点，后继节点" class="headerlink" title="前驱节点，后继节点"></a>前驱节点，后继节点</h3><h4 id="1-前驱节点"><a href="#1-前驱节点" class="headerlink" title="1.前驱节点"></a>1.前驱节点</h4><ul>
+<li><p>前驱节点(predecessor)：中序遍历的前一个节点</p>
 <ul>
-<li><p>如果哈希值不同，继续执行，把元素添加入集合</p>
+<li>二叉搜索树，前驱节点就是前一个比他小的节点</li>
+</ul>
 </li>
-<li><p>如果哈希值相同，调用equals()方法比较</p>
-<p>返回false，继续执行，把元素添加到集合</p>
-<p>返回true，说明元素重复，不存储</p>
+<li><p>寻找前驱节点</p>
+<ul>
+<li>node.left != null，predecessor=node.left.right.right…(终止条件：right为null)</li>
+<li>node.left == null &amp;&amp; node.parent !=null，predecessor=node.parent.parent…(终止条件：node在parent的右子树中)</li>
+<li>node.left == null &amp;&amp; node.parent ==null，没有前驱节点</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Node&lt;E&gt; <span class="title">predecessor</span><span class="params">(Node&lt;E&gt; node)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(node == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    <span class="comment">//前驱节点在左子树中(left.right.right.right...)</span></span><br><span class="line">    <span class="keyword">if</span> (node.left!=<span class="keyword">null</span>)&#123;</span><br><span class="line">        Node&lt;E&gt; p = node.left;</span><br><span class="line">        <span class="keyword">while</span> (p.right!=<span class="keyword">null</span>)&#123;</span><br><span class="line">            p = p.right;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> p;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//从父节点，祖父节点中寻找前驱节点</span></span><br><span class="line">    <span class="keyword">while</span> (node.parent!=<span class="keyword">null</span> &amp;&amp; node == node.parent.left)&#123;</span><br><span class="line">        node = node.parent;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//node.parent == null</span></span><br><span class="line">    <span class="comment">//node == node.parent.right</span></span><br><span class="line">    <span class="keyword">return</span> node.parent;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<p>要保证元素唯一性，需要重写hashCode()和equals()</p>
+<h4 id="2-后继节点"><a href="#2-后继节点" class="headerlink" title="2.后继节点"></a>2.后继节点</h4><ul>
+<li><p>后继节点(successor)：中序遍历的后一个节点</p>
+<ul>
+<li>二叉搜索树，后继节点就是后一个比它大的节点</li>
+</ul>
 </li>
-<li><p>LinkedHashSet</p>
-<p>哈希表和链表构成，元素有次序</p>
-<p>元素不可重复</p>
+<li><p>寻找后继节点</p>
+<ul>
+<li>node.right != null，predecessor=node.right.left.left…(终止条件：left为null)</li>
+<li>node.right == null &amp;&amp; node.parent !=null，successor=node.parent.parent…(终止条件：node在parent的左子树中)</li>
+<li>node.right == null &amp;&amp; node.parent ==null，没有后继节点</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Node&lt;E&gt; <span class="title">successor</span><span class="params">(Node&lt;E&gt; node)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(node == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    <span class="comment">//后继节点在左子树中(left.right.right.right...)</span></span><br><span class="line">    <span class="keyword">if</span> (node.right!=<span class="keyword">null</span>)&#123;</span><br><span class="line">        Node&lt;E&gt; p = node.right;</span><br><span class="line">        <span class="keyword">while</span> (p.left!=<span class="keyword">null</span>)&#123;</span><br><span class="line">            p = p.left;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> p;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//从父节点，祖父节点中寻找后继节点</span></span><br><span class="line">    <span class="keyword">while</span> (node.parent!=<span class="keyword">null</span> &amp;&amp; node == node.parent.right)&#123;</span><br><span class="line">        node = node.parent;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//node.parent == null</span></span><br><span class="line">    <span class="comment">//node == node.parent.left</span></span><br><span class="line">    <span class="keyword">return</span> node.parent;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>TreeSet</p>
-<p>元素会按照一定的规则排序，取决于构造方法</p>
-<p>TreeSet()：自然排序</p>
-<p>TreeSet(Comparator comparator)：根据指定的比较器进行排序</p>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://linxd1999.github.io/2019/12/15/常用单词和词组整理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="linxd">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/1.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="L">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/12/15/常用单词和词组整理/" itemprop="url">Common Words and Phrases</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-15T20:28:11+08:00">
+                2019-12-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h3 id="一、常用单词"><a href="#一、常用单词" class="headerlink" title="一、常用单词"></a>一、常用单词</h3><table>
+<thead>
+<tr>
+<th style="text-align:center">中</th>
+<th style="text-align:center">英</th>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">统治</td>
+<td style="text-align:center">govern</td>
+<td style="text-align:center">reign</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">推动、促进</td>
+<td style="text-align:center">promote</td>
+<td style="text-align:center">boost</td>
+<td style="text-align:center">facilitate</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">蓬勃发展</td>
+<td style="text-align:center">boom</td>
+<td style="text-align:center">mushroom</td>
+<td style="text-align:center">surge</td>
+<td style="text-align:center">flourish</td>
+<td style="text-align:center">thrive</td>
+</tr>
+<tr>
+<td style="text-align:center">兴荣的</td>
+<td style="text-align:center">prosperous</td>
+<td style="text-align:center">booming</td>
+<td style="text-align:center">thriving</td>
+<td style="text-align:center">flourishing</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">稳定的</td>
+<td style="text-align:center">stable</td>
+<td style="text-align:center">steady</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">大量、许多</td>
+<td style="text-align:center">multiple</td>
+<td style="text-align:center">numerous</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">交易</td>
+<td style="text-align:center">deal(n.)</td>
+<td style="text-align:center">trade(v.)</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">发行</td>
+<td style="text-align:center">publish(书、报纸)</td>
+<td style="text-align:center">issue(钱/股票)</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">政府(管理)</td>
+<td style="text-align:center">government</td>
+<td style="text-align:center">administration</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">超过</td>
+<td style="text-align:center">exceed</td>
+<td style="text-align:center">surpass</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">领域</td>
+<td style="text-align:center">field</td>
+<td style="text-align:center">domain</td>
+<td style="text-align:center">territory</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">激增</td>
+<td style="text-align:center">balloon</td>
+<td style="text-align:center">soar</td>
+<td style="text-align:center">multiply</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">骤降</td>
+<td style="text-align:center">plunge</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">显著的</td>
+<td style="text-align:center">notable</td>
+<td style="text-align:center">noticeable</td>
+<td style="text-align:center">remarkable</td>
+<td style="text-align:center">prominent</td>
+<td style="text-align:center">conspicuous</td>
+</tr>
+<tr>
+<td style="text-align:center">危险</td>
+<td style="text-align:center">risk</td>
+<td style="text-align:center">danger</td>
+<td style="text-align:center">jeopardy</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">处理、解决</td>
+<td style="text-align:center">solve</td>
+<td style="text-align:center">settle</td>
+<td style="text-align:center">tackle</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">加速</td>
+<td style="text-align:center">accelerate</td>
+<td style="text-align:center">hasten</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">获得、收获</td>
+<td style="text-align:center">gain</td>
+<td style="text-align:center">reap</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">破坏</td>
+<td style="text-align:center">destory</td>
+<td style="text-align:center">devastate</td>
+<td style="text-align:center">disrupt</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">观众</td>
+<td style="text-align:center">audience</td>
+<td style="text-align:center">spectator</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">刺激、鼓舞</td>
+<td style="text-align:center">stimulate(stimulus)</td>
+<td style="text-align:center">spur</td>
+<td style="text-align:center">motivate</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">商品</td>
+<td style="text-align:center">goods</td>
+<td style="text-align:center">commodity</td>
+<td style="text-align:center">merchandise</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">成功的</td>
+<td style="text-align:center">successful</td>
+<td style="text-align:center">triumphant</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">重要的</td>
+<td style="text-align:center">critical</td>
+<td style="text-align:center">significant</td>
+<td style="text-align:center">essential</td>
+<td style="text-align:center">vital</td>
+<td style="text-align:center">crucial</td>
+</tr>
+<tr>
+<td style="text-align:center">灿烂的</td>
+<td style="text-align:center">brilliant</td>
+<td style="text-align:center">splendid</td>
+<td style="text-align:center">glorious</td>
+<td style="text-align:center">marvellous</td>
+<td style="text-align:center">fascinating</td>
+</tr>
+<tr>
+<td style="text-align:center">同时</td>
+<td style="text-align:center">meanwhile</td>
+<td style="text-align:center">simultaneously</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">著名的</td>
+<td style="text-align:center">famous</td>
+<td style="text-align:center">celebrated</td>
+<td style="text-align:center">noted</td>
+<td style="text-align:center">renowned</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">比赛</td>
+<td style="text-align:center">competition</td>
+<td style="text-align:center">race(运动)</td>
+<td style="text-align:center">event(运动)</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">因此</td>
+<td style="text-align:center">therefore</td>
+<td style="text-align:center">hence</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">渴望</td>
+<td style="text-align:center">long</td>
+<td style="text-align:center">crave</td>
+<td style="text-align:center">yearn</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">目的</td>
+<td style="text-align:center">purpose</td>
+<td style="text-align:center">aim</td>
+<td style="text-align:center">sake</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">实施、执行</td>
+<td style="text-align:center">implement</td>
+<td style="text-align:center">execute</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">撤退</td>
+<td style="text-align:center">withdraw</td>
+<td style="text-align:center">retreat</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">悲惨的</td>
+<td style="text-align:center">tragic</td>
+<td style="text-align:center">miserable</td>
+<td style="text-align:center">bleak(惨淡的)</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">缺点</td>
+<td style="text-align:center">defect</td>
+<td style="text-align:center">flaw</td>
+<td style="text-align:center">weakness</td>
+<td style="text-align:center">shortcoming</td>
+<td style="text-align:center">disadvantage</td>
+</tr>
+<tr>
+<td style="text-align:center">消失</td>
+<td style="text-align:center">disappear</td>
+<td style="text-align:center">vanish</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">保证</td>
+<td style="text-align:center">promise</td>
+<td style="text-align:center">guarantee</td>
+<td style="text-align:center">pledge</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">预示</td>
+<td style="text-align:center">indicate</td>
+<td style="text-align:center">herald</td>
+<td style="text-align:center">anticipate</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">公平</td>
+<td style="text-align:center">justice</td>
+<td style="text-align:center">fairness</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">面对</td>
+<td style="text-align:center">face</td>
+<td style="text-align:center">confront</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">忽视、忽略</td>
+<td style="text-align:center">neglect</td>
+<td style="text-align:center">overlook</td>
+<td style="text-align:center">ignore</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">预测</td>
+<td style="text-align:center">predict</td>
+<td style="text-align:center">forecast</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">分配</td>
+<td style="text-align:center">allocate</td>
+<td style="text-align:center">allot</td>
+<td style="text-align:center">assign</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">诱惑</td>
+<td style="text-align:center">tempt</td>
+<td style="text-align:center">lure</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">巨大的</td>
+<td style="text-align:center">huge</td>
+<td style="text-align:center">enormous</td>
+<td style="text-align:center">tremendous</td>
+<td style="text-align:center">massive</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">足够的</td>
+<td style="text-align:center">enough</td>
+<td style="text-align:center">adequate</td>
+<td style="text-align:center">sufficient</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">相同的</td>
+<td style="text-align:center">same</td>
+<td style="text-align:center">uniform</td>
+<td style="text-align:center">identical</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">驱使，引发</td>
+<td style="text-align:center">trigger</td>
+<td style="text-align:center">provoke</td>
+<td style="text-align:center">propel</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">削减</td>
+<td style="text-align:center">cut down</td>
+<td style="text-align:center">cripple</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">剥夺</td>
+<td style="text-align:center">deprive</td>
+<td style="text-align:center">strip</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">授权</td>
+<td style="text-align:center">authorize</td>
+<td style="text-align:center">empower</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">让步、妥协</td>
+<td style="text-align:center">compromise</td>
+<td style="text-align:center">concession</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+</tbody>
+</table>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/12/15/常用单词和词组整理/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://linxd1999.github.io/2019/12/15/String、StringBuffer、StringBuilder类/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="linxd">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/1.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="L">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/12/15/String、StringBuffer、StringBuilder类/" itemprop="url">String、StringBuffer、StringBuilder类</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-15T20:28:11+08:00">
+                2019-12-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="一-字符串常量池"><a href="#一-字符串常量池" class="headerlink" title="一.字符串常量池"></a>一.字符串常量池</h3><p>字符串常量池属于Java的静态常量池，即.class文件中的常量池，占用class文件的大部分空间，还保存一些类、方法、接口中的常量。</p>
+<p>String.intern()方法：查找常量池中是否存在该字符串，若存在则返回字符串的引用，若不存在则把该字符串添加进常量池并返回引用。</p>
+<ul>
+<li><p>“abc”和new String(“abc”)的区别</p>
+<p>在编译时候就能计算出的字符串值，JVM用常量池管理这些字符串</p>
+<p>new一个字符串时，先用常量池管理该字符串，然后再用构造器创建一个新String对象，保存在堆内存中，共产生两个对象</p>
+</li>
+</ul>
+<p>常量池保证相同的字符串直接量只有一个，可以多个引用指向同一个常量。</p>
+<p>常量池避免频繁创建销毁对象，实现对象共享，节省内存和运行时间。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">String s1 = <span class="string">"abc"</span>;</span><br><span class="line">String s2 = <span class="string">"ab"</span> + <span class="string">"c"</span>;</span><br><span class="line">String s3 = <span class="string">"ab"</span>;</span><br><span class="line">String s4 = <span class="string">"c"</span>;</span><br><span class="line">String s5 = s3 + s4;</span><br><span class="line">String s6 = <span class="keyword">new</span> String(<span class="string">"abc"</span>);</span><br><span class="line">System.out.println(s1 == s2);<span class="comment">//true</span></span><br><span class="line">System.out.println(s1 == s5);<span class="comment">//false</span></span><br><span class="line">System.out.println(s1 == s5.intern());<span class="comment">//true</span></span><br><span class="line">System.out.println(s1 == s6);<span class="comment">//false</span></span><br></pre></td></tr></table></figure>
+<p>==表示比较两个引用变量指向的地址。</p>
+<p>s1 == s2：编译器会在编译期间自动把已知字符串拼接好，并放入常量池</p>
+<p>s1 != s5：s5不能在编译期间确定，地址不能确定</p>
+<p>s1 == s5.intern()：intern方法检测出s5内容存在于常量池中，返回字符串引用</p>
+<p>s1 != s6：构造器生成的字符串编译时地址不能确定</p>
+<h3 id="二-StringBuffer和StringBuilder"><a href="#二-StringBuffer和StringBuilder" class="headerlink" title="二.StringBuffer和StringBuilder"></a>二.StringBuffer和StringBuilder</h3><p>StringBuffer对象是一个字符序列可变的字符串</p>
+<p>StringBuilder是JDK1.5之后新增的类，操作和StringBuffer基本一样</p>
+<p>这两个类都解决了大量拼接字符串时产生很多中间对象而影响性能的问题</p>
+<p>区别：StringBuffer线程安全，效率低；StringBuilder线程不安全，效率高，所以StringBuilder使用的多，尤其是单线程应用。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">StringBuilder sb = <span class="keyword">new</span> StringBuilder();</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">26</span>; i++) &#123;</span><br><span class="line">	sb.append((<span class="keyword">char</span>)(<span class="string">'a'</span>+i));</span><br><span class="line">&#125;</span><br><span class="line">System.out.println(sb);<span class="comment">//abcdefghijklmnopqrstuvwxyz</span></span><br><span class="line">System.out.println(sb.hashCode());<span class="comment">//664740647</span></span><br><span class="line">sb.reverse();</span><br><span class="line">System.out.println(sb);<span class="comment">//zyxwvutsrqponmlkjihgfedcba</span></span><br><span class="line">System.out.println(sb.hashCode());<span class="comment">//664740647</span></span><br><span class="line">sb.setCharAt(<span class="number">0</span>, <span class="string">'A'</span>);</span><br><span class="line">System.out.println(sb);<span class="comment">//Ayxwvutsrqponmlkjihgfedcba</span></span><br><span class="line">sb.insert(<span class="number">1</span>, <span class="string">"bcd"</span>);</span><br><span class="line">System.out.println(sb);<span class="comment">//Abcdyxwvutsrqponmlkjihgfedcba</span></span><br><span class="line">sb.delete(<span class="number">0</span>, <span class="number">4</span>);</span><br><span class="line">System.out.println(sb);<span class="comment">//yxwvutsrqponmlkjihgfedcba</span></span><br></pre></td></tr></table></figure>
+<p>几个常用方法：</p>
+<p>append()：追加</p>
+<p>reverse()：倒序</p>
+<p>setCharAt()：修改某位置字符</p>
+<p>setLength()：设置字符串长度</p>
+<p>insert()：在某位置添加字符或字符串</p>
+<p>delete()：删除某位置的字符</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://linxd1999.github.io/2019/12/15/盒子模型/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="linxd">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/1.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="L">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/12/15/盒子模型/" itemprop="url">盒模型</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-15T20:28:11+08:00">
+                2019-12-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="一-盒"><a href="#一-盒" class="headerlink" title="一.盒"></a>一.盒</h3><ul>
+<li>CSS处理网页时，认为每个元素都包含在一个不可见的盒子里</li>
+<li>我们只要把相应的盒子摆放到网页中相应的位置即可完成对网页的布局</li>
+<li>组成：<ul>
+<li>内容区(content)</li>
+<li>内边距(padding)</li>
+<li>边框(border)</li>
+<li>外边距(margin)</li>
+</ul>
+</li>
+</ul>
+<h3 id="二-边框"><a href="#二-边框" class="headerlink" title="二.边框"></a>二.边框</h3><ul>
+<li>width：内容区宽度</li>
+<li>height：内容区高度</li>
+<li>border-width：边框的宽度<ul>
+<li>可以分别指定四个边框的宽度(顺时针赋值)</li>
+<li>如果指定四个值，则分别设置给上，右，下，左</li>
+<li>如果指定三个值，则分别设置给上，左右，下</li>
+<li>如果指定两个值，则分别设置给上下，左右</li>
+<li>如果指定一个值，则设置给四条边</li>
+<li>CSS还提供border-xxx-width，xxx可为top，right，bottom，left</li>
+</ul>
+</li>
+<li>border-color：边框的颜色，赋值规则同上<ul>
+<li>border-xxx-color：xxx可为top，right，bottom，left</li>
+</ul>
+</li>
+<li><p>border-style：边框的样式，赋值规则同上</p>
+<ul>
+<li>none：没有边框</li>
+<li>solid：实线边框</li>
+<li>dotted：点状边框</li>
+<li>dashed：虚线边框</li>
+<li>double：双线边框</li>
+</ul>
+</li>
+<li><p>border：边框的简写样式，可同时设置四个边框的样式，且没有任何顺序要求，但是border只能一次性指定四条边，不能分别指定。</p>
+<ul>
+<li>border-xxx：可以一次指定一条边的所有属性</li>
+</ul>
+</li>
+</ul>
+<h3 id="三-内边距"><a href="#三-内边距" class="headerlink" title="三.内边距"></a>三.内边距</h3><ul>
+<li>内边距指的是盒子的内容区和盒子边框之间的距离，一共有四个方向的内边距</li>
+<li>内边距会影响盒子的可见框的大小</li>
+<li>盒子可见框的宽度=(border-left-width)+(padding-left)+width+(padding-right)+(border-right-width)</li>
+<li>padding-top：上内边距的宽度</li>
+<li>padding-right：右内边距的宽度</li>
+<li>padding-bottom：下内边距的宽度</li>
+<li>padding-left：左内边距的宽度</li>
+<li>padding可同时设置四个内边距的样式，原理同上</li>
+<li>box-sizing属性：border-box(设置的边框和内边距是包含在width内的，内容区的实际宽度=width-(border+padding)的值)</li>
+</ul>
+<h3 id="四-外边距"><a href="#四-外边距" class="headerlink" title="四.外边距"></a>四.外边距</h3><ul>
+<li><p>外边距指的是当前盒子与其他盒子之间的距离，不会影响可见框的大小，但会影响盒子的位置</p>
+</li>
+<li><p>盒子有四个方向的外边距</p>
+</li>
+<li><p>margin-top：上外边距的宽度</p>
+</li>
+<li><p>margin-right：右外边距的宽度</p>
+</li>
+<li><p>margin-bottom：下外边距的宽度</p>
+</li>
+<li><p>margin-left：左外边距的宽度</p>
+</li>
+<li><p>margin可同时设置四个方向外边距的样式</p>
+</li>
+<li><p>由于页面中的元素都是靠左上摆放的，所以当设置上，左外边距时，会导致盒子自身的位置发生改变，设置右，下外边距会改变其他盒子的位置</p>
+</li>
+<li><p>外边距可以是负值，元素向反方向移动</p>
+</li>
+<li><p>margin还可以设置auto，一般只设置给水平方向的margin，如果只指定左外边距或右外边距的值为auto则会将外边距设置为最大值；垂直方向如果设置为auto，则默认为0</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*盒子居中，两侧外边距设置为相同的值</span></span><br><span class="line"><span class="comment">	可以使元素自动在父元素中居中*/</span></span><br><span class="line"><span class="selector-tag">margin-left</span>: <span class="selector-tag">auto</span>;</span><br><span class="line"><span class="selector-tag">margin-right</span>: <span class="selector-tag">auto</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>垂直外边距的重叠：在<strong>垂直方向</strong>的<strong>相邻</strong>外边距会发生重叠，兄弟元素之间的相邻外边距会取最大值而不是取和。如果父子元素的垂直外边距相邻了，则子元素的外边距会设置给父元素</p>
+</li>
+<li>浏览器为了在页面中没有样式时，也可以有一个比较好的显示效果，所以为很多元素都设置了默认的margin和padding，而默认样式在正常情况下是不需要的，所以我们需要在设置样式之前把默认样式都去掉</li>
+</ul>
+<h3 id="五-内联元素的盒模型"><a href="#五-内联元素的盒模型" class="headerlink" title="五.内联元素的盒模型"></a>五.内联元素的盒模型</h3><ul>
+<li>内联元素不能设置width和height</li>
+<li>内联元素可以设置水平方向的内边距，边框</li>
+<li>内联元素可以设置垂直方向的内边距，边框，但不会影响页面的布局</li>
+<li>水平方向的相邻外边距不会重叠，但会求和，内联元素不支持垂直外边距</li>
+<li>内联元素和块元素可以相互转换<ul>
+<li>display样式可修改元素的类型<ul>
+<li>inline：内联元素</li>
+<li>block：块元素</li>
+<li>inline-block：行内块元素(使一个元素既有行内元素的特点又有块元素的特点，可设置宽高而不独占一行)</li>
+<li>none：此元素不显示，且不再占据页面的位置</li>
+</ul>
+</li>
+<li>visibility可修改元素的显示状态<ul>
+<li>visible：默认值，元素默认在页面显示</li>
+<li>hidden：元素会隐藏不显示，但位置会继续保持</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>overflow属性：设置父元素如何处理子元素溢出的问题<ul>
+<li>visible：默认值，不对溢出内容做处理，元素会在父元素以外的位置显示</li>
+<li>hidden：溢出的内容被修剪，不显示</li>
+<li>scroll：会为父元素添加滚动条，通过滚动来查看完整的内容(不论是否溢出，都有水平和垂直的滚动条)</li>
+<li>auto：会根据需求自动添加滚动条</li>
+</ul>
+</li>
+</ul>
+<h3 id="六-浮动"><a href="#六-浮动" class="headerlink" title="六.浮动"></a>六.浮动</h3><ul>
+<li><p>块元素在文档流中默认垂直排列，如果希望块元素可以脱离文档流，可以用float使块元素浮动从而脱离文档流</p>
+</li>
+<li><p>float：浮动元素，脱离文档流</p>
+<ul>
+<li>none：默认值，元素默认在文档流中排列</li>
+<li>left：元素会立即脱离文档流，向页面的左侧浮动</li>
+<li>right：元素会立即脱离文档流，向页面的右侧浮动</li>
+</ul>
+</li>
+<li><p>元素浮动之后，它下边的元素会立即向上移动</p>
+</li>
+<li><p>元素浮动以后，它会尽量向页面的左上或是右上浮动，直到遇到父元素的边框或者其他的浮动元素</p>
+</li>
+<li><p>如果浮动元素上边是一个没有浮动的块元素，则浮动元素不会超过块元素</p>
+</li>
+<li><p>浮动元素不会超过它的兄弟元素，最多一边齐</p>
+</li>
+<li><p>块元素脱离文档流后，高度和宽度都会被内容撑开</p>
+</li>
+<li><p>内联元素脱离文档流后会变成块元素</p>
+</li>
+<li><p>文档流中，父元素的高度默认被子元素撑开。但子元素浮动后，会导致父元素高度塌陷，父元素下的所有元素都向上移动，页面布局混乱</p>
+<ul>
+<li><p>可以将父元素的高度固定，父元素的高度将不能自适应子元素的高度，不推荐使用</p>
+</li>
+<li><p>设置overflow：(非visible的值)</p>
+</li>
+<li><p>在高度塌陷的父元素最后添加一个空白的div，由于此div没有浮动，所以可以撑开父元素，然后对它清除左右浮动即可(基本无副作用)</p>
+</li>
+<li><p>基于上一条，可以通过after伪类，选中父元素的最后边，转化为块元素，再清除浮动</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.box1</span><span class="selector-pseudo">:after</span>&#123;</span><br><span class="line">    <span class="attribute">content</span>: <span class="string">""</span>;</span><br><span class="line">    <span class="attribute">display</span>: block;</span><br><span class="line">    <span class="attribute">clear</span>: both;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
 </li>
 </ul>
 <ul>
-<li><p>自然排序Comparable</p>
-<p>元素所属类实现Comparable接口，重写compareTo(T o)方法</p>
-<p>重写方法必须注意按照要求的主要和次要条件来写</p>
-<p>compareTo()方法有this，this在前面表示升序</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.TreeSet;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TreeSetDemo</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		TreeSet&lt;Student&gt; ts = <span class="keyword">new</span> TreeSet&lt;&gt;();</span><br><span class="line">		Student s1 = <span class="keyword">new</span> Student(<span class="string">"a"</span>,<span class="number">29</span>);</span><br><span class="line">		Student s2 = <span class="keyword">new</span> Student(<span class="string">"c"</span>,<span class="number">28</span>);</span><br><span class="line">		Student s3 = <span class="keyword">new</span> Student(<span class="string">"d"</span>,<span class="number">30</span>);</span><br><span class="line">		Student s4 = <span class="keyword">new</span> Student(<span class="string">"b"</span>,<span class="number">33</span>);</span><br><span class="line">		Student s5 = <span class="keyword">new</span> Student(<span class="string">"c"</span>,<span class="number">33</span>);</span><br><span class="line">		ts.add(s1);</span><br><span class="line">		ts.add(s2);</span><br><span class="line">		ts.add(s3);</span><br><span class="line">		ts.add(s4);</span><br><span class="line">		ts.add(s5);</span><br><span class="line">		ts.forEach(obj-&gt;System.out.println(obj.getName()+<span class="string">" "</span>+obj.getAge()));</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span> <span class="keyword">implements</span> <span class="title">Comparable</span>&lt;<span class="title">Student</span>&gt;</span>&#123;</span><br><span class="line">	<span class="keyword">private</span> String name;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Student</span><span class="params">(String name,<span class="keyword">int</span> age)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.name = name;</span><br><span class="line">		<span class="keyword">this</span>.age = age;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> name;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getAge</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> age;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compareTo</span><span class="params">(Student o)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">int</span> num = <span class="keyword">this</span>.age-o.age;</span><br><span class="line">		<span class="keyword">int</span> num2 = num==<span class="number">0</span> ? <span class="keyword">this</span>.name.compareTo(o.name) : num;</span><br><span class="line">		<span class="keyword">return</span> num2;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>比较器排序Comparator</p>
-<p>重写Comparator的compare(T o1,T o2)方法</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TreeSetDemo</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		TreeSet&lt;Student&gt; ts = <span class="keyword">new</span> TreeSet&lt;&gt;(<span class="keyword">new</span> Comparator&lt;Student&gt;() &#123;</span><br><span class="line"></span><br><span class="line">			<span class="meta">@Override</span></span><br><span class="line">			<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compare</span><span class="params">(Student o1, Student o2)</span> </span>&#123;</span><br><span class="line">				<span class="keyword">int</span> num = o1.getAge()-o2.getAge();</span><br><span class="line">				<span class="keyword">int</span> num2 = num==<span class="number">0</span> ? o1.getName().compareTo(o2.getName()) : num;</span><br><span class="line">				<span class="keyword">return</span> num2;</span><br><span class="line">			&#125;</span><br><span class="line">			</span><br><span class="line">		&#125;);</span><br><span class="line">		Student s1 = <span class="keyword">new</span> Student(<span class="string">"a"</span>,<span class="number">29</span>);</span><br><span class="line">		Student s2 = <span class="keyword">new</span> Student(<span class="string">"c"</span>,<span class="number">28</span>);</span><br><span class="line">		Student s3 = <span class="keyword">new</span> Student(<span class="string">"d"</span>,<span class="number">30</span>);</span><br><span class="line">		Student s4 = <span class="keyword">new</span> Student(<span class="string">"b"</span>,<span class="number">33</span>);</span><br><span class="line">		Student s5 = <span class="keyword">new</span> Student(<span class="string">"c"</span>,<span class="number">33</span>);</span><br><span class="line">		ts.add(s1);</span><br><span class="line">		ts.add(s2);</span><br><span class="line">		ts.add(s3);</span><br><span class="line">		ts.add(s4);</span><br><span class="line">		ts.add(s5);</span><br><span class="line">		ts.forEach(obj-&gt;System.out.println(obj.getName()+<span class="string">" "</span>+obj.getAge()));</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> String name;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Student</span><span class="params">(String name,<span class="keyword">int</span> age)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.name = name;</span><br><span class="line">		<span class="keyword">this</span>.age = age;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> name;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getAge</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> age;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<li><p>clear：清除浮动</p>
+<ul>
+<li>none：默认值，不清除浮动</li>
+<li>left：清除左侧浮动元素对当前元素的影响</li>
+<li>right：清除右侧浮动元素对当前元素的影响</li>
+<li>both：清除左右浮动元素中对当前元素影响最大的</li>
+</ul>
 </li>
 </ul>
-<h3 id="Map集合"><a href="#Map集合" class="headerlink" title="Map集合"></a>Map集合</h3><ul>
-<li>将键映射到值的对象，不能包含重复键，键可以映射最多一个值</li>
-<li>添加元素时，如果键一样，值会被覆盖</li>
-<li></li>
+<h3 id="七-定位"><a href="#七-定位" class="headerlink" title="七.定位"></a>七.定位</h3><ul>
+<li><p>定位是将指定的元素摆放到页面的任意位置，通过定位可以任意的摆放元素</p>
+</li>
+<li><p>position属性：设置元素的定位</p>
+<ul>
+<li><p>static：默认值，元素没有开启定位</p>
+</li>
+<li><p>relative：开启元素的相对定位</p>
+</li>
+<li><p>absolute：开启元素的绝对定位</p>
+</li>
+<li><p>fixed：开启元素的固定定位(绝对定位的一种)</p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="1-相对定位"><a href="#1-相对定位" class="headerlink" title="1.相对定位"></a>1.相对定位</h4><ul>
+<li>position设置成relative时，则开启了元素的相对定位，元素不会脱离文档流，但会使元素提高一个层级，不会改变元素的性质，块还是块，内联还是内联</li>
+</ul>
+<ul>
+<li>开启相对定位但不设置偏移量时，元素不会发生任何变化</li>
+<li>可以通过left，right，top，bottom四个属性来设置元素的偏移量</li>
+<li>left：元素相对于原定位位置的左侧偏移量</li>
+<li>right：元素相对于原定位位置的右侧偏移量</li>
+<li>top：元素相对于原定位位置的上侧偏移量</li>
+<li>bottom：元素相对于原定位位置的下侧偏移量</li>
+<li>通常偏移量只需要使用两个就可以对一个元素进行定位，一般选择水平方向的一个偏移量和垂直方向的偏移量来为一个元素进行定位</li>
+</ul>
+<h4 id="2-绝对定位"><a href="#2-绝对定位" class="headerlink" title="2.绝对定位"></a>2.绝对定位</h4><ul>
+<li>positon设置成absolute时，开启元素的绝对定位，元素会脱离文档流</li>
+</ul>
+<ul>
+<li>开启绝对定位但不设置偏移量时，元素位置不变</li>
+<li>绝对定位是相对于离他最近的开启了定位的祖先元素进行定位，如果所有的祖先元素都没有开启定位，则相对于浏览器窗口进行定位(一般情况下，开启了子元素的绝对定位都会同时开启父元素的相对定位)</li>
+<li>绝对定位会使元素提升一个层级</li>
+<li>绝对定位会改变元素的性质，内联元素变成块元素</li>
+</ul>
+<h4 id="3-固定定位"><a href="#3-固定定位" class="headerlink" title="3.固定定位"></a>3.固定定位</h4><ul>
+<li><p>position设置为fixed时，开启元素的固定定位</p>
+</li>
+<li><p>固定定位也是一种绝对定位，大部分特点和绝对定位一样，但有一些不同</p>
+<ul>
+<li>固定定位永远相对于浏览器窗口进行定位</li>
+<li>固定定位会固定在浏览器窗口的某个位置，不会随滚动条滚动(牛皮癣广告)</li>
+</ul>
+</li>
+<li>IE6不支持固定定位</li>
+</ul>
+<h4 id="4-元素层级"><a href="#4-元素层级" class="headerlink" title="4.元素层级"></a>4.元素层级</h4><ul>
+<li>如果定位元素的层级一样，则下边的元素会盖住上边的</li>
+<li>通过z-index属性可设置元素的层级(数字越大，层级越大，越优先显示)</li>
+<li>对于没有开启定位的元素不能使用z-index属性</li>
+</ul>
+<h4 id="5-透明背景"><a href="#5-透明背景" class="headerlink" title="5.透明背景"></a>5.透明背景</h4><ul>
+<li>opacity属性：设置背景的透明度，值为0-1<ul>
+<li>0表示完全透明</li>
+<li>0.5表示半透明</li>
+<li>1表示完全不透明</li>
+</ul>
+</li>
+<li>opacity在IE8以下的浏览器不支持，需要用alpha(opacity=透明度)代替<ul>
+<li>需要一个0-100之间的值</li>
+<li>0表示完全透明</li>
+<li>100表示完全不透明</li>
+<li>50表示半透明</li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://linxd1999.github.io/2019/12/15/红黑树/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="linxd">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/1.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="L">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/12/15/红黑树/" itemprop="url">红黑树</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-15T20:28:11+08:00">
+                2019-12-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="一-红黑树-Red-Black-Tree"><a href="#一-红黑树-Red-Black-Tree" class="headerlink" title="一.红黑树(Red-Black Tree)"></a>一.红黑树(Red-Black Tree)</h3><ul>
+<li><p>红黑树是一种自平衡的二叉搜索树，也叫做平衡二叉B树(symmetric Binary B-tree)</p>
+</li>
+<li><p>性质：</p>
+<ul>
+<li>节点是RED或者BLACK</li>
+<li>根节点是BLACK</li>
+<li>叶子节点(外部节点，空节点)都是BLACK</li>
+<li>RED节点的子节点都是BLACK，RED节点的父节点都是BLACK，从根节点到叶子节点的所有路径不能有两个连续的RED节点</li>
+<li>从任一节点到叶子节点的所有路径都包含相同数目的BLACK节点(所有路径包括到外部节点和空节点的路径)</li>
+</ul>
+</li>
+<li>红黑树和2-3-4树具有等价性，BLACK节点和它的RED子节点融合在一起，形成一个B树节点</li>
+<li>红黑树的BLACK节点个数与四阶B树的节点总个数相等</li>
+<li>每个B树节点都只有一个黑色节点，且都是与上层连接的节点</li>
 </ul>
 
           
@@ -2349,7 +2564,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-count">25</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
