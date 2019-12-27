@@ -1,5 +1,5 @@
 ---
-title: JDK8的新特性
+title: JDK8新特性
 tags: Java
 ---
 
