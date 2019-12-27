@@ -1,5 +1,6 @@
 ---
-title: JDK8新特性
+title: JDK8的新特性
+tags: Java
 ---
 
 ### Lambda表达式
@@ -15,7 +16,7 @@ title: JDK8新特性
   - 右侧：lambda体(重写抽象方法的方法体)
 - 本质：作为接口的实例(java万物皆对象)，lambda表达式也是一个对象
 
-<!--more-->
+<!-- more -->
 
 #### 3.语法
 
