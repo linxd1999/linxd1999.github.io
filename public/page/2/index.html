@@ -242,7 +242,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://linxd1999.github.io/2019/05/28/Process Management(3)-deadlock/">
+    <link itemprop="mainEntityOfPage" href="https://linxd1999.github.io/2019/12/15/Java常用类/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="linxd">
@@ -261,7 +261,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/05/28/Process Management(3)-deadlock/" itemprop="url">进程管理(三)：死锁</a></h1>
+                <a class="post-title-link" href="/2019/12/15/Java常用类/" itemprop="url">Java常用类</a></h1>
         
 
         <div class="post-meta">
@@ -273,8 +273,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-28T22:01:36+08:00">
-                2019-05-28
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-15T20:28:11+08:00">
+                2019-12-15
               </time>
             
 
@@ -313,7 +313,151 @@
       
         
           
-            
+            <h3 id="一-字符串"><a href="#一-字符串" class="headerlink" title="一.字符串"></a>一.字符串</h3><h4 id="1-String类"><a href="#1-String类" class="headerlink" title="1.String类"></a>1.String类</h4><ul>
+<li><p>String用一对” “来表示</p>
+</li>
+<li><p>String声明为final，不可被继承</p>
+</li>
+<li><p>String实现了Serializable接口：字符串支持序列化；实现Comparable接口：字符串可比较大小</p>
+</li>
+<li><p>String内部定义了final char[] value用于存储字符串数据</p>
+</li>
+<li><p>字符序列不可变(不可变性)</p>
+<ul>
+<li>当字符串重新赋值时，需要重写指定内存区域赋值，不能使用原有的value进行赋值</li>
+<li>当对现有字符串进行连接操作时，也需要重新指定内存区域赋值，不能使用原有的字符串对象</li>
+<li>当调用String的replace()方法修改指定字符或字符串时，也需要重新指定内存区域</li>
+</ul>
+</li>
+<li><p>通过字面量的方式赋值(区别于new)，此时字符串值声明在字符串常量池中</p>
+</li>
+<li><p>字符串常量池不会存储内容相同的字符串</p>
+</li>
+<li><p>字面量定义和new+构造器定义的字符串有什么区别</p>
+<ul>
+<li>字面量定义的字符串存储在常量池中；new的字符串对象在堆中生成，然后在常量池中生成相应的字符串常量，堆中对象指向常量池中的字符串。如果常量池中存在相应字符串，则new的字符串只需要创建一个对象。</li>
+</ul>
+</li>
+<li><p>常量与常量的拼接结果在常量池。且常量池中不会存在相同内容的常量，只要其中有一个是变量，结果就在堆中。加了final关键字的字符串是常量。</p>
+</li>
+<li><p>String.intern()方法：将常量池中已经存在的字符串String的内容返回出来</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">String s1 = <span class="string">"abc"</span>;</span><br><span class="line">String s2 = <span class="string">"def"</span>;</span><br><span class="line">String s3 = <span class="string">"abcdef"</span>;</span><br><span class="line">String s4 = <span class="string">"abc"</span> + <span class="string">"def"</span>;</span><br><span class="line">String s5 = s1 + <span class="string">"def"</span>;</span><br><span class="line">String s6 = <span class="string">"abc"</span> + s2;</span><br><span class="line">String s7 = s1 + s2;</span><br><span class="line">  </span><br><span class="line">System.out.println(s3 == s4);<span class="comment">//true</span></span><br><span class="line">System.out.println(s3 == s5);<span class="comment">//false</span></span><br><span class="line">System.out.println(s3 == s6);<span class="comment">//false</span></span><br><span class="line">System.out.println(s3 == s7);<span class="comment">//false</span></span><br><span class="line">System.out.println(s5 == s6);<span class="comment">//false</span></span><br><span class="line">System.out.println(s5 == s7);<span class="comment">//false</span></span><br><span class="line">System.out.println(s6 == s7);<span class="comment">//false</span></span><br><span class="line">  </span><br><span class="line">String s8 = s5.intern();</span><br><span class="line">System.out.println(s3 == s8);<span class="comment">//true</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="2-String常用方法"><a href="#2-String常用方法" class="headerlink" title="2.String常用方法"></a>2.String常用方法</h4><ul>
+<li><p>int length()：返回字符串的长度： return value.length </p>
+</li>
+<li><p>char charAt(int index)： 返回某索引处的字符return value[index] </p>
+</li>
+<li><p>boolean isEmpty()：判断是否是空字符串：return value.length == 0 </p>
+</li>
+<li><p>String toLowerCase()：使用默认语言环境，将 String 中的所有字符转换为小写 </p>
+</li>
+<li><p>String toUpperCase()：使用默认语言环境，将 String 中的所有字符转换为大写 </p>
+</li>
+<li><p>String trim()：返回字符串的副本，忽略前导空白和尾部空白 </p>
+</li>
+<li><p>boolean equals(Object obj)：比较字符串的内容是否相同 </p>
+</li>
+<li><p>boolean equalsIgnoreCase(String anotherString)：与equals方法类似，忽略大 小写 </p>
+</li>
+<li><p>String concat(String str)：将指定字符串连接到此字符串的结尾。 等价于用“+” </p>
+</li>
+<li><p>int compareTo(String anotherString)：比较两个字符串的大小 </p>
+</li>
+<li><p>String substring(int beginIndex)：返回一个新的字符串，它是此字符串的从 beginIndex开始截取到最后的一个子字符串。 </p>
+</li>
+<li><p>String substring(int beginIndex, int endIndex) ：返回一个新字符串，它是此字 符串从beginIndex开始截取到endIndex(不包含)的一个子字符串。 </p>
+</li>
+<li><p>boolean endsWith(String suffix)：测试此字符串是否以指定的后缀结束 </p>
+</li>
+<li><p>boolean startsWith(String prefix)：测试此字符串是否以指定的前缀开始 </p>
+</li>
+<li><p>boolean startsWith(String prefix, int toffset)：测试此字符串从指定索引开始的 子字符串是否以指定前缀开始</p>
+</li>
+<li><p>boolean contains(CharSequence s)：当且仅当此字符串包含指定的 char 值序列 时，返回 true </p>
+</li>
+<li><p>int indexOf(String str)：返回指定子字符串在此字符串中第一次出现处的索引 </p>
+</li>
+<li><p>int indexOf(String str, int fromIndex)：返回指定子字符串在此字符串中第一次出 现处的索引，从指定的索引开始 </p>
+</li>
+<li><p>int lastIndexOf(String str)：返回指定子字符串在此字符串中最右边出现处的索引 </p>
+</li>
+<li><p>int lastIndexOf(String str, int fromIndex)：返回指定子字符串在此字符串中最后 一次出现处的索引，从指定的索引开始反向搜索 注：indexOf和lastIndexOf方法如果未找到都是返回-1</p>
+</li>
+<li><p>String replace(char oldChar, char newChar)：返回一个新的字符串，它是 通过用 newChar 替换此字符串中出现的所有 oldChar 得到的。 </p>
+</li>
+<li><p>String replace(CharSequence target, CharSequence replacement)：使 用指定的字面值替换序列替换此字符串所有匹配字面值目标序列的子字符串</p>
+</li>
+<li><p>String replaceAll(String regex, String replacement)：使用给定的replacement 替换此字符串所有匹配给定的正则表达式的子字符串。 </p>
+</li>
+<li><p>String replaceFirst(String regex, String replacement)：使用给定的 replacement 替换此字符串匹配给定的正则表达式的第一个子字符串。</p>
+</li>
+<li><p>boolean matches(String regex)：告知此字符串是否匹配给定的正则表达式 </p>
+</li>
+<li><p>String[] split(String regex)：根据给定正则表达式的匹配拆分此字符串。 </p>
+</li>
+<li><p>String[] split(String regex, int limit)：根据匹配给定的正则表达式来拆分此 字符串，最多不超过limit个，如果超过了，剩下的全部都放到最后一个元素中</p>
+</li>
+</ul>
+<h4 id="3-转换"><a href="#3-转换" class="headerlink" title="3.转换"></a>3.转换</h4><ul>
+<li>String和基本数据类型、包装类之间的转换<ul>
+<li>String转换为基本数据类型、包装类：调用包装类的静态方法parsexxx(str)</li>
+<li>基本数据类型、包装类转换为String：调用String重载的valueOf(xxx) or + “ “(拼接空串)</li>
+</ul>
+</li>
+<li>String和char[ ]之间的转换<ul>
+<li>String转换为char[ ]：调用String.toCharArray()</li>
+<li>char[ ]转换为String：调用new String(char [ ])构造器</li>
+</ul>
+</li>
+<li>String和Byte[ ]之间的转换<ul>
+<li>String转换为Byte[ ]：调用String.getBytes([“字符集”])</li>
+<li>Byte[ ]转换为String：调用new String(Byte [ ],[]”字符集”])构造器</li>
+<li>编码：字符串=&gt;字节(看得懂=&gt;看不懂的二进制数据)</li>
+<li>解码：字节=&gt;字符串(看不懂的二进制数据=&gt;看得懂的字符串)</li>
+<li>乱码：编码集和解码集不一致</li>
+</ul>
+</li>
+</ul>
+<h4 id="4-StringBuffer和StringBuilder"><a href="#4-StringBuffer和StringBuilder" class="headerlink" title="4.StringBuffer和StringBuilder"></a>4.StringBuffer和StringBuilder</h4><ul>
+<li>JDK5.0新增类</li>
+<li>String，StringBuffer，StringBuilder异同<ul>
+<li>String：不可变字符序列，底层用char[ ]存储</li>
+<li>StringBuffer：可变字符序列，线程安全，效率低，底层用char[ ]存储</li>
+<li>StringBuilder：可变字符序列，线程不安全，效率高，底层用char[ ]存储</li>
+</ul>
+</li>
+</ul>
+<h3 id="二-比较器"><a href="#二-比较器" class="headerlink" title="二.比较器"></a>二.比较器</h3><h4 id="1-自然排序：Comparable接口"><a href="#1-自然排序：Comparable接口" class="headerlink" title="1.自然排序：Comparable接口"></a>1.自然排序：Comparable接口</h4><ul>
+<li>像String、包装类等实现了Comparable接口，重写了compareTo(obj)方法，给出了比较两个对象的方式</li>
+<li>像String、包装类等重写了compareTo()以后，进行从小到大的排列</li>
+<li>重写compareTo(obj)的规则<ul>
+<li>如果当前对象this大于形参对象obj，则返回正整数</li>
+<li>如果当前对象this小于形参对象obj，则返回负整数</li>
+<li>如果当前对象this等于形参对象obj，则返回0</li>
+</ul>
+</li>
+<li>对于自定义类，如果需要排序，需要实现Comparable接口，重写compareTo()方法</li>
+</ul>
+<h4 id="2-定制排序：Comparator接口"><a href="#2-定制排序：Comparator接口" class="headerlink" title="2.定制排序：Comparator接口"></a>2.定制排序：Comparator接口</h4><ul>
+<li>当元素的类型没有实现java.lang.Comparable接口而又不方便修改代码， 或者实现了java.lang.Comparable接口的排序规则不适合当前的操作，那 么可以考虑使用 Comparator 的对象来排序</li>
+<li>重写compare(Object o1,Object o2)方法，比较o1和o2的大小<ul>
+<li>o1 &gt; o2，返回正整数</li>
+<li>o1 &lt; o2，返回负整数</li>
+<li>o1 == o2，返回0</li>
+</ul>
+</li>
+</ul>
+<p><strong>区别</strong></p>
+<ul>
+<li><p>Comparable是一个类使用的接口，能保证实现这个类的对象在任何位置都可以比较大小，而Comparator接口属于临时比较，有特定要求的排序才会临时使用，一般可以用内部类和匿名类来实现</p>
+</li>
+<li><p>为了保证一个类的对象可以有多样的排序方式，可以同时使用这两种接口。如果传入Comparator接口对象作为参数，则按照定制排序的内容进行排序，如果没有传入Comparator接口对象，则把对象强制转换为Comparable接口类型来进行自然排序</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">compare</span><span class="params">(E e1,E e2)</span></span>&#123;</span><br><span class="line">       <span class="keyword">if</span> (comparator!=<span class="keyword">null</span>)&#123;</span><br><span class="line">           <span class="keyword">return</span> comparator.compare(e1,e2);</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> ((Comparable&lt;E&gt;)e1).compareTo(e2);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+
           
         
       
@@ -361,7 +505,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://linxd1999.github.io/2019/05/28/Process Management(2)-mutex/">
+    <link itemprop="mainEntityOfPage" href="https://linxd1999.github.io/2019/12/15/Git/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="linxd">
@@ -380,7 +524,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/05/28/Process Management(2)-mutex/" itemprop="url">进程管理(二)：同步与互斥</a></h1>
+                <a class="post-title-link" href="/2019/12/15/Git/" itemprop="url">Git & Github</a></h1>
         
 
         <div class="post-meta">
@@ -392,8 +536,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-28T22:00:55+08:00">
-                2019-05-28
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-15T20:28:11+08:00">
+                2019-12-15
               </time>
             
 
@@ -432,7 +576,179 @@
       
         
           
-            
+            <h3 id="一-Git基本概念"><a href="#一-Git基本概念" class="headerlink" title="一.Git基本概念"></a>一.Git基本概念</h3><h4 id="1-版本控制系统"><a href="#1-版本控制系统" class="headerlink" title="1.版本控制系统"></a>1.版本控制系统</h4><ul>
+<li><p>Git是开源的分布式版本控制系统，可以处理项目的版本控制</p>
+</li>
+<li><p>功能</p>
+<ul>
+<li>协同修改：多人并行修改服务器端的同一个文件</li>
+<li>权限控制：开发团队内外的人员拥有不同的权限</li>
+<li>历史记录：查看修改人，修改时间，修改内容等</li>
+<li><p>数据备份：保存当前状态，还保存每一个提交过的历史状态</p>
+</li>
+<li><p>分支操作：多条生产线同时推进任务</p>
+</li>
+</ul>
+</li>
+<li><p>优势</p>
+<ul>
+<li>在本地完成操作，不需要联网</li>
+<li>尽可能添加数据而不是删改数据</li>
+<li>数据完整性的保证(哈希算法)</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-Git结构"><a href="#2-Git结构" class="headerlink" title="2.Git结构"></a>2.Git结构</h4><ul>
+<li>工作区：写代码的区域</li>
+<li>暂存区：写完但还没有提交的命令(临时存储)</li>
+<li>本地库：储存历史的版本</li>
+</ul>
+<h4 id="3-本地库和远程库"><a href="#3-本地库和远程库" class="headerlink" title="3.本地库和远程库"></a>3.本地库和远程库</h4><ul>
+<li><p>远程库位于代码托管中心</p>
+</li>
+<li><p><strong>团队内部协作</strong>：远程库的控制者把本地库推送到远程库，然后团队开发人员可以clone该远程库到自己的本地库，然后修改后再推送到远程库</p>
+</li>
+<li><strong>跨团队协作</strong>：团队外的人可以fork别人的远程库，然后在本地修改之后，再推送到远程库中，通过提交pull request请求，经审核通过后合并到别人的远程库中</li>
+</ul>
+<h3 id="二-Git命令行操作"><a href="#二-Git命令行操作" class="headerlink" title="二.Git命令行操作"></a>二.Git命令行操作</h3><h4 id="1-本地库初始化"><a href="#1-本地库初始化" class="headerlink" title="1.本地库初始化"></a>1.本地库初始化</h4><ul>
+<li>命令：git init</li>
+<li>在Git终端中，进入目录使用该命令，即可初始化一个本地库</li>
+<li>.git目录是隐藏目录，存放的是本地库相关的子目录和文件，不能删除和胡乱修改</li>
+</ul>
+<h4 id="2-设置签名"><a href="#2-设置签名" class="headerlink" title="2.设置签名"></a>2.设置签名</h4><ul>
+<li><p>作用：区分不同开发人员的身份</p>
+</li>
+<li><p>这里设置的签名和登录远程库的账号密码没有关系</p>
+</li>
+<li><p>项目级别/仓库级别：仅在当前本地仓库范围内有效</p>
+<ul>
+<li>git config user.name abc</li>
+<li>git config user.email <a href="mailto:abc@qq.com" target="_blank" rel="noopener">abc@qq.com</a></li>
+<li>信息保存位置：./.git/config(cat .git/config)</li>
+</ul>
+</li>
+<li><p>系统用户级别：登录当前操作系统的用户范围</p>
+<ul>
+<li>git config –global user.name abc</li>
+<li>git config –global user.email <a href="mailto:abc@qq.com" target="_blank" rel="noopener">abc@qq.com</a></li>
+<li>信息保存位置：~/.gitconfig(cat ~/.gitconfig)</li>
+</ul>
+</li>
+<li><p>两者必须有一个，但项目级别优先级更高</p>
+</li>
+</ul>
+<h4 id="3-基本操作"><a href="#3-基本操作" class="headerlink" title="3.基本操作"></a>3.基本操作</h4><ul>
+<li><p>状态查看：git status(查看工作区，暂存区状态)</p>
+</li>
+<li><p>添加：git add [file name] (将工作区的”新建/修改”添加到暂存区)</p>
+</li>
+<li><p>提交：git commit -m “commit message” [file name] (将暂存区中的内容提交到本地库)</p>
+</li>
+<li><p>查看历史记录：</p>
+<ul>
+<li>git log：显示具体信息(多屏显示，space向下翻页，b向上翻页，q退出)</li>
+<li>git log –pretty=oneline：单行显示</li>
+<li>git log –oneline：简化单行显示</li>
+<li>git reflog：HEAD@{移动到当前版本需要多少步}</li>
+</ul>
+</li>
+<li><p>版本前进后退</p>
+<ul>
+<li>索引值：git reset –hard [局部索引值]</li>
+</ul>
+</li>
+<li><p>^符号(只能后退)：git reset –hard HEAD^ (一个^表示后退一步，n个表示后退n行)</p>
+</li>
+<li><p>~符号(只能后退)：git reset –hard HEAD~n(表示后退n步)</p>
+</li>
+<li><p>reset参数：</p>
+<ul>
+<li>soft：只更改head指针的位置，暂存区和工作区不变，工作区内容不会丢失</li>
+<li>mixed：默认参数，让暂存区和本地库一致，但工作区内容不会丢失</li>
+<li>hard：head指针，暂存区，工作区三者一致，指针指向版本后做的更新全部丢失</li>
+</ul>
+</li>
+<li><p>找回删除文件：只要commit之后就会有记录，用reflog能看到所有修改的记录</p>
+<ul>
+<li>git reset –hard [指针位置] 可以找回一切提交过的记录版本</li>
+<li>删除操作还没提交到本地库，指针位置用HEAD</li>
+</ul>
+</li>
+<li><p>比较文件差异：如果git status中working tree clean，则没有输出</p>
+</li>
+<li><p>git diff [文件名]：工作区的文件与暂存区的文件相比较</p>
+<ul>
+<li>git diff [本地库中历史版本] [文件名] ：工作区的文件和本地库历史记录比较</li>
+<li>不指定文件名可以比较所有文件：git diff HEAD</li>
+</ul>
+</li>
+</ul>
+<h4 id="4-分支管理"><a href="#4-分支管理" class="headerlink" title="4.分支管理"></a>4.分支管理</h4><ul>
+<li>分支：多条线并行推进任务，以免影响主线开发</li>
+<li>优点：提升开发效率；如果一个分支开发失败，不会对主线造成任何影响，删除重新开始即可</li>
+<li>创建分支：git branch [分支名]</li>
+<li>查看分支：git branch -v</li>
+<li>切换分支：git checkout [分支名]</li>
+<li>合并分支：<ul>
+<li>切换到需要被修改的分支git checkout [被合并的分支]</li>
+<li>合并git merge [有新内容的分支名]</li>
+</ul>
+</li>
+<li>解决冲突：<ul>
+<li>冲突：不同分支在同一个位置进行修改</li>
+<li>1.编辑文件，删除特殊符号</li>
+<li>2.保存文件</li>
+<li>3.git add [文件名]</li>
+<li>4.git commit -m “日志信息” (不能带文件名)</li>
+</ul>
+</li>
+<li>合并操作需要在提交到本地库(commit)之后才能合并</li>
+</ul>
+<h3 id="三-Git基本原理"><a href="#三-Git基本原理" class="headerlink" title="三.Git基本原理"></a>三.Git基本原理</h3><h4 id="1-哈希算法"><a href="#1-哈希算法" class="headerlink" title="1.哈希算法"></a>1.哈希算法</h4><ul>
+<li>哈希函数(散列函数)：把任意长度的输入通过散列算法转换成相同长度的输出，散列值的空间远小于原输入的空间</li>
+<li>特点<ul>
+<li>输出长度固定</li>
+<li>输入数据确定，则输出数据保持不变</li>
+<li>输入数据变化，则输出数据会有很大变化</li>
+<li>不同的输入可能有相同输出，所以哈希算法不可逆</li>
+</ul>
+</li>
+<li>Git底层用的是SHA-1算法来保证数据的完整性</li>
+</ul>
+<h4 id="2-Git保存版本的机制"><a href="#2-Git保存版本的机制" class="headerlink" title="2.Git保存版本的机制"></a>2.Git保存版本的机制</h4><ul>
+<li>Git把数据看作小型文件系统的一组快照，每次提交更新时Git会对当前全部文件制作一个快照并保存快照的索引。</li>
+<li>如果文件没有修改，则不会重新存储该文件，而是保留一个指向之前储存的文件。</li>
+<li>快照的理解：当你删除一个文件后，文件原来所占的磁盘空间并不是被清空，而是被文件系统标记为“已废弃，可修改”的状态，快照的作用就相当于将旧文件所占的空间保留下来，并且保存一个引用，而新文件中会继续使用与旧文件内容相同部分的磁盘空间，不同部分则写入新的磁盘空间</li>
+<li>Git的数据文件管理和分支管理都用的是指针操作，效率高</li>
+</ul>
+<h3 id="四-Github"><a href="#四-Github" class="headerlink" title="四.Github"></a>四.Github</h3><h4 id="1-创建远程库地址别名"><a href="#1-创建远程库地址别名" class="headerlink" title="1.创建远程库地址别名"></a>1.创建远程库地址别名</h4><ul>
+<li><p>查看当前所有远程地址别名：git remote -v</p>
+</li>
+<li><p>创建远程地址别名：git remote add [别名] [远程地址]</p>
+</li>
+</ul>
+<h4 id="2-推送"><a href="#2-推送" class="headerlink" title="2.推送"></a>2.推送</h4><ul>
+<li>git push [别名] [分支名]</li>
+</ul>
+<h4 id="3-克隆"><a href="#3-克隆" class="headerlink" title="3.克隆"></a>3.克隆</h4><ul>
+<li>git clone [远程地址]</li>
+<li>效果<ul>
+<li>完整的把远程库下载到本地</li>
+<li>创建远程地址别名</li>
+<li>初始化本地库</li>
+</ul>
+</li>
+</ul>
+<h4 id="4-团队成员邀请"><a href="#4-团队成员邀请" class="headerlink" title="4.团队成员邀请"></a>4.团队成员邀请</h4><ul>
+<li>Settings-Collaborators-Add collaborator(输入账号)-Copy invite link发送给对方-对方打开链接接收邀请-加入团队成功</li>
+</ul>
+<h4 id="5-拉取"><a href="#5-拉取" class="headerlink" title="5.拉取"></a>5.拉取</h4><ul>
+<li>pull=fetch+merge</li>
+<li>git fetch [远程库地址别名] [远程分支名]</li>
+<li>git merge [远程库地址别名/远程分支名]</li>
+<li>git pull [远程库地址别名] [远程分支名]</li>
+</ul>
+
           
         
       
@@ -480,7 +796,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://linxd1999.github.io/2019/05/28/Hexo博客框架+GitHub部署/">
+    <link itemprop="mainEntityOfPage" href="https://linxd1999.github.io/2019/12/15/Hexo博客框架+GitHub部署/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="linxd">
@@ -499,7 +815,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/05/28/Hexo博客框架+GitHub部署/" itemprop="url">Hexo博客框架+GitHub部署</a></h1>
+                <a class="post-title-link" href="/2019/12/15/Hexo博客框架+GitHub部署/" itemprop="url">Hexo博客框架+GitHub部署</a></h1>
         
 
         <div class="post-meta">
@@ -511,8 +827,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-28T19:27:58+08:00">
-                2019-05-28
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-15T20:28:11+08:00">
+                2019-12-15
               </time>
             
 
@@ -556,7 +872,7 @@
 <p>安装完之后鼠标右击会出现Git Bash Here， 这就相当于Linux终端，我们等会对博客的操作也都是在这里完成。</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/05/28/Hexo博客框架+GitHub部署/#more" rel="contents">
+            <a class="btn" href="/2019/12/15/Hexo博客框架+GitHub部署/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -607,7 +923,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://linxd1999.github.io/2019/05/17/记录一些好用的网站/">
+    <link itemprop="mainEntityOfPage" href="https://linxd1999.github.io/2019/12/15/jdbc/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="linxd">
@@ -626,7 +942,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/05/17/记录一些好用的网站/" itemprop="url">记录一些好用的网站</a></h1>
+                <a class="post-title-link" href="/2019/12/15/jdbc/" itemprop="url">JDBC编程</a></h1>
         
 
         <div class="post-meta">
@@ -638,8 +954,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-17T22:25:08+08:00">
-                2019-05-17
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-15T20:28:11+08:00">
+                2019-12-15
               </time>
             
 
@@ -678,11 +994,1489 @@
       
         
           
-            <p>1、高清电脑壁纸(wallhaven)：<a href="https://alpha.wallhaven.cc/" target="_blank" rel="noopener">https://alpha.wallhaven.cc/</a></p>
-<p>2、在线作图(ProcessOn)：<a href="https://www.processon.com/" target="_blank" rel="noopener">https://www.processon.com/</a></p>
-<p>3、GitHub(面向开源及私有软件项目的托管平台)：<a href="https://github.com/" target="_blank" rel="noopener">https://github.com/</a></p>
-<p>4、Java学习：<a href="http://how2j.cn/" target="_blank" rel="noopener">http://how2j.cn/</a></p>
-<p>5、Linux命令行学习：<a href="http://linuxcommand.org/" target="_blank" rel="noopener">http://linuxcommand.org/</a></p>
+            <h3 id="一、JDBC简介"><a href="#一、JDBC简介" class="headerlink" title="一、JDBC简介"></a>一、JDBC简介</h3><p>JDBC(Java Database Connectivity):JAVA数据库连接，是可以执行sql语句的一套API</p>
+<p>程序可通过JDBC连接到关系数据库，用sql对数据进行增删改查</p>
+<p>通过JDBC开发的数据库应用可跨平台</p>
+<p>数据库驱动程序：JDBC与数据库之间的转换层，负责将JDBC调用映射成特定的数据库调用</p>
+<h3 id="二、JDBC编程"><a href="#二、JDBC编程" class="headerlink" title="二、JDBC编程"></a>二、JDBC编程</h3><h4 id="1-常用类和接口"><a href="#1-常用类和接口" class="headerlink" title="1.常用类和接口"></a>1.常用类和接口</h4><p>DriverManager：用于管理JDBC驱动的服务类，用于获取Connection对象</p>
+<p>Connection：数据库连接对象，每个Connection代表一个连接会话。它是一个接口，可通过Statement，Preparedstatement来实例化，获取其对象</p>
+<p>Statement：用于执行sql的工具接口</p>
+<p>PreparedStatement：预编译的Statement对象，是Statement子接口，可以预编译sql语句，允许sql语句含参，方便后来修改也可避免每次都编译sql语句，性能好。</p>
+<p>Statement和PreparedStatement都有execute()，executeUpdate()，executeQuery()，返回查询的结果集，executeUpdate()可执行DML语句，返回受影响的行数，executeQuery()可以执行DDL语句，返回结果集对象，所以一般不用execute()方法，返回的是ResultSet结果集。</p>
+<p>ResultSet：结果集对象，包含很多查询结果的方法，可以根据列名或列索引来获取结果，也有很多种方法来移动记录指针，最常用的是next()方法。</p>
+<h4 id="2-步骤-以MySQL为例"><a href="#2-步骤-以MySQL为例" class="headerlink" title="2.步骤(以MySQL为例)"></a>2.步骤(以MySQL为例)</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Connection conn = <span class="keyword">null</span>;</span><br><span class="line">PreparedStatement pstmt = <span class="keyword">null</span>;</span><br><span class="line">ResultSet rs = <span class="keyword">null</span>;</span><br></pre></td></tr></table></figure>
+<h5 id="1-加载数据库驱动"><a href="#1-加载数据库驱动" class="headerlink" title="(1).加载数据库驱动"></a>(1).加载数据库驱动</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Class.forName(<span class="string">"com.mysql.cj.jdbc.Driver"</span>);</span><br></pre></td></tr></table></figure>
+<h5 id="2-获取数据库连接"><a href="#2-获取数据库连接" class="headerlink" title="(2).获取数据库连接"></a>(2).获取数据库连接</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conn = DriverManager.getConnection(<span class="string">"jdbc:mysql://localhost:3306/test?useSSL=false&amp;serverTimezone=UTC"</span>,<span class="string">"root"</span>, <span class="string">"password"</span>);</span><br></pre></td></tr></table></figure>
+<h5 id="3-通过Connection创建PreparedStatement对象"><a href="#3-通过Connection创建PreparedStatement对象" class="headerlink" title="(3).通过Connection创建PreparedStatement对象"></a>(3).通过Connection创建PreparedStatement对象</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pstmt = conn.prepareStatement(sql);</span><br></pre></td></tr></table></figure>
+<h5 id="4-执行sql语句"><a href="#4-执行sql语句" class="headerlink" title="(4).执行sql语句"></a>(4).执行sql语句</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rs = pstmt.executeQuery();</span><br><span class="line">result = pstmt.executeUpdate;</span><br></pre></td></tr></table></figure>
+<h3 id="三、模板"><a href="#三、模板" class="headerlink" title="三、模板"></a>三、模板</h3><p>这些语句都可以被封装成单独的函数进行使用，更加方便，不用每次再进行定义。</p>
+<p>下面是DAO模式分层后，最底层与数据库交互的BaseDao类，方便再使用时拷贝，</p>
+<p>连接数据库还需要一个.property文件，里面记录了驱动，数据库位置，用户和密码，每次使用只需要改这里就可以</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">driver=com.mysql.jdbc.Driver</span><br><span class="line">url=jdbc:mysql:<span class="comment">//localhost:3306/test?useSSL=false&amp;serverTimezone=UTC</span></span><br><span class="line">user=root</span><br><span class="line">password=<span class="number">123456</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 数据库连接与关闭工具类。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BaseDao</span> </span>&#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> String DRIVER; <span class="comment">// 数据库驱动</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> String URL ; <span class="comment">// url</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> String DBNAME; <span class="comment">// 数据库用户名</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> String DBPASS; <span class="comment">// 数据库密码</span></span><br><span class="line">	</span><br><span class="line">	Connection conn = <span class="keyword">null</span>;<span class="comment">// 数据连接对象</span></span><br><span class="line">	</span><br><span class="line">	<span class="keyword">static</span>&#123;<span class="comment">//静态代码块,在类加载的时候执行</span></span><br><span class="line">		init();</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 初始化连接参数,从配置文件里获得</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span></span>&#123;</span><br><span class="line">			Properties params=<span class="keyword">new</span> Properties();</span><br><span class="line">			String configFile = <span class="string">"database.properties"</span>;<span class="comment">//配置文件路径</span></span><br><span class="line">			<span class="comment">//加载配置文件到输入流中</span></span><br><span class="line">			InputStream is=BaseDao.class.getClassLoader().getResourceAsStream(configFile);</span><br><span class="line">			</span><br><span class="line">			<span class="keyword">try</span> &#123;</span><br><span class="line">				<span class="comment">//从输入流中读取属性列表</span></span><br><span class="line">				params.load(is);</span><br><span class="line">			&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">				e.printStackTrace();</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="comment">//根据指定的获取对应的值</span></span><br><span class="line">			DRIVER=params.getProperty(<span class="string">"driver"</span>);</span><br><span class="line">			URL=params.getProperty(<span class="string">"url"</span>);</span><br><span class="line">			DBNAME=params.getProperty(<span class="string">"user"</span>);</span><br><span class="line">			DBPASS=params.getProperty(<span class="string">"password"</span>);</span><br><span class="line">		&#125;   </span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 得到数据库连接</span></span><br><span class="line"><span class="comment">	 * </span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@throws</span> ClassNotFoundException</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@throws</span> SQLException</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span> 数据库连接</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Connection <span class="title">getConnection</span><span class="params">()</span> <span class="keyword">throws</span> ClassNotFoundException, SQLException </span>&#123;</span><br><span class="line">		Connection conn = <span class="keyword">null</span>;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			Class.forName(DRIVER); <span class="comment">// 注册驱动</span></span><br><span class="line">			conn = DriverManager.getConnection(URL, DBNAME, DBPASS); <span class="comment">// 获得数据库连接</span></span><br><span class="line">		&#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> conn; <span class="comment">// 返回连接</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 释放资源</span></span><br><span class="line"><span class="comment">	 * </span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> conn</span></span><br><span class="line"><span class="comment">	 *            数据库连接</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> pstmt</span></span><br><span class="line"><span class="comment">	 *            PreparedStatement对象</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> rs</span></span><br><span class="line"><span class="comment">	 *            结果集</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">closeAll</span><span class="params">(Connection conn, PreparedStatement pstmt, ResultSet rs)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">		<span class="comment">/* 如果rs不空，关闭rs */</span></span><br><span class="line">		<span class="keyword">if</span> (rs != <span class="keyword">null</span>) &#123;</span><br><span class="line">			<span class="keyword">try</span> &#123;</span><br><span class="line">				rs.close();</span><br><span class="line">			&#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">				e.printStackTrace();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">/* 如果pstmt不空，关闭pstmt */</span></span><br><span class="line">		<span class="keyword">if</span> (pstmt != <span class="keyword">null</span>) &#123;</span><br><span class="line">			<span class="keyword">try</span> &#123;</span><br><span class="line">				pstmt.close();</span><br><span class="line">			&#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">				e.printStackTrace();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">/* 如果conn不空，关闭conn */</span></span><br><span class="line">		<span class="keyword">if</span> (conn != <span class="keyword">null</span>) &#123;</span><br><span class="line">			<span class="keyword">try</span> &#123;</span><br><span class="line">				conn.close();</span><br><span class="line">			&#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">				e.printStackTrace();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 执行SQL语句，可以进行增、删、改的操作，不能执行查询</span></span><br><span class="line"><span class="comment">	 * </span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> sql</span></span><br><span class="line"><span class="comment">	 *            预编译的 SQL 语句</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> param</span></span><br><span class="line"><span class="comment">	 *            预编译的 SQL 语句中的‘？’参数的字符串数组</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span> 影响的条数</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">executeSQL</span><span class="params">(String preparedSql, Object[] param)</span> </span>&#123;</span><br><span class="line">		Connection conn = <span class="keyword">null</span>;</span><br><span class="line">		PreparedStatement pstmt = <span class="keyword">null</span>;</span><br><span class="line">		<span class="keyword">int</span> num = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">		<span class="comment">/* 处理SQL,执行SQL */</span></span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			conn = getConnection(); <span class="comment">// 得到数据库连接</span></span><br><span class="line">			pstmt = conn.prepareStatement(preparedSql); <span class="comment">// 得到PreparedStatement对象</span></span><br><span class="line">			<span class="keyword">if</span> (param != <span class="keyword">null</span>) &#123;</span><br><span class="line">				<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; param.length; i++) &#123;</span><br><span class="line">					pstmt.setObject(i + <span class="number">1</span>, param[i]); <span class="comment">// 为预编译sql设置参数</span></span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		</span><br><span class="line">			num = pstmt.executeUpdate(); <span class="comment">// 执行SQL语句</span></span><br><span class="line">		&#125; <span class="keyword">catch</span> (ClassNotFoundException e) &#123;</span><br><span class="line">			<span class="comment">//e.printStackTrace(); // 处理ClassNotFoundException异常</span></span><br><span class="line">		&#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">			<span class="comment">//e.printStackTrace(); // 处理SQLException异常</span></span><br><span class="line">		&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">			<span class="keyword">this</span>.closeAll(conn, pstmt, <span class="keyword">null</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> num;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://linxd1999.github.io/2019/12/15/面向对象(类、继承、多态)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="linxd">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/1.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="L">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/12/15/面向对象(类、继承、多态)/" itemprop="url">面向对象(类、继承、多态)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-15T20:28:11+08:00">
+                2019-12-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="一-类、对象、引用、指针"><a href="#一-类、对象、引用、指针" class="headerlink" title="一. 类、对象、引用、指针"></a>一. 类、对象、引用、指针</h3><h4 id="1-引用变量及内存分析"><a href="#1-引用变量及内存分析" class="headerlink" title="1.引用变量及内存分析"></a>1.引用变量及内存分析</h4><p>众所周知Java没有指针，但实际上Java的引用就相当于指针，只不过把这个指针封装起来，避免其繁琐的操作。</p>
+<p>例如Person p = new Person()，这行代码创建了一个实例，实际上，p作为一个引用变量(只存放对象地址)存放在调用这行代码的方法栈中，而Person作为一个对象被存放在堆内存中，然后引用变量p指向堆里的Person。Java程序不允许直接访问堆内对象，只能通过引用变量来访问。若堆内的对象没有任何引用变量指向它，则这个对象会被GC回收，反之，若想让GC回收某对象，只需要切断所有引用变量跟这个对象的联系即可。</p>
+<h4 id="2-this关键字"><a href="#2-this关键字" class="headerlink" title="2.this关键字"></a>2.this关键字</h4><p>this关键字总是指向调用该方法的对象，其最大的作用就是让类里的一个方法调用类里的另外一个方法或者实例变量。</p>
+<p>Java允许对象的一个成员直接调用另一个成员可以忽略this前缀。</p>
+<h4 id="3-static关键字"><a href="#3-static关键字" class="headerlink" title="3.static关键字"></a>3.static关键字</h4><p>static关键字的真正作用：区分成员变量，方法，内部类是属于类本身还是属于类的实例</p>
+<p>有static修饰的成员属于类本身，没有static修饰的成员属于类的实例。</p>
+<p>因为static成员属于类本身，所以调用static成员是什么实例并不明确，所以不能在static方法内使用this关键字、super关键字。</p>
+<p>方法以this作为返回值：可以在一行代码中多次连续调用该方法。</p>
+<h4 id="4-参数传递机制"><a href="#4-参数传递机制" class="headerlink" title="4.参数传递机制"></a>4.参数传递机制</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">	<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Swap</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> a,b;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Swap</span><span class="params">(<span class="keyword">int</span> a,<span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.a = a;</span><br><span class="line">		<span class="keyword">this</span>.b = b;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">swap</span><span class="params">(Swap temp)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">int</span> tmp = temp.a;</span><br><span class="line">		temp.a = temp.b;</span><br><span class="line">		temp.b = tmp;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span> </span>&#123;</span><br><span class="line">		Swap s = <span class="keyword">new</span> Swap(<span class="number">3</span>,<span class="number">4</span>);</span><br><span class="line">		swap(s);</span><br><span class="line">		System.out.println(s.a+<span class="string">" "</span>+s.b);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>首先在main函数内，main函数的栈内存放了引用变量s，指向堆内存的对象Swap；swap函数传入一个形参temp也指向堆内存里的Swap对象。所以两个引用变量都指向堆内存中的对象，只要操作一个引用变量，堆内存中对象的数据就会改变，所以数据交换可以成功。</p>
+<h4 id="5-成员变量、局部变量"><a href="#5-成员变量、局部变量" class="headerlink" title="5.成员变量、局部变量"></a>5.成员变量、局部变量</h4><p>成员变量：不被static修饰的实例变量，被static修饰的类变量</p>
+<p>局部变量：形参，方法中的变量，代码块中的变量</p>
+<h4 id="6-访问控制符"><a href="#6-访问控制符" class="headerlink" title="6.访问控制符"></a>6.访问控制符</h4><p>private：当前类访问权限</p>
+<p>default：包访问权限，可被相同包下的其他类访问</p>
+<p>protected：子类访问权限，可被不同包中的子类访问</p>
+<p>public：公共访问权限，可被所有类访问</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://linxd1999.github.io/2019/12/15/二叉树/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="linxd">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/1.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="L">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/12/15/二叉树/" itemprop="url">二叉树</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-15T20:28:11+08:00">
+                2019-12-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="重构二叉树"><a href="#重构二叉树" class="headerlink" title="重构二叉树"></a>重构二叉树</h3><ul>
+<li>前序遍历+中序遍历</li>
+<li>后序遍历+中序遍历</li>
+<li>真二叉树(没有度为1的节点)，结果唯一</li>
+</ul>
+<h3 id="前驱节点，后继节点"><a href="#前驱节点，后继节点" class="headerlink" title="前驱节点，后继节点"></a>前驱节点，后继节点</h3><h4 id="1-前驱节点"><a href="#1-前驱节点" class="headerlink" title="1.前驱节点"></a>1.前驱节点</h4><ul>
+<li><p>前驱节点(predecessor)：中序遍历的前一个节点</p>
+<ul>
+<li>二叉搜索树，前驱节点就是前一个比他小的节点</li>
+</ul>
+</li>
+<li><p>寻找前驱节点</p>
+<ul>
+<li>node.left != null，predecessor=node.left.right.right…(终止条件：right为null)</li>
+<li>node.left == null &amp;&amp; node.parent !=null，predecessor=node.parent.parent…(终止条件：node在parent的右子树中)</li>
+<li>node.left == null &amp;&amp; node.parent ==null，没有前驱节点</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Node&lt;E&gt; <span class="title">predecessor</span><span class="params">(Node&lt;E&gt; node)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(node == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    <span class="comment">//前驱节点在左子树中(left.right.right.right...)</span></span><br><span class="line">    <span class="keyword">if</span> (node.left!=<span class="keyword">null</span>)&#123;</span><br><span class="line">        Node&lt;E&gt; p = node.left;</span><br><span class="line">        <span class="keyword">while</span> (p.right!=<span class="keyword">null</span>)&#123;</span><br><span class="line">            p = p.right;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> p;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//从父节点，祖父节点中寻找前驱节点</span></span><br><span class="line">    <span class="keyword">while</span> (node.parent!=<span class="keyword">null</span> &amp;&amp; node == node.parent.left)&#123;</span><br><span class="line">        node = node.parent;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//node.parent == null</span></span><br><span class="line">    <span class="comment">//node == node.parent.right</span></span><br><span class="line">    <span class="keyword">return</span> node.parent;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="2-后继节点"><a href="#2-后继节点" class="headerlink" title="2.后继节点"></a>2.后继节点</h4><ul>
+<li><p>后继节点(successor)：中序遍历的后一个节点</p>
+<ul>
+<li>二叉搜索树，后继节点就是后一个比它大的节点</li>
+</ul>
+</li>
+<li><p>寻找后继节点</p>
+<ul>
+<li>node.right != null，predecessor=node.right.left.left…(终止条件：left为null)</li>
+<li>node.right == null &amp;&amp; node.parent !=null，successor=node.parent.parent…(终止条件：node在parent的左子树中)</li>
+<li>node.right == null &amp;&amp; node.parent ==null，没有后继节点</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Node&lt;E&gt; <span class="title">successor</span><span class="params">(Node&lt;E&gt; node)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(node == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    <span class="comment">//后继节点在左子树中(left.right.right.right...)</span></span><br><span class="line">    <span class="keyword">if</span> (node.right!=<span class="keyword">null</span>)&#123;</span><br><span class="line">        Node&lt;E&gt; p = node.right;</span><br><span class="line">        <span class="keyword">while</span> (p.left!=<span class="keyword">null</span>)&#123;</span><br><span class="line">            p = p.left;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> p;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//从父节点，祖父节点中寻找后继节点</span></span><br><span class="line">    <span class="keyword">while</span> (node.parent!=<span class="keyword">null</span> &amp;&amp; node == node.parent.right)&#123;</span><br><span class="line">        node = node.parent;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//node.parent == null</span></span><br><span class="line">    <span class="comment">//node == node.parent.left</span></span><br><span class="line">    <span class="keyword">return</span> node.parent;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://linxd1999.github.io/2019/12/15/常用单词和词组整理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="linxd">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/1.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="L">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/12/15/常用单词和词组整理/" itemprop="url">Common Words and Phrases</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-15T20:28:11+08:00">
+                2019-12-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h3 id="一、常用单词"><a href="#一、常用单词" class="headerlink" title="一、常用单词"></a>一、常用单词</h3><table>
+<thead>
+<tr>
+<th style="text-align:center">中</th>
+<th style="text-align:center">英</th>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+<th style="text-align:center"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">统治</td>
+<td style="text-align:center">govern</td>
+<td style="text-align:center">reign</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">推动、促进</td>
+<td style="text-align:center">promote</td>
+<td style="text-align:center">boost</td>
+<td style="text-align:center">facilitate</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">蓬勃发展</td>
+<td style="text-align:center">boom</td>
+<td style="text-align:center">mushroom</td>
+<td style="text-align:center">surge</td>
+<td style="text-align:center">flourish</td>
+<td style="text-align:center">thrive</td>
+</tr>
+<tr>
+<td style="text-align:center">兴荣的</td>
+<td style="text-align:center">prosperous</td>
+<td style="text-align:center">booming</td>
+<td style="text-align:center">thriving</td>
+<td style="text-align:center">flourishing</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">稳定的</td>
+<td style="text-align:center">stable</td>
+<td style="text-align:center">steady</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">大量、许多</td>
+<td style="text-align:center">multiple</td>
+<td style="text-align:center">numerous</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">交易</td>
+<td style="text-align:center">deal(n.)</td>
+<td style="text-align:center">trade(v.)</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">发行</td>
+<td style="text-align:center">publish(书、报纸)</td>
+<td style="text-align:center">issue(钱/股票)</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">政府(管理)</td>
+<td style="text-align:center">government</td>
+<td style="text-align:center">administration</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">超过</td>
+<td style="text-align:center">exceed</td>
+<td style="text-align:center">surpass</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">领域</td>
+<td style="text-align:center">field</td>
+<td style="text-align:center">domain</td>
+<td style="text-align:center">territory</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">激增</td>
+<td style="text-align:center">balloon</td>
+<td style="text-align:center">soar</td>
+<td style="text-align:center">multiply</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">骤降</td>
+<td style="text-align:center">plunge</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">显著的</td>
+<td style="text-align:center">notable</td>
+<td style="text-align:center">noticeable</td>
+<td style="text-align:center">remarkable</td>
+<td style="text-align:center">prominent</td>
+<td style="text-align:center">conspicuous</td>
+</tr>
+<tr>
+<td style="text-align:center">危险</td>
+<td style="text-align:center">risk</td>
+<td style="text-align:center">danger</td>
+<td style="text-align:center">jeopardy</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">处理、解决</td>
+<td style="text-align:center">solve</td>
+<td style="text-align:center">settle</td>
+<td style="text-align:center">tackle</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">加速</td>
+<td style="text-align:center">accelerate</td>
+<td style="text-align:center">hasten</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">获得、收获</td>
+<td style="text-align:center">gain</td>
+<td style="text-align:center">reap</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">破坏</td>
+<td style="text-align:center">destory</td>
+<td style="text-align:center">devastate</td>
+<td style="text-align:center">disrupt</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">观众</td>
+<td style="text-align:center">audience</td>
+<td style="text-align:center">spectator</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">刺激、鼓舞</td>
+<td style="text-align:center">stimulate(stimulus)</td>
+<td style="text-align:center">spur</td>
+<td style="text-align:center">motivate</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">商品</td>
+<td style="text-align:center">goods</td>
+<td style="text-align:center">commodity</td>
+<td style="text-align:center">merchandise</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">成功的</td>
+<td style="text-align:center">successful</td>
+<td style="text-align:center">triumphant</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">重要的</td>
+<td style="text-align:center">critical</td>
+<td style="text-align:center">significant</td>
+<td style="text-align:center">essential</td>
+<td style="text-align:center">vital</td>
+<td style="text-align:center">crucial</td>
+</tr>
+<tr>
+<td style="text-align:center">灿烂的</td>
+<td style="text-align:center">brilliant</td>
+<td style="text-align:center">splendid</td>
+<td style="text-align:center">glorious</td>
+<td style="text-align:center">marvellous</td>
+<td style="text-align:center">fascinating</td>
+</tr>
+<tr>
+<td style="text-align:center">同时</td>
+<td style="text-align:center">meanwhile</td>
+<td style="text-align:center">simultaneously</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">著名的</td>
+<td style="text-align:center">famous</td>
+<td style="text-align:center">celebrated</td>
+<td style="text-align:center">noted</td>
+<td style="text-align:center">renowned</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">比赛</td>
+<td style="text-align:center">competition</td>
+<td style="text-align:center">race(运动)</td>
+<td style="text-align:center">event(运动)</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">因此</td>
+<td style="text-align:center">therefore</td>
+<td style="text-align:center">hence</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">渴望</td>
+<td style="text-align:center">long</td>
+<td style="text-align:center">crave</td>
+<td style="text-align:center">yearn</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">目的</td>
+<td style="text-align:center">purpose</td>
+<td style="text-align:center">aim</td>
+<td style="text-align:center">sake</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">实施、执行</td>
+<td style="text-align:center">implement</td>
+<td style="text-align:center">execute</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">撤退</td>
+<td style="text-align:center">withdraw</td>
+<td style="text-align:center">retreat</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">悲惨的</td>
+<td style="text-align:center">tragic</td>
+<td style="text-align:center">miserable</td>
+<td style="text-align:center">bleak(惨淡的)</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">缺点</td>
+<td style="text-align:center">defect</td>
+<td style="text-align:center">flaw</td>
+<td style="text-align:center">weakness</td>
+<td style="text-align:center">shortcoming</td>
+<td style="text-align:center">disadvantage</td>
+</tr>
+<tr>
+<td style="text-align:center">消失</td>
+<td style="text-align:center">disappear</td>
+<td style="text-align:center">vanish</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">保证</td>
+<td style="text-align:center">promise</td>
+<td style="text-align:center">guarantee</td>
+<td style="text-align:center">pledge</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">预示</td>
+<td style="text-align:center">indicate</td>
+<td style="text-align:center">herald</td>
+<td style="text-align:center">anticipate</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">公平</td>
+<td style="text-align:center">justice</td>
+<td style="text-align:center">fairness</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">面对</td>
+<td style="text-align:center">face</td>
+<td style="text-align:center">confront</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">忽视、忽略</td>
+<td style="text-align:center">neglect</td>
+<td style="text-align:center">overlook</td>
+<td style="text-align:center">ignore</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">预测</td>
+<td style="text-align:center">predict</td>
+<td style="text-align:center">forecast</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">分配</td>
+<td style="text-align:center">allocate</td>
+<td style="text-align:center">allot</td>
+<td style="text-align:center">assign</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">诱惑</td>
+<td style="text-align:center">tempt</td>
+<td style="text-align:center">lure</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">巨大的</td>
+<td style="text-align:center">huge</td>
+<td style="text-align:center">enormous</td>
+<td style="text-align:center">tremendous</td>
+<td style="text-align:center">massive</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">足够的</td>
+<td style="text-align:center">enough</td>
+<td style="text-align:center">adequate</td>
+<td style="text-align:center">sufficient</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">相同的</td>
+<td style="text-align:center">same</td>
+<td style="text-align:center">uniform</td>
+<td style="text-align:center">identical</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">驱使，引发</td>
+<td style="text-align:center">trigger</td>
+<td style="text-align:center">provoke</td>
+<td style="text-align:center">propel</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">削减</td>
+<td style="text-align:center">cut down</td>
+<td style="text-align:center">cripple</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">剥夺</td>
+<td style="text-align:center">deprive</td>
+<td style="text-align:center">strip</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">授权</td>
+<td style="text-align:center">authorize</td>
+<td style="text-align:center">empower</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">让步、妥协</td>
+<td style="text-align:center">compromise</td>
+<td style="text-align:center">concession</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+</tbody>
+</table>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/12/15/常用单词和词组整理/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://linxd1999.github.io/2019/12/15/String、StringBuffer、StringBuilder类/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="linxd">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/1.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="L">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/12/15/String、StringBuffer、StringBuilder类/" itemprop="url">String、StringBuffer、StringBuilder类</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-15T20:28:11+08:00">
+                2019-12-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="一-字符串常量池"><a href="#一-字符串常量池" class="headerlink" title="一.字符串常量池"></a>一.字符串常量池</h3><p>字符串常量池属于Java的静态常量池，即.class文件中的常量池，占用class文件的大部分空间，还保存一些类、方法、接口中的常量。</p>
+<p>String.intern()方法：查找常量池中是否存在该字符串，若存在则返回字符串的引用，若不存在则把该字符串添加进常量池并返回引用。</p>
+<ul>
+<li><p>“abc”和new String(“abc”)的区别</p>
+<p>在编译时候就能计算出的字符串值，JVM用常量池管理这些字符串</p>
+<p>new一个字符串时，先用常量池管理该字符串，然后再用构造器创建一个新String对象，保存在堆内存中，共产生两个对象</p>
+</li>
+</ul>
+<p>常量池保证相同的字符串直接量只有一个，可以多个引用指向同一个常量。</p>
+<p>常量池避免频繁创建销毁对象，实现对象共享，节省内存和运行时间。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">String s1 = <span class="string">"abc"</span>;</span><br><span class="line">String s2 = <span class="string">"ab"</span> + <span class="string">"c"</span>;</span><br><span class="line">String s3 = <span class="string">"ab"</span>;</span><br><span class="line">String s4 = <span class="string">"c"</span>;</span><br><span class="line">String s5 = s3 + s4;</span><br><span class="line">String s6 = <span class="keyword">new</span> String(<span class="string">"abc"</span>);</span><br><span class="line">System.out.println(s1 == s2);<span class="comment">//true</span></span><br><span class="line">System.out.println(s1 == s5);<span class="comment">//false</span></span><br><span class="line">System.out.println(s1 == s5.intern());<span class="comment">//true</span></span><br><span class="line">System.out.println(s1 == s6);<span class="comment">//false</span></span><br></pre></td></tr></table></figure>
+<p>==表示比较两个引用变量指向的地址。</p>
+<p>s1 == s2：编译器会在编译期间自动把已知字符串拼接好，并放入常量池</p>
+<p>s1 != s5：s5不能在编译期间确定，地址不能确定</p>
+<p>s1 == s5.intern()：intern方法检测出s5内容存在于常量池中，返回字符串引用</p>
+<p>s1 != s6：构造器生成的字符串编译时地址不能确定</p>
+<h3 id="二-StringBuffer和StringBuilder"><a href="#二-StringBuffer和StringBuilder" class="headerlink" title="二.StringBuffer和StringBuilder"></a>二.StringBuffer和StringBuilder</h3><p>StringBuffer对象是一个字符序列可变的字符串</p>
+<p>StringBuilder是JDK1.5之后新增的类，操作和StringBuffer基本一样</p>
+<p>这两个类都解决了大量拼接字符串时产生很多中间对象而影响性能的问题</p>
+<p>区别：StringBuffer线程安全，效率低；StringBuilder线程不安全，效率高，所以StringBuilder使用的多，尤其是单线程应用。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">StringBuilder sb = <span class="keyword">new</span> StringBuilder();</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">26</span>; i++) &#123;</span><br><span class="line">	sb.append((<span class="keyword">char</span>)(<span class="string">'a'</span>+i));</span><br><span class="line">&#125;</span><br><span class="line">System.out.println(sb);<span class="comment">//abcdefghijklmnopqrstuvwxyz</span></span><br><span class="line">System.out.println(sb.hashCode());<span class="comment">//664740647</span></span><br><span class="line">sb.reverse();</span><br><span class="line">System.out.println(sb);<span class="comment">//zyxwvutsrqponmlkjihgfedcba</span></span><br><span class="line">System.out.println(sb.hashCode());<span class="comment">//664740647</span></span><br><span class="line">sb.setCharAt(<span class="number">0</span>, <span class="string">'A'</span>);</span><br><span class="line">System.out.println(sb);<span class="comment">//Ayxwvutsrqponmlkjihgfedcba</span></span><br><span class="line">sb.insert(<span class="number">1</span>, <span class="string">"bcd"</span>);</span><br><span class="line">System.out.println(sb);<span class="comment">//Abcdyxwvutsrqponmlkjihgfedcba</span></span><br><span class="line">sb.delete(<span class="number">0</span>, <span class="number">4</span>);</span><br><span class="line">System.out.println(sb);<span class="comment">//yxwvutsrqponmlkjihgfedcba</span></span><br></pre></td></tr></table></figure>
+<p>几个常用方法：</p>
+<p>append()：追加</p>
+<p>reverse()：倒序</p>
+<p>setCharAt()：修改某位置字符</p>
+<p>setLength()：设置字符串长度</p>
+<p>insert()：在某位置添加字符或字符串</p>
+<p>delete()：删除某位置的字符</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://linxd1999.github.io/2019/12/15/盒子模型/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="linxd">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/1.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="L">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/12/15/盒子模型/" itemprop="url">盒模型</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-15T20:28:11+08:00">
+                2019-12-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="一-盒"><a href="#一-盒" class="headerlink" title="一.盒"></a>一.盒</h3><ul>
+<li>CSS处理网页时，认为每个元素都包含在一个不可见的盒子里</li>
+<li>我们只要把相应的盒子摆放到网页中相应的位置即可完成对网页的布局</li>
+<li>组成：<ul>
+<li>内容区(content)</li>
+<li>内边距(padding)</li>
+<li>边框(border)</li>
+<li>外边距(margin)</li>
+</ul>
+</li>
+</ul>
+<h3 id="二-边框"><a href="#二-边框" class="headerlink" title="二.边框"></a>二.边框</h3><ul>
+<li>width：内容区宽度</li>
+<li>height：内容区高度</li>
+<li>border-width：边框的宽度<ul>
+<li>可以分别指定四个边框的宽度(顺时针赋值)</li>
+<li>如果指定四个值，则分别设置给上，右，下，左</li>
+<li>如果指定三个值，则分别设置给上，左右，下</li>
+<li>如果指定两个值，则分别设置给上下，左右</li>
+<li>如果指定一个值，则设置给四条边</li>
+<li>CSS还提供border-xxx-width，xxx可为top，right，bottom，left</li>
+</ul>
+</li>
+<li>border-color：边框的颜色，赋值规则同上<ul>
+<li>border-xxx-color：xxx可为top，right，bottom，left</li>
+</ul>
+</li>
+<li><p>border-style：边框的样式，赋值规则同上</p>
+<ul>
+<li>none：没有边框</li>
+<li>solid：实线边框</li>
+<li>dotted：点状边框</li>
+<li>dashed：虚线边框</li>
+<li>double：双线边框</li>
+</ul>
+</li>
+<li><p>border：边框的简写样式，可同时设置四个边框的样式，且没有任何顺序要求，但是border只能一次性指定四条边，不能分别指定。</p>
+<ul>
+<li>border-xxx：可以一次指定一条边的所有属性</li>
+</ul>
+</li>
+</ul>
+<h3 id="三-内边距"><a href="#三-内边距" class="headerlink" title="三.内边距"></a>三.内边距</h3><ul>
+<li>内边距指的是盒子的内容区和盒子边框之间的距离，一共有四个方向的内边距</li>
+<li>内边距会影响盒子的可见框的大小</li>
+<li>盒子可见框的宽度=(border-left-width)+(padding-left)+width+(padding-right)+(border-right-width)</li>
+<li>padding-top：上内边距的宽度</li>
+<li>padding-right：右内边距的宽度</li>
+<li>padding-bottom：下内边距的宽度</li>
+<li>padding-left：左内边距的宽度</li>
+<li>padding可同时设置四个内边距的样式，原理同上</li>
+<li>box-sizing属性：border-box(设置的边框和内边距是包含在width内的，内容区的实际宽度=width-(border+padding)的值)</li>
+</ul>
+<h3 id="四-外边距"><a href="#四-外边距" class="headerlink" title="四.外边距"></a>四.外边距</h3><ul>
+<li><p>外边距指的是当前盒子与其他盒子之间的距离，不会影响可见框的大小，但会影响盒子的位置</p>
+</li>
+<li><p>盒子有四个方向的外边距</p>
+</li>
+<li><p>margin-top：上外边距的宽度</p>
+</li>
+<li><p>margin-right：右外边距的宽度</p>
+</li>
+<li><p>margin-bottom：下外边距的宽度</p>
+</li>
+<li><p>margin-left：左外边距的宽度</p>
+</li>
+<li><p>margin可同时设置四个方向外边距的样式</p>
+</li>
+<li><p>由于页面中的元素都是靠左上摆放的，所以当设置上，左外边距时，会导致盒子自身的位置发生改变，设置右，下外边距会改变其他盒子的位置</p>
+</li>
+<li><p>外边距可以是负值，元素向反方向移动</p>
+</li>
+<li><p>margin还可以设置auto，一般只设置给水平方向的margin，如果只指定左外边距或右外边距的值为auto则会将外边距设置为最大值；垂直方向如果设置为auto，则默认为0</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*盒子居中，两侧外边距设置为相同的值</span></span><br><span class="line"><span class="comment">	可以使元素自动在父元素中居中*/</span></span><br><span class="line"><span class="selector-tag">margin-left</span>: <span class="selector-tag">auto</span>;</span><br><span class="line"><span class="selector-tag">margin-right</span>: <span class="selector-tag">auto</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>垂直外边距的重叠：在<strong>垂直方向</strong>的<strong>相邻</strong>外边距会发生重叠，兄弟元素之间的相邻外边距会取最大值而不是取和。如果父子元素的垂直外边距相邻了，则子元素的外边距会设置给父元素</p>
+</li>
+<li>浏览器为了在页面中没有样式时，也可以有一个比较好的显示效果，所以为很多元素都设置了默认的margin和padding，而默认样式在正常情况下是不需要的，所以我们需要在设置样式之前把默认样式都去掉</li>
+</ul>
+<h3 id="五-内联元素的盒模型"><a href="#五-内联元素的盒模型" class="headerlink" title="五.内联元素的盒模型"></a>五.内联元素的盒模型</h3><ul>
+<li>内联元素不能设置width和height</li>
+<li>内联元素可以设置水平方向的内边距，边框</li>
+<li>内联元素可以设置垂直方向的内边距，边框，但不会影响页面的布局</li>
+<li>水平方向的相邻外边距不会重叠，但会求和，内联元素不支持垂直外边距</li>
+<li>内联元素和块元素可以相互转换<ul>
+<li>display样式可修改元素的类型<ul>
+<li>inline：内联元素</li>
+<li>block：块元素</li>
+<li>inline-block：行内块元素(使一个元素既有行内元素的特点又有块元素的特点，可设置宽高而不独占一行)</li>
+<li>none：此元素不显示，且不再占据页面的位置</li>
+</ul>
+</li>
+<li>visibility可修改元素的显示状态<ul>
+<li>visible：默认值，元素默认在页面显示</li>
+<li>hidden：元素会隐藏不显示，但位置会继续保持</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>overflow属性：设置父元素如何处理子元素溢出的问题<ul>
+<li>visible：默认值，不对溢出内容做处理，元素会在父元素以外的位置显示</li>
+<li>hidden：溢出的内容被修剪，不显示</li>
+<li>scroll：会为父元素添加滚动条，通过滚动来查看完整的内容(不论是否溢出，都有水平和垂直的滚动条)</li>
+<li>auto：会根据需求自动添加滚动条</li>
+</ul>
+</li>
+</ul>
+<h3 id="六-浮动"><a href="#六-浮动" class="headerlink" title="六.浮动"></a>六.浮动</h3><ul>
+<li><p>块元素在文档流中默认垂直排列，如果希望块元素可以脱离文档流，可以用float使块元素浮动从而脱离文档流</p>
+</li>
+<li><p>float：浮动元素，脱离文档流</p>
+<ul>
+<li>none：默认值，元素默认在文档流中排列</li>
+<li>left：元素会立即脱离文档流，向页面的左侧浮动</li>
+<li>right：元素会立即脱离文档流，向页面的右侧浮动</li>
+</ul>
+</li>
+<li><p>元素浮动之后，它下边的元素会立即向上移动</p>
+</li>
+<li><p>元素浮动以后，它会尽量向页面的左上或是右上浮动，直到遇到父元素的边框或者其他的浮动元素</p>
+</li>
+<li><p>如果浮动元素上边是一个没有浮动的块元素，则浮动元素不会超过块元素</p>
+</li>
+<li><p>浮动元素不会超过它的兄弟元素，最多一边齐</p>
+</li>
+<li><p>块元素脱离文档流后，高度和宽度都会被内容撑开</p>
+</li>
+<li><p>内联元素脱离文档流后会变成块元素</p>
+</li>
+<li><p>文档流中，父元素的高度默认被子元素撑开。但子元素浮动后，会导致父元素高度塌陷，父元素下的所有元素都向上移动，页面布局混乱</p>
+<ul>
+<li><p>可以将父元素的高度固定，父元素的高度将不能自适应子元素的高度，不推荐使用</p>
+</li>
+<li><p>设置overflow：(非visible的值)</p>
+</li>
+<li><p>在高度塌陷的父元素最后添加一个空白的div，由于此div没有浮动，所以可以撑开父元素，然后对它清除左右浮动即可(基本无副作用)</p>
+</li>
+<li><p>基于上一条，可以通过after伪类，选中父元素的最后边，转化为块元素，再清除浮动</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.box1</span><span class="selector-pseudo">:after</span>&#123;</span><br><span class="line">    <span class="attribute">content</span>: <span class="string">""</span>;</span><br><span class="line">    <span class="attribute">display</span>: block;</span><br><span class="line">    <span class="attribute">clear</span>: both;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>clear：清除浮动</p>
+<ul>
+<li>none：默认值，不清除浮动</li>
+<li>left：清除左侧浮动元素对当前元素的影响</li>
+<li>right：清除右侧浮动元素对当前元素的影响</li>
+<li>both：清除左右浮动元素中对当前元素影响最大的</li>
+</ul>
+</li>
+</ul>
+<h3 id="七-定位"><a href="#七-定位" class="headerlink" title="七.定位"></a>七.定位</h3><ul>
+<li><p>定位是将指定的元素摆放到页面的任意位置，通过定位可以任意的摆放元素</p>
+</li>
+<li><p>position属性：设置元素的定位</p>
+<ul>
+<li><p>static：默认值，元素没有开启定位</p>
+</li>
+<li><p>relative：开启元素的相对定位</p>
+</li>
+<li><p>absolute：开启元素的绝对定位</p>
+</li>
+<li><p>fixed：开启元素的固定定位(绝对定位的一种)</p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="1-相对定位"><a href="#1-相对定位" class="headerlink" title="1.相对定位"></a>1.相对定位</h4><ul>
+<li>position设置成relative时，则开启了元素的相对定位，元素不会脱离文档流，但会使元素提高一个层级，不会改变元素的性质，块还是块，内联还是内联</li>
+</ul>
+<ul>
+<li>开启相对定位但不设置偏移量时，元素不会发生任何变化</li>
+<li>可以通过left，right，top，bottom四个属性来设置元素的偏移量</li>
+<li>left：元素相对于原定位位置的左侧偏移量</li>
+<li>right：元素相对于原定位位置的右侧偏移量</li>
+<li>top：元素相对于原定位位置的上侧偏移量</li>
+<li>bottom：元素相对于原定位位置的下侧偏移量</li>
+<li>通常偏移量只需要使用两个就可以对一个元素进行定位，一般选择水平方向的一个偏移量和垂直方向的偏移量来为一个元素进行定位</li>
+</ul>
+<h4 id="2-绝对定位"><a href="#2-绝对定位" class="headerlink" title="2.绝对定位"></a>2.绝对定位</h4><ul>
+<li>positon设置成absolute时，开启元素的绝对定位，元素会脱离文档流</li>
+</ul>
+<ul>
+<li>开启绝对定位但不设置偏移量时，元素位置不变</li>
+<li>绝对定位是相对于离他最近的开启了定位的祖先元素进行定位，如果所有的祖先元素都没有开启定位，则相对于浏览器窗口进行定位(一般情况下，开启了子元素的绝对定位都会同时开启父元素的相对定位)</li>
+<li>绝对定位会使元素提升一个层级</li>
+<li>绝对定位会改变元素的性质，内联元素变成块元素</li>
+</ul>
+<h4 id="3-固定定位"><a href="#3-固定定位" class="headerlink" title="3.固定定位"></a>3.固定定位</h4><ul>
+<li><p>position设置为fixed时，开启元素的固定定位</p>
+</li>
+<li><p>固定定位也是一种绝对定位，大部分特点和绝对定位一样，但有一些不同</p>
+<ul>
+<li>固定定位永远相对于浏览器窗口进行定位</li>
+<li>固定定位会固定在浏览器窗口的某个位置，不会随滚动条滚动(牛皮癣广告)</li>
+</ul>
+</li>
+<li>IE6不支持固定定位</li>
+</ul>
+<h4 id="4-元素层级"><a href="#4-元素层级" class="headerlink" title="4.元素层级"></a>4.元素层级</h4><ul>
+<li>如果定位元素的层级一样，则下边的元素会盖住上边的</li>
+<li>通过z-index属性可设置元素的层级(数字越大，层级越大，越优先显示)</li>
+<li>对于没有开启定位的元素不能使用z-index属性</li>
+</ul>
+<h4 id="5-透明背景"><a href="#5-透明背景" class="headerlink" title="5.透明背景"></a>5.透明背景</h4><ul>
+<li>opacity属性：设置背景的透明度，值为0-1<ul>
+<li>0表示完全透明</li>
+<li>0.5表示半透明</li>
+<li>1表示完全不透明</li>
+</ul>
+</li>
+<li>opacity在IE8以下的浏览器不支持，需要用alpha(opacity=透明度)代替<ul>
+<li>需要一个0-100之间的值</li>
+<li>0表示完全透明</li>
+<li>100表示完全不透明</li>
+<li>50表示半透明</li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://linxd1999.github.io/2019/12/15/红黑树/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="linxd">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/1.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="L">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/12/15/红黑树/" itemprop="url">红黑树</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-15T20:28:11+08:00">
+                2019-12-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="一-红黑树-Red-Black-Tree"><a href="#一-红黑树-Red-Black-Tree" class="headerlink" title="一.红黑树(Red-Black Tree)"></a>一.红黑树(Red-Black Tree)</h3><ul>
+<li><p>红黑树是一种自平衡的二叉搜索树，也叫做平衡二叉B树(symmetric Binary B-tree)</p>
+</li>
+<li><p>性质：</p>
+<ul>
+<li>节点是RED或者BLACK</li>
+<li>根节点是BLACK</li>
+<li>叶子节点(外部节点，空节点)都是BLACK</li>
+<li>RED节点的子节点都是BLACK，RED节点的父节点都是BLACK，从根节点到叶子节点的所有路径不能有两个连续的RED节点</li>
+<li>从任一节点到叶子节点的所有路径都包含相同数目的BLACK节点(所有路径包括到外部节点和空节点的路径)</li>
+</ul>
+</li>
+<li>红黑树和2-3-4树具有等价性，BLACK节点和它的RED子节点融合在一起，形成一个B树节点</li>
+<li>红黑树的BLACK节点个数与四阶B树的节点总个数相等</li>
+<li>每个B树节点都只有一个黑色节点，且都是与上层连接的节点</li>
+</ul>
 
           
         
@@ -722,7 +2516,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -770,7 +2564,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-count">25</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -783,7 +2577,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="CSS,Front-End,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="一.盒 CSS处理网页时，认为每个元素都包含在一个不可见的盒子里 我们只要把相应的盒子摆放到网页中相应的位置即可完成对网页的布局 组成： 内容区(content) 内边距(padding) 边框(border) 外边距(margin)    二.边框 width：内容区宽度 height：内容区高度 border-width：边框的宽度 可以分别指定四个边框的宽度(顺时针赋值) 如果指定四个值，则">
+<meta name="keywords" content="CSS,Front-End">
+<meta property="og:type" content="article">
+<meta property="og:title" content="盒模型">
+<meta property="og:url" content="https://linxd1999.github.io/2019/12/15/盒子模型/index.html">
+<meta property="og:site_name" content="L">
+<meta property="og:description" content="一.盒 CSS处理网页时，认为每个元素都包含在一个不可见的盒子里 我们只要把相应的盒子摆放到网页中相应的位置即可完成对网页的布局 组成： 内容区(content) 内边距(padding) 边框(border) 外边距(margin)    二.边框 width：内容区宽度 height：内容区高度 border-width：边框的宽度 可以分别指定四个边框的宽度(顺时针赋值) 如果指定四个值，则">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-12-14T12:25:35.997Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="盒模型">
+<meta name="twitter:description" content="一.盒 CSS处理网页时，认为每个元素都包含在一个不可见的盒子里 我们只要把相应的盒子摆放到网页中相应的位置即可完成对网页的布局 组成： 内容区(content) 内边距(padding) 边框(border) 外边距(margin)    二.边框 width：内容区宽度 height：内容区高度 border-width：边框的宽度 可以分别指定四个边框的宽度(顺时针赋值) 如果指定四个值，则">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://linxd1999.github.io/2019/12/15/盒子模型/">
+
+
+
+
+
+  <title>盒模型 | L</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">L</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://linxd1999.github.io/2019/12/15/盒子模型/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="linxd">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/1.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="L">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">盒模型</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-15T20:28:11+08:00">
+                2019-12-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="一-盒"><a href="#一-盒" class="headerlink" title="一.盒"></a>一.盒</h3><ul>
+<li>CSS处理网页时，认为每个元素都包含在一个不可见的盒子里</li>
+<li>我们只要把相应的盒子摆放到网页中相应的位置即可完成对网页的布局</li>
+<li>组成：<ul>
+<li>内容区(content)</li>
+<li>内边距(padding)</li>
+<li>边框(border)</li>
+<li>外边距(margin)</li>
+</ul>
+</li>
+</ul>
+<h3 id="二-边框"><a href="#二-边框" class="headerlink" title="二.边框"></a>二.边框</h3><ul>
+<li>width：内容区宽度</li>
+<li>height：内容区高度</li>
+<li>border-width：边框的宽度<ul>
+<li>可以分别指定四个边框的宽度(顺时针赋值)</li>
+<li>如果指定四个值，则分别设置给上，右，下，左</li>
+<li>如果指定三个值，则分别设置给上，左右，下</li>
+<li>如果指定两个值，则分别设置给上下，左右</li>
+<li>如果指定一个值，则设置给四条边</li>
+<li>CSS还提供border-xxx-width，xxx可为top，right，bottom，left</li>
+</ul>
+</li>
+<li>border-color：边框的颜色，赋值规则同上<ul>
+<li>border-xxx-color：xxx可为top，right，bottom，left</li>
+</ul>
+</li>
+<li><p>border-style：边框的样式，赋值规则同上</p>
+<ul>
+<li>none：没有边框</li>
+<li>solid：实线边框</li>
+<li>dotted：点状边框</li>
+<li>dashed：虚线边框</li>
+<li>double：双线边框</li>
+</ul>
+</li>
+<li><p>border：边框的简写样式，可同时设置四个边框的样式，且没有任何顺序要求，但是border只能一次性指定四条边，不能分别指定。</p>
+<ul>
+<li>border-xxx：可以一次指定一条边的所有属性</li>
+</ul>
+</li>
+</ul>
+<h3 id="三-内边距"><a href="#三-内边距" class="headerlink" title="三.内边距"></a>三.内边距</h3><ul>
+<li>内边距指的是盒子的内容区和盒子边框之间的距离，一共有四个方向的内边距</li>
+<li>内边距会影响盒子的可见框的大小</li>
+<li>盒子可见框的宽度=(border-left-width)+(padding-left)+width+(padding-right)+(border-right-width)</li>
+<li>padding-top：上内边距的宽度</li>
+<li>padding-right：右内边距的宽度</li>
+<li>padding-bottom：下内边距的宽度</li>
+<li>padding-left：左内边距的宽度</li>
+<li>padding可同时设置四个内边距的样式，原理同上</li>
+<li>box-sizing属性：border-box(设置的边框和内边距是包含在width内的，内容区的实际宽度=width-(border+padding)的值)</li>
+</ul>
+<h3 id="四-外边距"><a href="#四-外边距" class="headerlink" title="四.外边距"></a>四.外边距</h3><ul>
+<li><p>外边距指的是当前盒子与其他盒子之间的距离，不会影响可见框的大小，但会影响盒子的位置</p>
+</li>
+<li><p>盒子有四个方向的外边距</p>
+</li>
+<li><p>margin-top：上外边距的宽度</p>
+</li>
+<li><p>margin-right：右外边距的宽度</p>
+</li>
+<li><p>margin-bottom：下外边距的宽度</p>
+</li>
+<li><p>margin-left：左外边距的宽度</p>
+</li>
+<li><p>margin可同时设置四个方向外边距的样式</p>
+</li>
+<li><p>由于页面中的元素都是靠左上摆放的，所以当设置上，左外边距时，会导致盒子自身的位置发生改变，设置右，下外边距会改变其他盒子的位置</p>
+</li>
+<li><p>外边距可以是负值，元素向反方向移动</p>
+</li>
+<li><p>margin还可以设置auto，一般只设置给水平方向的margin，如果只指定左外边距或右外边距的值为auto则会将外边距设置为最大值；垂直方向如果设置为auto，则默认为0</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*盒子居中，两侧外边距设置为相同的值</span></span><br><span class="line"><span class="comment">	可以使元素自动在父元素中居中*/</span></span><br><span class="line"><span class="selector-tag">margin-left</span>: <span class="selector-tag">auto</span>;</span><br><span class="line"><span class="selector-tag">margin-right</span>: <span class="selector-tag">auto</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>垂直外边距的重叠：在<strong>垂直方向</strong>的<strong>相邻</strong>外边距会发生重叠，兄弟元素之间的相邻外边距会取最大值而不是取和。如果父子元素的垂直外边距相邻了，则子元素的外边距会设置给父元素</p>
+</li>
+<li>浏览器为了在页面中没有样式时，也可以有一个比较好的显示效果，所以为很多元素都设置了默认的margin和padding，而默认样式在正常情况下是不需要的，所以我们需要在设置样式之前把默认样式都去掉</li>
+</ul>
+<h3 id="五-内联元素的盒模型"><a href="#五-内联元素的盒模型" class="headerlink" title="五.内联元素的盒模型"></a>五.内联元素的盒模型</h3><ul>
+<li>内联元素不能设置width和height</li>
+<li>内联元素可以设置水平方向的内边距，边框</li>
+<li>内联元素可以设置垂直方向的内边距，边框，但不会影响页面的布局</li>
+<li>水平方向的相邻外边距不会重叠，但会求和，内联元素不支持垂直外边距</li>
+<li>内联元素和块元素可以相互转换<ul>
+<li>display样式可修改元素的类型<ul>
+<li>inline：内联元素</li>
+<li>block：块元素</li>
+<li>inline-block：行内块元素(使一个元素既有行内元素的特点又有块元素的特点，可设置宽高而不独占一行)</li>
+<li>none：此元素不显示，且不再占据页面的位置</li>
+</ul>
+</li>
+<li>visibility可修改元素的显示状态<ul>
+<li>visible：默认值，元素默认在页面显示</li>
+<li>hidden：元素会隐藏不显示，但位置会继续保持</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>overflow属性：设置父元素如何处理子元素溢出的问题<ul>
+<li>visible：默认值，不对溢出内容做处理，元素会在父元素以外的位置显示</li>
+<li>hidden：溢出的内容被修剪，不显示</li>
+<li>scroll：会为父元素添加滚动条，通过滚动来查看完整的内容(不论是否溢出，都有水平和垂直的滚动条)</li>
+<li>auto：会根据需求自动添加滚动条</li>
+</ul>
+</li>
+</ul>
+<h3 id="六-浮动"><a href="#六-浮动" class="headerlink" title="六.浮动"></a>六.浮动</h3><ul>
+<li><p>块元素在文档流中默认垂直排列，如果希望块元素可以脱离文档流，可以用float使块元素浮动从而脱离文档流</p>
+</li>
+<li><p>float：浮动元素，脱离文档流</p>
+<ul>
+<li>none：默认值，元素默认在文档流中排列</li>
+<li>left：元素会立即脱离文档流，向页面的左侧浮动</li>
+<li>right：元素会立即脱离文档流，向页面的右侧浮动</li>
+</ul>
+</li>
+<li><p>元素浮动之后，它下边的元素会立即向上移动</p>
+</li>
+<li><p>元素浮动以后，它会尽量向页面的左上或是右上浮动，直到遇到父元素的边框或者其他的浮动元素</p>
+</li>
+<li><p>如果浮动元素上边是一个没有浮动的块元素，则浮动元素不会超过块元素</p>
+</li>
+<li><p>浮动元素不会超过它的兄弟元素，最多一边齐</p>
+</li>
+<li><p>块元素脱离文档流后，高度和宽度都会被内容撑开</p>
+</li>
+<li><p>内联元素脱离文档流后会变成块元素</p>
+</li>
+<li><p>文档流中，父元素的高度默认被子元素撑开。但子元素浮动后，会导致父元素高度塌陷，父元素下的所有元素都向上移动，页面布局混乱</p>
+<ul>
+<li><p>可以将父元素的高度固定，父元素的高度将不能自适应子元素的高度，不推荐使用</p>
+</li>
+<li><p>设置overflow：(非visible的值)</p>
+</li>
+<li><p>在高度塌陷的父元素最后添加一个空白的div，由于此div没有浮动，所以可以撑开父元素，然后对它清除左右浮动即可(基本无副作用)</p>
+</li>
+<li><p>基于上一条，可以通过after伪类，选中父元素的最后边，转化为块元素，再清除浮动</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.box1</span><span class="selector-pseudo">:after</span>&#123;</span><br><span class="line">    <span class="attribute">content</span>: <span class="string">""</span>;</span><br><span class="line">    <span class="attribute">display</span>: block;</span><br><span class="line">    <span class="attribute">clear</span>: both;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>clear：清除浮动</p>
+<ul>
+<li>none：默认值，不清除浮动</li>
+<li>left：清除左侧浮动元素对当前元素的影响</li>
+<li>right：清除右侧浮动元素对当前元素的影响</li>
+<li>both：清除左右浮动元素中对当前元素影响最大的</li>
+</ul>
+</li>
+</ul>
+<h3 id="七-定位"><a href="#七-定位" class="headerlink" title="七.定位"></a>七.定位</h3><ul>
+<li><p>定位是将指定的元素摆放到页面的任意位置，通过定位可以任意的摆放元素</p>
+</li>
+<li><p>position属性：设置元素的定位</p>
+<ul>
+<li><p>static：默认值，元素没有开启定位</p>
+</li>
+<li><p>relative：开启元素的相对定位</p>
+</li>
+<li><p>absolute：开启元素的绝对定位</p>
+</li>
+<li><p>fixed：开启元素的固定定位(绝对定位的一种)</p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="1-相对定位"><a href="#1-相对定位" class="headerlink" title="1.相对定位"></a>1.相对定位</h4><ul>
+<li>position设置成relative时，则开启了元素的相对定位，元素不会脱离文档流，但会使元素提高一个层级，不会改变元素的性质，块还是块，内联还是内联</li>
+</ul>
+<ul>
+<li>开启相对定位但不设置偏移量时，元素不会发生任何变化</li>
+<li>可以通过left，right，top，bottom四个属性来设置元素的偏移量</li>
+<li>left：元素相对于原定位位置的左侧偏移量</li>
+<li>right：元素相对于原定位位置的右侧偏移量</li>
+<li>top：元素相对于原定位位置的上侧偏移量</li>
+<li>bottom：元素相对于原定位位置的下侧偏移量</li>
+<li>通常偏移量只需要使用两个就可以对一个元素进行定位，一般选择水平方向的一个偏移量和垂直方向的偏移量来为一个元素进行定位</li>
+</ul>
+<h4 id="2-绝对定位"><a href="#2-绝对定位" class="headerlink" title="2.绝对定位"></a>2.绝对定位</h4><ul>
+<li>positon设置成absolute时，开启元素的绝对定位，元素会脱离文档流</li>
+</ul>
+<ul>
+<li>开启绝对定位但不设置偏移量时，元素位置不变</li>
+<li>绝对定位是相对于离他最近的开启了定位的祖先元素进行定位，如果所有的祖先元素都没有开启定位，则相对于浏览器窗口进行定位(一般情况下，开启了子元素的绝对定位都会同时开启父元素的相对定位)</li>
+<li>绝对定位会使元素提升一个层级</li>
+<li>绝对定位会改变元素的性质，内联元素变成块元素</li>
+</ul>
+<h4 id="3-固定定位"><a href="#3-固定定位" class="headerlink" title="3.固定定位"></a>3.固定定位</h4><ul>
+<li><p>position设置为fixed时，开启元素的固定定位</p>
+</li>
+<li><p>固定定位也是一种绝对定位，大部分特点和绝对定位一样，但有一些不同</p>
+<ul>
+<li>固定定位永远相对于浏览器窗口进行定位</li>
+<li>固定定位会固定在浏览器窗口的某个位置，不会随滚动条滚动(牛皮癣广告)</li>
+</ul>
+</li>
+<li>IE6不支持固定定位</li>
+</ul>
+<h4 id="4-元素层级"><a href="#4-元素层级" class="headerlink" title="4.元素层级"></a>4.元素层级</h4><ul>
+<li>如果定位元素的层级一样，则下边的元素会盖住上边的</li>
+<li>通过z-index属性可设置元素的层级(数字越大，层级越大，越优先显示)</li>
+<li>对于没有开启定位的元素不能使用z-index属性</li>
+</ul>
+<h4 id="5-透明背景"><a href="#5-透明背景" class="headerlink" title="5.透明背景"></a>5.透明背景</h4><ul>
+<li>opacity属性：设置背景的透明度，值为0-1<ul>
+<li>0表示完全透明</li>
+<li>0.5表示半透明</li>
+<li>1表示完全不透明</li>
+</ul>
+</li>
+<li>opacity在IE8以下的浏览器不支持，需要用alpha(opacity=透明度)代替<ul>
+<li>需要一个0-100之间的值</li>
+<li>0表示完全透明</li>
+<li>100表示完全不透明</li>
+<li>50表示半透明</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CSS/" rel="tag"># CSS</a>
+          
+            <a href="/tags/Front-End/" rel="tag"># Front-End</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/12/15/红黑树/" rel="next" title="红黑树">
+                <i class="fa fa-chevron-left"></i> 红黑树
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/12/15/String、StringBuffer、StringBuilder类/" rel="prev" title="String、StringBuffer、StringBuilder类">
+                String、StringBuffer、StringBuilder类 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/1.jpg" alt="linxd">
+            
+              <p class="site-author-name" itemprop="name">linxd</p>
+              <p class="site-description motion-element" itemprop="description">站在巨人的肩上</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/linxd1999" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一-盒"><span class="nav-text">一.盒</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二-边框"><span class="nav-text">二.边框</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三-内边距"><span class="nav-text">三.内边距</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四-外边距"><span class="nav-text">四.外边距</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五-内联元素的盒模型"><span class="nav-text">五.内联元素的盒模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#六-浮动"><span class="nav-text">六.浮动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#七-定位"><span class="nav-text">七.定位</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-相对定位"><span class="nav-text">1.相对定位</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-绝对定位"><span class="nav-text">2.绝对定位</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-固定定位"><span class="nav-text">3.固定定位</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-元素层级"><span class="nav-text">4.元素层级</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-透明背景"><span class="nav-text">5.透明背景</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">true</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

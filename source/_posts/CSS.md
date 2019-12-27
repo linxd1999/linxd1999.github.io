@@ -1,6 +1,6 @@
 ---
 title: Css
-tags: CSS
+tags: [CSS , Front-End]
 ---
 
 ### 一.CSS
@@ -307,3 +307,135 @@ tags: CSS
   ```
 
   
+
+### 十.背景
+
+- background-image：设置背景图片
+  - 语法：background-image：url("相对路径")
+  - 如果背景图片大于元素，默认会显示图片的左上角
+  - 如果背景图片和元素一样大，则会将背景图片全部显示
+  - 如果背景图片小于元素，则平铺图片充满元素
+  - 一般设置背景图片时都会同时指定一个背景颜色
+- background-repeat：设置背景图片的重复方式
+  - repeat：默认值，背景图片平铺
+  - no-repeat：背景图片不会重复
+  - repeat-x：背景图片沿水平方向重复
+  - repeat-y：背景图片沿竖直方向重复
+- background-position：背景图片默认贴着左上角，这个属性可以调整图片在元素中的位置
+  - 该属性可以使用top，left，right，bottom，center中的两个值来指定位置
+  - top left：左上，默认
+  - bottom right：右下
+  - 缺省值会被指定为center
+  - 也可以指定两个偏移量：xpos，ypos，正数向右(下)移动，负数向左(上)移动
+- background-attachment：设置图片是否随页面一起滚动
+  - scroll：默认值，背景图片会随着窗口滚动
+  - fixed：背景图片会固定在某一个位置，不随页面滚动，一般都是设置body中的大图片；设置在块元素中的图片也不会随页面滚动，但是块元素会随着页面滚动，所以会出现擦黑板一样的效果(背景图片的定位永远相对于浏览器的窗口)，所以不随窗口滚动的图片一般设置给body，而不设置给其他元素。
+- background：设置所有的背景图片属性
+  - 没有顺序和数量的要求
+  - 没写的样式就使用默认样式，注意覆盖
+
+### 十一.CSS-sprite
+
+- 用不同图片表示一个按钮的不同状态时，第一次切换图片时，会发现有个非常快的闪烁，会造成一次不良的用户体验
+- 产生原因：背景图片是以外部资源的形式加载进网页的，浏览器每加载一个外部资源就需要单独发送一次http请求；外部资源并不是同时加载，浏览器会在资源被使用的时候才去加载外部资源，由于加载图片需要一定的时间，所以在加载和显示的过程中有一段时间，背景图片无法显示，所以才会出现闪烁的情况
+- 解决方法：可以将多张图片整合为一张图片，这样可以几张图片一起加载，就不会产生闪烁的问题了；然后通过background-position来切换要显示的图片位置，这种技术叫做图片整合技术(CSS-sprite，精灵图，雪碧图)
+- 优点
+  - 浏览器只要发送一次加载请求就可以同时加载多个图片，提高请求的速度，增加用户体验
+  - 多张图片整合成一张，减少图片的总大小，提高请求的速度
+
+### 十二.表格
+
+#### 1.表格标签
+
+- 使用table标签创建表格
+- tr创建表格中的一行，在tr中用td创建单元格
+- th创建表格的头部，有默认加粗和居中的样式，是一种特殊的td
+- rowspan用来设置纵向单元格的合并，colspan用来设置横向单元格的合并
+
+#### 2.表格样式
+
+- 分别给table和td设置border属性会有一个边框缝隙的效果(table和td之间有缝隙)，可以在table中border-spacing属性设置为0px来解决,但是边框重叠会有一个加粗的视觉效果
+- border-collapse：collapse(为表格设置合并边框的模式)，设置后border-spacing自动失效
+- 隔行不同效果：tr:nth-child(odd/even)
+
+#### 3.长表格
+
+- 分为三个部分：thead表头，tbody表格主题，tfoot表格底部
+- 区分表格中不同的部分，都是table的子标签，直接写在table中，tr写在这几个子标签中
+- tfoot中的内容永远显示在表格底部，thead中的内容永远显示在表格头部
+- 若表格没有写tbody，浏览器会自动生成tbody，并且把所有的tr都放入tbody中。注意：tr不是table的子元素，而是tbody的子元素
+  - 通过table > tr无法选中tr，需要tbody > tr
+
+#### 4.clearfix
+
+- 可以解决高度塌陷，父元素和子元素的垂直外边距不会重叠的双重问题
+
+  ```css
+  .clearfix:after, .clearfix:before{
+  	content: "";
+      display: table;
+      clear: both;
+  }
+  ```
+
+### 十三.表单
+
+- 网页中的表单用来向服务器提交信息，如：搜索框，登录，注册等
+- action属性：指向一个服务器的地址，表单内容会提交到相应的服务器地址
+- input标签
+  - type属性为text，创建文本框，value属性指定了文本框的默认显示
+  - type属性为submit，创建提交按钮，value属性指定按钮文字
+  - type属性为reset，创建重置按钮，点击后表单内容恢复默认值
+  - type属性为button，创建单纯的按钮，可用JS绑定事件
+  - 希望表单中的数据提交到服务器中，需要在文本框的input中添加name属性，表示提交内容的名字
+  - 用户填写的信息会附在url地址后边以查询字符串的形式发送给服务器：url地址?查询字符串(属性名=属性值 & 属性名=属性值)
+  - type属性为password，文本框的输入不会明文显示
+  - type属性为radio，单选按钮，通过name属性分组，name值相同为一组，对于这种不需要填写内容的表单项，必须设置value属性来提交给服务器
+  - type属性为checkbox，多选按钮，通过name属性分组，name值相同为一组，对于这种不需要填写内容的表单项，必须设置value属性来提交给服务器
+  - checked属性：设置单选和多选打开后的默认选项，值也为checked
+  - placeholder属性：在文本框和文本域中指定水印文字，IE8及以下不支持，需要使用JS
+- select标签：创建下拉列表
+  - option标签：创建列表项
+  - 下拉列表的name属性要指定给select，value属性要指定给option
+  - option的selected属性：设置下拉列表的默认选项，值也为selected
+  - multiple属性：multiple，多选下拉列表
+  - optgroup标签：表单项分组，可以把option项写进optgroup，用label属性分组
+- textarea标签：多行文本域
+- button标签：创建按钮，和input的submit效果相同，也可以设置type来指定按钮类型。和input的区别在于button成对出现，而input只有一个标签
+- label标签：可以通过提示文字选中表单内容，但是需要绑定label中的for属性和input中的id属性，使得两者相同。
+- fieldset标签：可以划分表单域
+- legend标签：一般用于fieldset标签中，给每个表单域设置标题
+
+### 十四.CSS-Hack
+
+#### 1.条件hack
+
+- 条件hack用于让某段语句在指定浏览器中显示，是一段特殊代码，只适用于IE10以下的浏览器
+
+- 语法：
+
+  ```css
+  <!-- [if 关键词(可选) IE version(可选)]>
+  HTML代码块
+  <![endif]-->
+  ```
+
+- 关键词
+
+  - gt(greater than)：大于
+  - gte(greater than or euqal)：大等于
+  - lt(less than)：小于
+  - lte(less than or equal)：小等于
+  - !：非指定版本
+
+#### 2.属性hack
+
+- 添加了_的样式只有IE6以下的浏览器认识 _background-color
+- 添加了*的样式只有IE7以下的浏览器认识 *background-color
+- 样式最后添加\0，只有IE8以上的浏览器认识 background-color: red\0
+
+#### 3.选择器hack
+
+- 在选择器前添加 * html ，则该选择器只有IE6可以识别
+
+hack不到万不得已尽量不使用
