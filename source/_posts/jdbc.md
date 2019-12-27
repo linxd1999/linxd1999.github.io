@@ -11,7 +11,7 @@ JDBC(Java Database Connectivity):JAVA数据库连接，是可以执行sql语句�
 
 通过JDBC开发的数据库应用可跨平台
 
-数据库驱动程序：JDBC与数据库之间的转换层，负责将JDBC调用映射成特定的数据库调用
+数据库驱动程序：JDBC与数据库之间的转换层，负责将JDBC调用映射成特定的数据库调用 
 
 ### 二、JDBC编程
 
