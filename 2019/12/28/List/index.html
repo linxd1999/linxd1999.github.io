@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="一.链表1.复杂度分析O后面不是参数，是数据规模 1.1 数组数组的随机访问速度非常快，elements[n]的效率与n是多少无关  最好情况复杂度：增O(1)，删O(1)，改O(1)，查O(1) 最坏情况复杂度：增O(n)，删O(n)，改O(1)，查O(1) 平均情况复杂度：增O(n)，删O(n)，改O(1)，查O(1)  1.2 链表 最好情况复杂度：增O(1)，删O(1)，改O(1)，查O(">
+<meta name="description" content="一.单向链表1.复杂度分析O后面不是参数，是数据规模 1.1 数组数组的随机访问速度非常快，elements[n]的效率与n是多少无关  最好情况复杂度：增O(1)，删O(1)，改O(1)，查O(1) 最坏情况复杂度：增O(n)，删O(n)，改O(1)，查O(1) 平均情况复杂度：增O(n)，删O(n)，改O(1)，查O(1)  1.2 链表 最好情况复杂度：增O(1)，删O(1)，改O(1)，查">
 <meta name="keywords" content="-DataStructure">
 <meta property="og:type" content="article">
 <meta property="og:title" content="线性表">
 <meta property="og:url" content="https://linxd1999.github.io/2019/12/28/List/index.html">
 <meta property="og:site_name" content="L">
-<meta property="og:description" content="一.链表1.复杂度分析O后面不是参数，是数据规模 1.1 数组数组的随机访问速度非常快，elements[n]的效率与n是多少无关  最好情况复杂度：增O(1)，删O(1)，改O(1)，查O(1) 最坏情况复杂度：增O(n)，删O(n)，改O(1)，查O(1) 平均情况复杂度：增O(n)，删O(n)，改O(1)，查O(1)  1.2 链表 最好情况复杂度：增O(1)，删O(1)，改O(1)，查O(">
+<meta property="og:description" content="一.单向链表1.复杂度分析O后面不是参数，是数据规模 1.1 数组数组的随机访问速度非常快，elements[n]的效率与n是多少无关  最好情况复杂度：增O(1)，删O(1)，改O(1)，查O(1) 最坏情况复杂度：增O(n)，删O(n)，改O(1)，查O(1) 平均情况复杂度：增O(n)，删O(n)，改O(1)，查O(1)  1.2 链表 最好情况复杂度：增O(1)，删O(1)，改O(1)，查">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-12-28T02:33:04.914Z">
+<meta property="og:updated_time" content="2019-12-28T03:24:55.040Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="线性表">
-<meta name="twitter:description" content="一.链表1.复杂度分析O后面不是参数，是数据规模 1.1 数组数组的随机访问速度非常快，elements[n]的效率与n是多少无关  最好情况复杂度：增O(1)，删O(1)，改O(1)，查O(1) 最坏情况复杂度：增O(n)，删O(n)，改O(1)，查O(1) 平均情况复杂度：增O(n)，删O(n)，改O(1)，查O(1)  1.2 链表 最好情况复杂度：增O(1)，删O(1)，改O(1)，查O(">
+<meta name="twitter:description" content="一.单向链表1.复杂度分析O后面不是参数，是数据规模 1.1 数组数组的随机访问速度非常快，elements[n]的效率与n是多少无关  最好情况复杂度：增O(1)，删O(1)，改O(1)，查O(1) 最坏情况复杂度：增O(n)，删O(n)，改O(1)，查O(1) 平均情况复杂度：增O(n)，删O(n)，改O(1)，查O(1)  1.2 链表 最好情况复杂度：增O(1)，删O(1)，改O(1)，查">
 
 
 
@@ -284,7 +284,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-28T10:33:04+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-28T11:24:55+08:00">
                 2019-12-28
               </time>
             
@@ -322,7 +322,7 @@
       
 
       
-        <h3 id="一-链表"><a href="#一-链表" class="headerlink" title="一.链表"></a>一.链表</h3><h4 id="1-复杂度分析"><a href="#1-复杂度分析" class="headerlink" title="1.复杂度分析"></a>1.复杂度分析</h4><p>O后面不是参数，是数据规模</p>
+        <h3 id="一-单向链表"><a href="#一-单向链表" class="headerlink" title="一.单向链表"></a>一.单向链表</h3><h4 id="1-复杂度分析"><a href="#1-复杂度分析" class="headerlink" title="1.复杂度分析"></a>1.复杂度分析</h4><p>O后面不是参数，是数据规模</p>
 <h5 id="1-1-数组"><a href="#1-1-数组" class="headerlink" title="1.1 数组"></a>1.1 数组</h5><p>数组的随机访问速度非常快，elements[n]的效率与n是多少无关</p>
 <ul>
 <li>最好情况复杂度：增O(1)，删O(1)，改O(1)，查O(1)</li>
@@ -335,10 +335,13 @@
 <li>平均情况复杂度：增O(n)，删O(n)，改O(n)，查O(n)</li>
 <li>链表指针的定位，时间复杂度较大；但是在需要处理数据的时候，复杂度只需要O(1)，因为不需要移动元素位置</li>
 </ul>
-<h4 id="2-扩容，缩容"><a href="#2-扩容，缩容" class="headerlink" title="2.扩容，缩容"></a>2.扩容，缩容</h4><ul>
-<li>扩容：</li>
-<li>缩容：</li>
-<li>复杂度震荡：</li>
+<h4 id="1-3扩容，缩容"><a href="#1-3扩容，缩容" class="headerlink" title="1.3扩容，缩容"></a>1.3扩容，缩容</h4><ul>
+<li>扩容expand：数组容量满，扩大容量并新建数组，拷贝原数组数据</li>
+<li>缩容trim：内存使用紧张时，动态数组有较多剩余空间，可以考虑进行缩容操作</li>
+<li>扩容倍数和缩容时机设计不得当，会导致复杂度震荡<ul>
+<li>例如：每次扩容为原数组的两倍，而元素个数等于数组长度一半时。数组满后扩容为2倍并添加一个元素，删除这个元素会导致元素个数刚好等于这个数组长度的一半，进行缩容。如此循环，复杂度将稳定在O(n)</li>
+</ul>
+</li>
 </ul>
 
       
@@ -531,7 +534,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一-链表"><span class="nav-number">1.</span> <span class="nav-text">一.链表</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-复杂度分析"><span class="nav-number">1.1.</span> <span class="nav-text">1.复杂度分析</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-1-数组"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1 数组</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-2-链表"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.2 链表</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-扩容，缩容"><span class="nav-number">1.2.</span> <span class="nav-text">2.扩容，缩容</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一-单向链表"><span class="nav-number">1.</span> <span class="nav-text">一.单向链表</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-复杂度分析"><span class="nav-number">1.1.</span> <span class="nav-text">1.复杂度分析</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-1-数组"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1 数组</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-2-链表"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.2 链表</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3扩容，缩容"><span class="nav-number">1.2.</span> <span class="nav-text">1.3扩容，缩容</span></a></li></ol></li></ol></div>
             
 
           </div>
